@@ -61,6 +61,9 @@
     <ClCompile Include="Release\moc_window361.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="LineRender.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h">
@@ -78,5 +81,8 @@
     <CustomBuild Include="window361.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <ClInclude Include="LineRender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
