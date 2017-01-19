@@ -64,6 +64,12 @@
     <ClCompile Include="LineRender.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="MathWiz.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OctantWiz.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h">
@@ -82,6 +88,12 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <ClInclude Include="LineRender.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MathWiz.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OctantWiz.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
