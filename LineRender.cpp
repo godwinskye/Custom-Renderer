@@ -1,7 +1,7 @@
 #include "LineRender.h"
 
 
-void LineRenderer::DDArender(int x1, int y1, int x2, int y2) {
+void LineRenderer::DDArender(Client Client,int x1, int y1, int x2, int y2) {
 	OctantWiz::Point origin(x1, y1);
 	OctantWiz::Point endpoint(x2, y2);
 	double gradient = MathWiz::GetGradient(origin, endpoint);
@@ -17,5 +17,23 @@ void LineRenderer::DDArender(int x1, int y1, int x2, int y2) {
 
 	*/
 
-	OctantWiz::Octant target = 
+	OctantWiz::Octant target = OctantWiz::FindOctant(endpoint);
+
+	switch (target) {
+	case OctantWiz::Octant::OctantOne:
+		RenderOctant1(Client, origin, endpoint, gradient);
+	case OctantWiz::Octant::OctantTwo:
+
+	}
+}
+
+void LineRenderer::RenderOctant1(Client Client, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient) {
+	unsigned int color = 0xff00ff00;      //TODO make black color or something
+	double currentY = origin.y;
+	for (int x = origin.x; x < endpoint.x; x++) {
+		//setpixel
+		Client.drawable->setPixel(x, round(currentY), color);
+		currentY = currentY + gradient;
+	}
+	Client.drawable->updateScreen();
 }

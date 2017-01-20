@@ -8,9 +8,9 @@ class Client : public PageTurner
 public:
     Client(Drawable *drawable);
     void nextPage();
+	Drawable *drawable;     //TODO ensure that public drawable is really okay
 
 private:
-    Drawable *drawable;
     void draw_rect(int x1, int y1, int x2, int y2, unsigned int color);
 };
 
