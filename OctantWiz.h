@@ -1,4 +1,5 @@
 #pragma once
+#include <cmath>
 
 namespace OctantWiz {
 
@@ -12,6 +13,17 @@ namespace OctantWiz {
 		}
 	};
 
+	enum class Octant {
+		OctantOne,
+		OctantTwo,
+		OctantThree,
+		OctantFour,
+		OctantFive,
+		OctantSix,
+		OctantSeven,
+		OctantEight
+	};
 
-	void SetPixelByOctant(Point origin, Point endpoint);
+	Octant FindOctant(Point endpoint);
+	void SetPixelByOctant(Point origin, Point endpoint, int xcoord, int ycoord);
 }
