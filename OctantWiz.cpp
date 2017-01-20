@@ -1,5 +1,5 @@
 #include "OctantWiz.h"
 
-void OctantWiz::SetPixelByOctant(int x1, int y1, int x2, int y2) {
+void OctantWiz::SetPixelByOctant(OctantWiz::Point Origin, OctantWiz::Point endpoint) {
 
 }

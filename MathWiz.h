@@ -1,5 +1,7 @@
 #pragma once
+#include "OctantWiz.h"
+#include <math.h>
 
 namespace MathWiz {
-	double GetGradient(int x1, int y1, int x2, int y2);
+	double GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint);
 }

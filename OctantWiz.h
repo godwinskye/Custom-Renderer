@@ -1,5 +1,17 @@
 #pragma once
 
 namespace OctantWiz {
-	void SetPixelByOctant(int x1, int y1, int x2, int y2);
+
+	struct Point {
+		int x;
+		int y;
+
+		Point(int a, int b) {
+			x = a;
+			y = b;
+		}
+	};
+
+
+	void SetPixelByOctant(Point origin, Point endpoint);
 }
