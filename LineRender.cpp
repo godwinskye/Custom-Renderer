@@ -22,13 +22,13 @@ void LineRenderer::DDArender(Client Client,int x1, int y1, int x2, int y2) {
 	switch (target) {
 	case OctantWiz::Octant::OctantOne:
 		RenderOctant1(Client, origin, endpoint, gradient);
-	case OctantWiz::Octant::OctantTwo:
+	//case OctantWiz::Octant::OctantTwo:
 
 	}
 }
 
 void LineRenderer::RenderOctant1(Client Client, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient) {
-	unsigned int color = 0xff00ff00;      //TODO make black color or something
+	unsigned int color = 0xff000000;      //Black color
 	double currentY = origin.y;
 	for (int x = origin.x; x < endpoint.x; x++) {
 		//setpixel

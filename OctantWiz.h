@@ -25,5 +25,4 @@ namespace OctantWiz {
 	};
 
 	Octant FindOctant(Point endpoint);
-	void SetPixelByOctant(Point origin, Point endpoint, int xcoord, int ycoord);
 }
