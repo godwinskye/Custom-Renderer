@@ -1,10 +1,10 @@
 #include "LineRender.h"
 
-
 void LineRenderer::DDArender(Client Client,int x1, int y1, int x2, int y2) {
 	OctantWiz::Point origin(x1, y1);
 	OctantWiz::Point endpoint(x2, y2);
 	double gradient = MathWiz::GetGradient(origin, endpoint);
+	OctantWiz::Point diffpoint(x2 - x1, y2 - y1);
 
 	/* SCRAPPED
 	double currentY = y1;
@@ -17,13 +17,14 @@ void LineRenderer::DDArender(Client Client,int x1, int y1, int x2, int y2) {
 
 	*/
 
-	OctantWiz::Octant target = OctantWiz::FindOctant(endpoint);
+	OctantWiz::Octant target = OctantWiz::FindOctant(diffpoint);
 
 	switch (target) {
 	case OctantWiz::Octant::OctantOne:
 		RenderOctant1(Client, origin, endpoint, gradient);
-	//case OctantWiz::Octant::OctantTwo:
-
+		break;
+	case OctantWiz::Octant::OctantTwo:
+		//something
 	}
 }
 
