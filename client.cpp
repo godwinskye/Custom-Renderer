@@ -13,14 +13,15 @@ void Client::nextPage() {
     std::cout << "PageNumber " << pageNumber << std::endl;
 
     switch(pageNumber % 4) {
-    case 1:
-        draw_rect(0, 0, 750, 750, 0xffff0080);
-        draw_rect( 50,  50, 350, 350, 0xff00ff40);
-        draw_rect(400,  50, 700, 350, 0xff40ff00);
-        draw_rect( 50, 400, 350, 700, 0xffff8000);
-        draw_rect(400, 400, 700, 700, 0xffffff00);
+	case 1: {
+		draw_rect(0, 0, 750, 750, 0xffff0080);
+		draw_rect(50, 50, 350, 350, 0xff00ff40);
+		draw_rect(400, 50, 700, 350, 0xff40ff00);
+		draw_rect(50, 400, 350, 700, 0xffff8000);
+		draw_rect(400, 400, 700, 700, 0xffffff00);
 		RenderTests::DDAStarburstTest(drawable, 200, 200, 125, 90);
-        drawable->updateScreen();   // you must call this to make the display change.
+		drawable->updateScreen();   // you must call this to make the display change.
+	}
         break;
     case 2:
         break;
