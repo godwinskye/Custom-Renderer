@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     window.setPageTurner(&client);  // the window must be given a (PageTurner *)
                                     // I made the client a PageTurner, but it doesn't have to
                                     // be that way.
-	LineRenderer::DDArender(client, 200, 200, 240, 120);     
+	LineRenderer::DDArender(client, 200, 200, 240, 180);     
     return app.exec();
 }
 
