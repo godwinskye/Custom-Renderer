@@ -37,7 +37,7 @@ void LineRenderer::RenderOctant1Or8(Drawable *drawable, OctantWiz::Point origin,
 	}
 	drawable->updateScreen();
 }
-
+//TODO figure out why octant 3 onwards is not rendering
 void LineRenderer::RenderOctant2Or3(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient) {
 	unsigned int color = 0xff000000;
 	double currentX = origin.x;

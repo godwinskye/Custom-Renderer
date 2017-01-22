@@ -19,6 +19,7 @@ void Client::nextPage() {
         draw_rect(400,  50, 700, 350, 0xff40ff00);
         draw_rect( 50, 400, 350, 700, 0xffff8000);
         draw_rect(400, 400, 700, 700, 0xffffff00);
+		RenderTests::DDAStarburstTest(drawable, 200, 200, 125, 90);
         drawable->updateScreen();   // you must call this to make the display change.
         break;
     case 2:

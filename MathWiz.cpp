@@ -13,17 +13,25 @@ OctantWiz::Point MathWiz::DetermineEndPoint(double currentangle, int length, int
 	MathWiz::Quadrant quadrant = DetermineQuadrant(currentangle);
 	
 	switch (quadrant) {
-	case MathWiz::Quadrant::Quadrant1:
-		//logic code
+	case MathWiz::Quadrant::Quadrant1: {
+		OctantWiz::Point endpoint(x + x_diff, y - y_diff);
+		return endpoint;
+	}
 		break;
-	case MathWiz::Quadrant::Quadrant2:
-		//logic code
+	case MathWiz::Quadrant::Quadrant2: {
+		OctantWiz::Point endpoint(x - x_diff, y - y_diff);
+		return endpoint;
+	}
 		break;
-	case MathWiz::Quadrant::Quadrant3:
-		//logic code
+	case MathWiz::Quadrant::Quadrant3: {
+		OctantWiz::Point endpoint(x - x_diff, y + y_diff);
+		return endpoint;
+	}
 		break;
-	case MathWiz::Quadrant::Quadrant4:
-		//logic code
+	case MathWiz::Quadrant::Quadrant4: {
+		OctantWiz::Point endpoint(x + x_diff, y + y_diff);
+		return endpoint;
+	}
 		break;
 	}
 }

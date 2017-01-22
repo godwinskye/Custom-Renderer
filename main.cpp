@@ -1,6 +1,5 @@
 #include "window361.h"
 #include "client.h"
-#include "LineRender.h"
 #include <QApplication>
 
 

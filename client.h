@@ -2,6 +2,7 @@
 #define CLIENT_H
 #include "drawable.h"
 #include "pageturner.h"
+#include "RenderTests.h"
 
 class Client : public PageTurner
 {
