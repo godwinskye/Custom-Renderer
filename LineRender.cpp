@@ -31,7 +31,7 @@ void LineRenderer::DDArender(Drawable *drawable,int x1, int y1, int x2, int y2) 
 void LineRenderer::RenderOctant1Or8(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient) {
 	unsigned int color = 0xff000000;      //Black color
 	double currentY = origin.y;
-	for (int x = origin.x; x < endpoint.x; x++) {
+	for (int x = origin.x; x <= endpoint.x; x++) {
 		drawable->setPixel(x, round(currentY), color);
 		currentY = currentY + gradient;
 	}
@@ -42,7 +42,7 @@ void LineRenderer::RenderOctant2Or3(Drawable *drawable, OctantWiz::Point origin,
 	unsigned int color = 0xff000000;
 	double currentX = origin.x;
 	double reversegradient = 1 / gradient;
-	for (int y = origin.y; y > endpoint.y; y--) {
+	for (int y = origin.y; y >= endpoint.y; y--) {
 		drawable->setPixel(round(currentX), y, color);
 		currentX = currentX - reversegradient;
 	}
@@ -52,7 +52,7 @@ void LineRenderer::RenderOctant2Or3(Drawable *drawable, OctantWiz::Point origin,
 void LineRenderer::RenderOctant4Or5(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient) {
 	unsigned int color = 0xff000000;
 	double currentY = origin.y;
-	for (int x = origin.x; x > endpoint.x; x--) {
+	for (int x = origin.x; x >= endpoint.x; x--) {
 		drawable->setPixel(x, round(currentY), color);
 		currentY = currentY - gradient;
 	}
@@ -63,11 +63,28 @@ void LineRenderer::RenderOctant6Or7(Drawable *drawable, OctantWiz::Point origin,
 	unsigned int color = 0xff000000;
 	double currentX = origin.x;
 	double reversegradient = 1 / gradient;
-	for (int y = origin.y; y < endpoint.y; y++) {
+	for (int y = origin.y; y <= endpoint.y; y++) {
 		drawable->setPixel(round(currentX), y, color);
 		currentX = currentX + reversegradient;
 	}
 	drawable->updateScreen();
+}
+
+void LineRenderer::BRenderOctant1(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient) {
+	unsigned int color = 0xff000000;
+	int dx = endpoint.x - origin.x;
+	int dy = endpoint.y - origin.y;
+	int y = origin.y;
+	int error = 0;
+
+	for (int x = origin.x; x <= endpoint.x; x++) {
+		drawable->setPixel(x, y, color);
+		error = error + dy;
+		if ((error << 1) >= dy) {
+			y++;
+			error = error - dx;
+		}
+	}
 }
 
 
