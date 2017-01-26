@@ -80,9 +80,26 @@ void LineRenderer::BRenderOctant1(Drawable *drawable, OctantWiz::Point origin, O
 	for (int x = origin.x; x <= endpoint.x; x++) {
 		drawable->setPixel(x, y, color);
 		error = error + dy;
-		if ((error << 1) >= dy) {
+		if ((error << 1) >= dx) {
 			y++;
 			error = error - dx;
+		}
+	}
+}
+
+void LineRenderer::TRenderOctant1(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient) {
+	unsigned int color = 0xff000000;
+	double error = 0;
+	int y = origin.y;
+
+	for (int x = origin.x; x <= endpoint.x; x++) {
+		drawable->setPixel(x, y, color);
+		if (error + gradient <= 0.5) {
+			error = error - gradient;
+		}
+		else {
+			y = y - 1;
+			error = error - gradient - 1;
 		}
 	}
 }

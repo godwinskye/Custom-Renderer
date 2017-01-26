@@ -16,4 +16,5 @@ namespace LineRenderer {
 
 	//Octant Renders for Bresenham's 
 	void BRenderOctant1(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient);
+	void TRenderOctant1(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient);
 }
