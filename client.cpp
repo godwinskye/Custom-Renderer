@@ -24,8 +24,9 @@ void Client::nextPage() {
 		OctantWiz::Point endpoint(250, 180);
 		OctantWiz::Point origin2(550, 200);
 		OctantWiz::Point endpoint2(600, 180);
+		//TODO verify that octant2 is working
 		LineRenderer::RenderOctant1Or8(drawable, origin, endpoint, MathWiz::GetGradient(origin, endpoint));
-		LineRenderer::TRenderOctant1(drawable, origin2, endpoint2, MathWiz::GetGradient(origin2, endpoint2));
+		LineRenderer::BRenderOctant1(drawable, origin2, endpoint2, MathWiz::GetGradient(origin2, endpoint2));
 		drawable->updateScreen();   // you must call this to make the display change.
 	}
         break;
