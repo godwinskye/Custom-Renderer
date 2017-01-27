@@ -21,12 +21,10 @@ void Client::nextPage() {
 		draw_rect(400, 400, 700, 700, 0xffffff00);
 		//RenderTests::DDAStarburstTest(drawable, 200, 200, 125, 90);
 		OctantWiz::Point origin(200, 200);
-		OctantWiz::Point endpoint(250, 180);
-		OctantWiz::Point origin2(550, 200);
-		OctantWiz::Point endpoint2(600, 180);
+		OctantWiz::Point endpoint(130, 170);
 		//TODO verify that octant2 is working
-		LineRenderer::RenderOctant1Or8(drawable, origin, endpoint, MathWiz::GetGradient(origin, endpoint));
-		LineRenderer::BRenderOctant1(drawable, origin2, endpoint2, MathWiz::GetGradient(origin2, endpoint2));
+		LineRenderer::RenderOctant4Or5(drawable, origin, endpoint, MathWiz::GetGradient(origin, endpoint));
+		LineRenderer::BRenderOctant4(drawable, origin, endpoint, MathWiz::GetGradient(origin, endpoint));
 		drawable->updateScreen();   // you must call this to make the display change.
 	}
         break;
