@@ -52,3 +52,32 @@ void RenderTests::AAStarburstTest(Drawable *drawable, int x, int y, unsigned int
 		currentangle = currentangle + angleinc;
 	}
 }
+
+void RenderTests::DDAParallelogramTest(Drawable *drawable, int x, int y) {
+	for (int i = 0; i < 50; i++) {
+		LineRenderer::DDArender(drawable, x + 20, y + 80 + i, x + 150, y + 150 + i);
+		LineRenderer::DDArender(drawable, x + 160 + i, y + 270, x + 240 + i, y + 40);
+	}
+}
+
+void RenderTests::BREParallelogramTest(Drawable *drawable, int x, int y) {
+	for (int i = 0; i < 50; i++) {
+		LineRenderer::BRErender(drawable, x + 20, y + 80 + i, x + 150, y + 150 + i);
+		LineRenderer::BRErender(drawable, x + 160 + i, y + 270, x + 240 + i, y + 40);
+	}
+}
+
+void RenderTests::MixParallelogramTest(Drawable *drawable, int x, int y) {
+	unsigned int flag = 0;
+	for (int i = 0; i < 50; i++) {
+		if (flag % 2 == 0) {
+			LineRenderer::DDArender(drawable, x + 20, y + 80 + i, x + 150, y + 150 + i);
+			LineRenderer::DDArender(drawable, x + 160 + i, y + 270, x + 240 + i, y + 40);
+		}
+		else {
+			LineRenderer::BRErender(drawable, x + 20, y + 80 + i, x + 150, y + 150 + i);
+			LineRenderer::BRErender(drawable, x + 160 + i, y + 270, x + 240 + i, y + 40);
+		}
+		flag = flag + 1;
+	}
+}

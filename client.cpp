@@ -14,16 +14,12 @@ void Client::nextPage() {
 
     switch(pageNumber % 4) {
 	case 1: {
-		draw_rect(0, 0, 750, 750, 0xffff0080);
-		draw_rect(50, 50, 350, 350, 0xff00ff40);
-		draw_rect(400, 50, 700, 350, 0xff40ff00);
-		draw_rect(50, 400, 350, 700, 0xffff8000);
-		draw_rect(400, 400, 700, 700, 0xffffff00);
+		draw4panels();
 		RenderTests::DDAStarburstTest(drawable, 200, 200, 125, 90);
 		RenderTests::BRStarburstTest(drawable, 550, 200, 125, 90);
 		RenderTests::MixStarburstTest(drawable, 200, 550, 125, 90);
 		//RenderTests::AAStarburstTest(drawable, 550, 550, 125, 90);
-		LineRenderer::AArender(drawable, 550, 550, 650, 480);
+		//LineRenderer::AArender(drawable, 550, 550, 650, 480);
 		/*
 		LineRenderer::AArender(drawable, 550, 550, 600, 400);
 		LineRenderer::AArender(drawable, 550, 550, 500, 400);
@@ -35,18 +31,33 @@ void Client::nextPage() {
 		*/
 		drawable->updateScreen();   // you must call this to make the display change.
 	}
-        break;
+		break;
     case 2:
+		draw4panels();
+		RenderTests::DDAParallelogramTest(drawable, 50, 50);
+		RenderTests::BREParallelogramTest(drawable, 400, 50);
+		RenderTests::MixParallelogramTest(drawable, 50, 400);
+		drawable->updateScreen();
         break;
     case 3:
         break;
     case 4:
+		break;
         // fall through...
     default:
         draw_rect(0, 0, 750, 750, 0xffffffff);
         draw_rect(400, 400, 700, 700, 0xff00ff40);
         drawable->updateScreen();
     }
+	
+}
+
+void Client::draw4panels() {
+	draw_rect(0, 0, 750, 750, 0xffff0080);
+	draw_rect(50, 50, 350, 350, 0xff00ff40);
+	draw_rect(400, 50, 700, 350, 0xff40ff00);
+	draw_rect(50, 400, 350, 700, 0xffff8000);
+	draw_rect(400, 400, 700, 700, 0xffffff00);
 }
 
 void Client::draw_rect(int x1, int y1, int x2, int y2, unsigned int color) {
