@@ -11,12 +11,12 @@ namespace RenderTests {
 		std::vector<unsigned int> yendcoord;
 		std::vector<unsigned int> color;
 
-		RandomTestPackage(std::vector<unsigned int> &xcoord, std::vector<unsigned int> &ycoord, std::vector<unsigned int> &xendcoord, std::vector<unsigned int> &yendcoord, std::vector<unsigned int> &color) {
-			xcoord = xcoord;
-			ycoord = ycoord;
-			xendcoord = xendcoord;
-			yendcoord = yendcoord;
-			color = color;
+		RandomTestPackage(std::vector<unsigned int> &xcoords, std::vector<unsigned int> &ycoords, std::vector<unsigned int> &xendcoords, std::vector<unsigned int> &yendcoords, std::vector<unsigned int> &colors) {
+			xcoord = xcoords;
+			ycoord = ycoords;
+			xendcoord = xendcoords;
+			yendcoord = yendcoords;
+			color = colors;
 		}
 	};
 
@@ -34,4 +34,7 @@ namespace RenderTests {
 	//Random Test
 	RandomTestPackage GetPackage();
 	void DDARandomTest(Drawable *drawable, RandomTestPackage package, int origin_x, int origin_y);
+	void BRERandomTest(Drawable *drawable, RandomTestPackage package, int origin_x, int origin_y);
+	void MixRandomTest(Drawable *drawable, RandomTestPackage package, int origin_x, int origin_y);
+	void AARandomTest(Drawable *drawable, RandomTestPackage package, int origin_x, int origin_y);
 }

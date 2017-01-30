@@ -87,18 +87,18 @@ RenderTests::RandomTestPackage RenderTests::GetPackage() {
 	const unsigned int lowerboundary = 0;
 	const unsigned int upperboundary = 300;
 
-	std::vector<unsigned int> xcoord[numberoflines], ycoord[numberoflines];
-	std::vector<unsigned int> xendcoord[numberoflines], yendcoord[numberoflines];
-	std::vector<unsigned int> color[numberoflines];
+	std::vector<unsigned int> xcoord(numberoflines), ycoord(numberoflines);
+	std::vector<unsigned int> xendcoord(numberoflines), yendcoord(numberoflines);
+	std::vector<unsigned int> color(numberoflines);
 
 	for (int i = 0; i < numberoflines; i++) {
-		xcoord[i].push_back(MathWiz::RandomCoordinate(lowerboundary, upperboundary));
-		ycoord[i].push_back(MathWiz::RandomCoordinate(lowerboundary, upperboundary));
-		xendcoord[i].push_back(MathWiz::RandomCoordinate(lowerboundary, upperboundary));
-		yendcoord[i].push_back(MathWiz::RandomCoordinate(lowerboundary, upperboundary));
-		color[i].push_back(MathWiz::RandomRGBHex());
+		xcoord[i] = MathWiz::RandomCoordinate(lowerboundary, upperboundary);
+		ycoord[i] = MathWiz::RandomCoordinate(lowerboundary, upperboundary);
+		xendcoord[i] = MathWiz::RandomCoordinate(lowerboundary, upperboundary);
+		yendcoord[i] = MathWiz::RandomCoordinate(lowerboundary, upperboundary);
+		color[i] = MathWiz::RandomRGBHex();
 	}
-	RenderTests::RandomTestPackage package = RenderTests::RandomTestPackage(*xcoord, *ycoord, *xendcoord, *yendcoord, *color);
+	RenderTests::RandomTestPackage package = RenderTests::RandomTestPackage(xcoord, ycoord, xendcoord, yendcoord, color);
 	return package;
 }
 
@@ -107,5 +107,36 @@ void RenderTests::DDARandomTest(Drawable *drawable, RandomTestPackage package, i
 
 	for (int i = 0; i < size; i++) {
 		LineRenderer::DDArender(drawable, origin_x + package.xcoord[i], origin_y + package.ycoord[i], origin_x + package.xendcoord[i], origin_y + package.yendcoord[i], package.color[i]);
+	}
+}
+
+void RenderTests::BRERandomTest(Drawable *drawable, RandomTestPackage package, int origin_x, int origin_y) {
+	unsigned int size = package.color.size();
+
+	for (int i = 0; i < size; i++) {
+		LineRenderer::BRErender(drawable, origin_x + package.xcoord[i], origin_y + package.ycoord[i], origin_x + package.xendcoord[i], origin_y + package.yendcoord[i], package.color[i]);
+	}
+}
+
+void RenderTests::MixRandomTest(Drawable * drawable, RandomTestPackage package, int origin_x, int origin_y) {
+	unsigned int size = package.color.size();
+	unsigned int flag = 0;
+
+	for (int i = 0; i < size; i++) {
+		if (flag % 2 == 0) {
+			LineRenderer::DDArender(drawable, origin_x + package.xcoord[i], origin_y + package.ycoord[i], origin_x + package.xendcoord[i], origin_y + package.yendcoord[i], package.color[i]);
+		}
+		else {
+			LineRenderer::BRErender(drawable, origin_x + package.xcoord[i], origin_y + package.ycoord[i], origin_x + package.xendcoord[i], origin_y + package.yendcoord[i], package.color[i]);
+		}
+		flag = flag + 1;
+	}
+}
+
+void RenderTests::AARandomTest(Drawable *drawable, RandomTestPackage package, int origin_x, int origin_y) {
+	unsigned int size = package.color.size();
+
+	for (int i = 0; i < size; i++) {
+		LineRenderer::AArender(drawable, origin_x + package.xcoord[i], origin_y + package.ycoord[i], origin_x + package.xendcoord[i], origin_y + package.yendcoord[i], package.color[i]);
 	}
 }

@@ -48,6 +48,8 @@ void Client::nextPage() {
     case 3:
 		draw4panels();
 		RenderTests::DDARandomTest(drawable, package, 50, 50);
+		RenderTests::BRERandomTest(drawable, package, 400, 50);
+		RenderTests::MixRandomTest(drawable, package, 50, 400);
 		drawable->updateScreen();
         break;
     case 4:
