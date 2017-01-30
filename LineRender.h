@@ -7,7 +7,9 @@
 namespace LineRenderer {
 	void DDArender(Drawable *drawable, int x1, int y1, int x2, int y2);
 	void BRErender(Drawable *drawable, int x1, int y1, int x2, int y2);
-
+	void AArender(Drawable *drawable, int x1, int y1, int x2, int y2);
+	//TODO AArender
+	//TODO Remove all bit-shifting multiplication and write them as integer multiplication
 
 	//Octant Renders for DDA
 	void RenderOctant1Or8(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient);

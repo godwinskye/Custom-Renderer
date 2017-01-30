@@ -22,6 +22,17 @@ void Client::nextPage() {
 		RenderTests::DDAStarburstTest(drawable, 200, 200, 125, 90);
 		RenderTests::BRStarburstTest(drawable, 550, 200, 125, 90);
 		RenderTests::MixStarburstTest(drawable, 200, 550, 125, 90);
+		//RenderTests::AAStarburstTest(drawable, 550, 550, 125, 90);
+		LineRenderer::AArender(drawable, 550, 550, 650, 480);
+		/*
+		LineRenderer::AArender(drawable, 550, 550, 600, 400);
+		LineRenderer::AArender(drawable, 550, 550, 500, 400);
+		LineRenderer::AArender(drawable, 550, 550, 400, 500);
+		LineRenderer::AArender(drawable, 550, 550, 400, 600);
+		LineRenderer::AArender(drawable, 550, 550, 500, 700);
+		LineRenderer::AArender(drawable, 550, 550, 600, 700);
+		LineRenderer::AArender(drawable, 550, 550, 650, 600);
+		*/
 		drawable->updateScreen();   // you must call this to make the display change.
 	}
         break;

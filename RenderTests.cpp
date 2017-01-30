@@ -38,5 +38,17 @@ void RenderTests::MixStarburstTest(Drawable *drawable, int x, int y, unsigned in
 			LineRenderer::BRErender(drawable, x, y, endpoint.x, endpoint.y);
 			currentangle = currentangle + angleinc;
 		}
+		flag = flag + 1;
+	}
+}
+
+void RenderTests::AAStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines) {
+	const double angleinc = (2 * M_PI) / numberoflines;
+	double currentangle = 0;
+
+	for (int i = 0; i < numberoflines; i++) {
+		OctantWiz::Point endpoint = MathWiz::DetermineEndPoint(currentangle, length, x, y);
+		LineRenderer::AArender(drawable, x, y, endpoint.x, endpoint.y);
+		currentangle = currentangle + angleinc;
 	}
 }

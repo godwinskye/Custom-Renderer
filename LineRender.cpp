@@ -66,6 +66,76 @@ void LineRenderer::BRErender(Drawable *drawable, int x1, int y1, int x2, int y2)
 	}
 }
 
+void LineRenderer::AArender(Drawable *drawable, int x1, int y1, int x2, int y2) {
+	bool steep = abs(y2 - y1) > abs(x2 - x1);
+	if (steep) {
+		MathWiz::swap(x1, y1);
+		MathWiz::swap(x2, y2);
+	}
+	if (x1 > x2) {
+		MathWiz::swap(x1, x2);
+		MathWiz::swap(y1, y2);
+	}
+	
+
+	int dx = x2 - x1;
+	int dy = y2 - y1;
+	double gradient = dy / dx;
+
+	if (dx == 0.0) {
+		gradient = 1.0;
+	}
+
+	//handle first endpoint
+	double xend = round(x1);
+	double yend = y1 + gradient * (xend - x1);
+	double xgap = MathWiz::rfpart(x1 + 0.5);
+	double xpxl1 = xend;      //used in main loop
+	int ypxl1 = static_cast<int>(yend);
+
+	if (steep) {
+		drawable->setPixel(ypxl1, xpxl1, MathWiz::alphatoblackvar(MathWiz::rfpart(yend) * xgap));
+		drawable->setPixel(ypxl1 + 1, xpxl1, MathWiz::alphatoblackvar(MathWiz::fpart(yend) * xgap));
+	}
+	else {
+		drawable->setPixel(xpxl1, ypxl1, MathWiz::alphatoblackvar(MathWiz::rfpart(yend) * xgap));
+		drawable->setPixel(xpxl1, ypxl1 + 1, MathWiz::alphatoblackvar(MathWiz::fpart(yend) * xgap));
+	}
+	double intery = yend + gradient;    //first intersection for the main loop
+
+	//handle second endpoint
+	xend = round(x2);
+	yend = y2 + gradient * (xend - x2);
+	xgap = MathWiz::fpart(x2 + 0.5);
+	double xpxl2 = xend;
+	int ypxl2 = static_cast<int>(yend);
+
+	if (steep) {
+		drawable->setPixel(ypxl2, xpxl2, MathWiz::alphatoblackvar(MathWiz::rfpart(yend) * xgap));
+		drawable->setPixel(ypxl2 + 1, xpxl2, MathWiz::alphatoblackvar(MathWiz::fpart(yend) * xgap));
+	}
+	else {
+		drawable->setPixel(xpxl2, ypxl2, MathWiz::alphatoblackvar(MathWiz::rfpart(yend) * xgap));
+		drawable->setPixel(xpxl2, ypxl2 + 1, MathWiz::alphatoblackvar(MathWiz::fpart(yend) * xgap));
+	}
+
+	//main loop
+	if (steep) {
+		for (int x = xpxl1 + 1; x <= xpxl2 - 1; x++) {
+			drawable->setPixel(static_cast<int>(intery), x, MathWiz::alphatoblackvar(MathWiz::rfpart(intery)));
+			drawable->setPixel(static_cast<int>(intery) + 1, x, MathWiz::alphatoblackvar(MathWiz::fpart(intery)));
+			intery = intery + gradient;
+		}
+	}
+	else {
+		for (int x = xpxl1 + 1; x <= xpxl2 - 1; x++) {
+			drawable->setPixel(x, static_cast<int>(intery), MathWiz::alphatoblackvar(MathWiz::rfpart(intery)));
+			drawable->setPixel(x, static_cast<int>(intery) + 1, MathWiz::alphatoblackvar(MathWiz::fpart(intery)));
+			intery = intery + gradient;
+		}
+	}
+}
+
 void LineRenderer::RenderOctant1Or8(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient) {
 	double currentY = origin.y;
 	for (int x = origin.x; x <= endpoint.x; x++) {

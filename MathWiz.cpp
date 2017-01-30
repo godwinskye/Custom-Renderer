@@ -56,3 +56,28 @@ MathWiz::Quadrant MathWiz::DetermineQuadrant(double angle) {
 		return MathWiz::Quadrant::Quadrant4;
 	}
 }
+
+void MathWiz::swap(int & first, int & second) {
+	int spare = first;
+	first = second;
+	second = spare;
+	return;
+}
+
+double MathWiz::fpart(double number) {
+	if (number < 0) {
+		return 1 - (number - floor(number));
+	}
+	return number - floor(number);
+}
+
+double MathWiz::rfpart(double number) {
+	return 1 - fpart(number);
+}
+
+unsigned int MathWiz::alphatoblackvar(double alphafloat) {
+	alphafloat = alphafloat * 256;
+	unsigned int alpha = static_cast<unsigned int>(round(alphafloat));
+	unsigned int colour = ((alpha & 0xff) << 24) + ((0 & 0xff) << 16) + ((0 & 0xff) << 8) + (0 & 0xff);
+	return colour;
+}

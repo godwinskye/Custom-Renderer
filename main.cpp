@@ -2,7 +2,6 @@
 #include "client.h"
 #include <QApplication>
 
-
 // you can rewrite main(.cpp/.h) and client(.cpp/.h) and add more files.
 // Leave renderarea(.cpp/.h) and window(.cpp/.h) unchanged.
 // Change Drawable and PageTurner if you like, but know that renderarea
