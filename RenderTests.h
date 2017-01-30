@@ -1,15 +1,37 @@
 #pragma once
 #include "LineRender.h"
+#include <vector>
 
 namespace RenderTests {
+
+	struct RandomTestPackage {
+		std::vector<unsigned int> xcoord;
+		std::vector<unsigned int> xendcoord;
+		std::vector<unsigned int> ycoord;
+		std::vector<unsigned int> yendcoord;
+		std::vector<unsigned int> color;
+
+		RandomTestPackage(std::vector<unsigned int> &xcoord, std::vector<unsigned int> &ycoord, std::vector<unsigned int> &xendcoord, std::vector<unsigned int> &yendcoord, std::vector<unsigned int> &color) {
+			xcoord = xcoord;
+			ycoord = ycoord;
+			xendcoord = xendcoord;
+			yendcoord = yendcoord;
+			color = color;
+		}
+	};
+
 	//Starburst Tests
-	void DDAStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines);
-	void BRStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines);
-	void MixStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines);
-	void AAStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines);
+	void DDAStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color);
+	void BRStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color);
+	void MixStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color);
+	void AAStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color);
 
 	//Parallelogram Test
-	void DDAParallelogramTest(Drawable *drawable, int x, int y);
-	void BREParallelogramTest(Drawable *drawable, int x, int y);
-	void MixParallelogramTest(Drawable *drawable, int x, int y);
+	void DDAParallelogramTest(Drawable *drawable, int x, int y, unsigned int color);
+	void BREParallelogramTest(Drawable *drawable, int x, int y, unsigned int color);
+	void MixParallelogramTest(Drawable *drawable, int x, int y, unsigned int color);
+
+	//Random Test
+	RandomTestPackage GetPackage();
+	void DDARandomTest(Drawable *drawable, RandomTestPackage package, int origin_x, int origin_y);
 }

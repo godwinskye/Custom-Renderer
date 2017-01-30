@@ -9,15 +9,19 @@ Client::Client(Drawable *drawable)
 
 void Client::nextPage() {
     static int pageNumber = 0;
+	unsigned int black = 0xff000000;
+	RenderTests::RandomTestPackage package = RenderTests::GetPackage();
     pageNumber++;
     std::cout << "PageNumber " << pageNumber << std::endl;
 
     switch(pageNumber % 4) {
 	case 1: {
 		draw4panels();
-		RenderTests::DDAStarburstTest(drawable, 200, 200, 125, 90);
-		RenderTests::BRStarburstTest(drawable, 550, 200, 125, 90);
-		RenderTests::MixStarburstTest(drawable, 200, 550, 125, 90);
+		RenderTests::DDAStarburstTest(drawable, 200, 200, 125, 90, black);
+		RenderTests::BRStarburstTest(drawable, 550, 200, 125, 90, black);
+		RenderTests::MixStarburstTest(drawable, 200, 550, 125, 90, black);
+
+
 		//RenderTests::AAStarburstTest(drawable, 550, 550, 125, 90);
 		//LineRenderer::AArender(drawable, 550, 550, 650, 480);
 		/*
@@ -29,17 +33,22 @@ void Client::nextPage() {
 		LineRenderer::AArender(drawable, 550, 550, 600, 700);
 		LineRenderer::AArender(drawable, 550, 550, 650, 600);
 		*/
+
+
 		drawable->updateScreen();   // you must call this to make the display change.
 	}
 		break;
     case 2:
 		draw4panels();
-		RenderTests::DDAParallelogramTest(drawable, 50, 50);
-		RenderTests::BREParallelogramTest(drawable, 400, 50);
-		RenderTests::MixParallelogramTest(drawable, 50, 400);
+		RenderTests::DDAParallelogramTest(drawable, 50, 50, black);
+		RenderTests::BREParallelogramTest(drawable, 400, 50, black);
+		RenderTests::MixParallelogramTest(drawable, 50, 400, black);
 		drawable->updateScreen();
         break;
     case 3:
+		draw4panels();
+		RenderTests::DDARandomTest(drawable, package, 50, 50);
+		drawable->updateScreen();
         break;
     case 4:
 		break;

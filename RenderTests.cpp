@@ -1,28 +1,28 @@
 #include "RenderTests.h"
 
-void RenderTests::DDAStarburstTest(Drawable * drawable, int x, int y, unsigned int length, unsigned int numberoflines) {
+void RenderTests::DDAStarburstTest(Drawable * drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color) {
 	const double angleinc = (2 * M_PI) / numberoflines;
 	double currentangle = 0;
 
 	for (int i = 0; i < numberoflines; i++) {
 		OctantWiz::Point endpoint = MathWiz::DetermineEndPoint(currentangle, length, x, y);
-		LineRenderer::DDArender(drawable, x, y, endpoint.x, endpoint.y);
+		LineRenderer::DDArender(drawable, x, y, endpoint.x, endpoint.y, color);
 		currentangle = currentangle + angleinc;
 	}
 }
 
-void RenderTests::BRStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines) {
+void RenderTests::BRStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color) {
 	const double angleinc = (2 * M_PI) / numberoflines;
 	double currentangle = 0;
 
 	for (int i = 0; i < numberoflines; i++) {
 		OctantWiz::Point endpoint = MathWiz::DetermineEndPoint(currentangle, length, x, y);
-		LineRenderer::BRErender(drawable, x, y, endpoint.x, endpoint.y);
+		LineRenderer::BRErender(drawable, x, y, endpoint.x, endpoint.y, color);
 		currentangle = currentangle + angleinc;
 	}
 }
 
-void RenderTests::MixStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines) {
+void RenderTests::MixStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color) {
 	const double angleinc = (2 * M_PI) / numberoflines;
 	double currentangle = 0;
 	int flag = 0;
@@ -30,54 +30,82 @@ void RenderTests::MixStarburstTest(Drawable *drawable, int x, int y, unsigned in
 	for (int i = 0; i < numberoflines; i++) {
 		if (flag % 2 == 0) {
 			OctantWiz::Point endpoint = MathWiz::DetermineEndPoint(currentangle, length, x, y);
-			LineRenderer::DDArender(drawable, x, y, endpoint.x, endpoint.y);
+			LineRenderer::DDArender(drawable, x, y, endpoint.x, endpoint.y, color);
 			currentangle = currentangle + angleinc;
 		}
 		else {
 			OctantWiz::Point endpoint = MathWiz::DetermineEndPoint(currentangle, length, x, y);
-			LineRenderer::BRErender(drawable, x, y, endpoint.x, endpoint.y);
+			LineRenderer::BRErender(drawable, x, y, endpoint.x, endpoint.y, color);
 			currentangle = currentangle + angleinc;
 		}
 		flag = flag + 1;
 	}
 }
 
-void RenderTests::AAStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines) {
+void RenderTests::AAStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color) {
 	const double angleinc = (2 * M_PI) / numberoflines;
 	double currentangle = 0;
 
 	for (int i = 0; i < numberoflines; i++) {
 		OctantWiz::Point endpoint = MathWiz::DetermineEndPoint(currentangle, length, x, y);
-		LineRenderer::AArender(drawable, x, y, endpoint.x, endpoint.y);
+		LineRenderer::AArender(drawable, x, y, endpoint.x, endpoint.y, color);
 		currentangle = currentangle + angleinc;
 	}
 }
 
-void RenderTests::DDAParallelogramTest(Drawable *drawable, int x, int y) {
+void RenderTests::DDAParallelogramTest(Drawable *drawable, int x, int y, unsigned int color) {
 	for (int i = 0; i < 50; i++) {
-		LineRenderer::DDArender(drawable, x + 20, y + 80 + i, x + 150, y + 150 + i);
-		LineRenderer::DDArender(drawable, x + 160 + i, y + 270, x + 240 + i, y + 40);
+		LineRenderer::DDArender(drawable, x + 20, y + 80 + i, x + 150, y + 150 + i, color);
+		LineRenderer::DDArender(drawable, x + 160 + i, y + 270, x + 240 + i, y + 40, color);
 	}
 }
 
-void RenderTests::BREParallelogramTest(Drawable *drawable, int x, int y) {
+void RenderTests::BREParallelogramTest(Drawable *drawable, int x, int y, unsigned int color) {
 	for (int i = 0; i < 50; i++) {
-		LineRenderer::BRErender(drawable, x + 20, y + 80 + i, x + 150, y + 150 + i);
-		LineRenderer::BRErender(drawable, x + 160 + i, y + 270, x + 240 + i, y + 40);
+		LineRenderer::BRErender(drawable, x + 20, y + 80 + i, x + 150, y + 150 + i, color);
+		LineRenderer::BRErender(drawable, x + 160 + i, y + 270, x + 240 + i, y + 40, color);
 	}
 }
 
-void RenderTests::MixParallelogramTest(Drawable *drawable, int x, int y) {
+void RenderTests::MixParallelogramTest(Drawable *drawable, int x, int y, unsigned int color) {
 	unsigned int flag = 0;
 	for (int i = 0; i < 50; i++) {
 		if (flag % 2 == 0) {
-			LineRenderer::DDArender(drawable, x + 20, y + 80 + i, x + 150, y + 150 + i);
-			LineRenderer::DDArender(drawable, x + 160 + i, y + 270, x + 240 + i, y + 40);
+			LineRenderer::DDArender(drawable, x + 20, y + 80 + i, x + 150, y + 150 + i, color);
+			LineRenderer::DDArender(drawable, x + 160 + i, y + 270, x + 240 + i, y + 40, color);
 		}
 		else {
-			LineRenderer::BRErender(drawable, x + 20, y + 80 + i, x + 150, y + 150 + i);
-			LineRenderer::BRErender(drawable, x + 160 + i, y + 270, x + 240 + i, y + 40);
+			LineRenderer::BRErender(drawable, x + 20, y + 80 + i, x + 150, y + 150 + i, color);
+			LineRenderer::BRErender(drawable, x + 160 + i, y + 270, x + 240 + i, y + 40, color);
 		}
 		flag = flag + 1;
+	}
+}
+
+RenderTests::RandomTestPackage RenderTests::GetPackage() {
+	const unsigned int numberoflines = 30;
+	const unsigned int lowerboundary = 0;
+	const unsigned int upperboundary = 300;
+
+	std::vector<unsigned int> xcoord[numberoflines], ycoord[numberoflines];
+	std::vector<unsigned int> xendcoord[numberoflines], yendcoord[numberoflines];
+	std::vector<unsigned int> color[numberoflines];
+
+	for (int i = 0; i < numberoflines; i++) {
+		xcoord[i].push_back(MathWiz::RandomCoordinate(lowerboundary, upperboundary));
+		ycoord[i].push_back(MathWiz::RandomCoordinate(lowerboundary, upperboundary));
+		xendcoord[i].push_back(MathWiz::RandomCoordinate(lowerboundary, upperboundary));
+		yendcoord[i].push_back(MathWiz::RandomCoordinate(lowerboundary, upperboundary));
+		color[i].push_back(MathWiz::RandomRGBHex());
+	}
+	RenderTests::RandomTestPackage package = RenderTests::RandomTestPackage(*xcoord, *ycoord, *xendcoord, *yendcoord, *color);
+	return package;
+}
+
+void RenderTests::DDARandomTest(Drawable *drawable, RandomTestPackage package, int origin_x, int origin_y) {
+	unsigned int size = package.color.size();        //can be size of any element in package
+
+	for (int i = 0; i < size; i++) {
+		LineRenderer::DDArender(drawable, origin_x + package.xcoord[i], origin_y + package.ycoord[i], origin_x + package.xendcoord[i], origin_y + package.yendcoord[i], package.color[i]);
 	}
 }

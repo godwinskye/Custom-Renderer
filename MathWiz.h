@@ -16,10 +16,6 @@ namespace MathWiz {
 	double GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint);
 	OctantWiz::Point DetermineEndPoint(double currentangle, int length, int x, int y);
 	Quadrant DetermineQuadrant(double angle);
-
-	// AArender() functions
-	void swap(int &first, int &second);
-	double fpart(double number);
-	double rfpart(double number);
-	unsigned int alphatoblackvar(double alphafloat);
+	unsigned int RandomCoordinate(unsigned int lower, unsigned int upper);
+	unsigned int RandomRGBHex();
 }

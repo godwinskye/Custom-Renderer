@@ -1,4 +1,5 @@
 #include "MathWiz.h"
+#include <stdlib.h>
 
 //to only calculate this once
 double thirdquad = M_PI + M_PI_2;
@@ -57,27 +58,19 @@ MathWiz::Quadrant MathWiz::DetermineQuadrant(double angle) {
 	}
 }
 
-void MathWiz::swap(int & first, int & second) {
-	int spare = first;
-	first = second;
-	second = spare;
-	return;
+unsigned int MathWiz::RandomCoordinate(unsigned int lower, unsigned int upper) {
+	unsigned int coordinate = rand() % upper + lower;
+	return coordinate;
 }
 
-double MathWiz::fpart(double number) {
-	if (number < 0) {
-		return 1 - (number - floor(number));
-	}
-	return number - floor(number);
-}
+unsigned int MathWiz::RandomRGBHex() {
+	unsigned int range = 256;
+	unsigned int red = rand() % range;
+	unsigned int green = rand() % range;
+	unsigned int blue = rand() % range;
 
-double MathWiz::rfpart(double number) {
-	return 1 - fpart(number);
-}
-
-unsigned int MathWiz::alphatoblackvar(double alphafloat) {
-	alphafloat = alphafloat * 256;
-	unsigned int alpha = static_cast<unsigned int>(round(alphafloat));
-	unsigned int colour = ((alpha & 0xff) << 24) + ((0 & 0xff) << 16) + ((0 & 0xff) << 8) + (0 & 0xff);
+	unsigned int colour = (0xff << 24) + ((red & 0xff) << 16) + ((green & 0xff) << 8) + (blue & 0xff);
 	return colour;
 }
+
+
