@@ -14,7 +14,7 @@ void Client::nextPage() {
     pageNumber++;
     std::cout << "PageNumber " << pageNumber << std::endl;
 
-    switch(pageNumber % 4) {
+    switch(pageNumber % 5) {
 	case 1: {
 		draw4panels();
 		RenderTests::DDAStarburstTest(drawable, 200, 200, 125, 90, black);
@@ -53,6 +53,9 @@ void Client::nextPage() {
 		drawable->updateScreen();
         break;
     case 4:
+		draw4panels();
+		RenderTests::PolygonStarburstTest(drawable, 200, 200, 125, 90, black);
+		drawable->updateScreen();
 		break;
         // fall through...
     default:

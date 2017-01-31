@@ -37,4 +37,7 @@ namespace RenderTests {
 	void BRERandomTest(Drawable *drawable, RandomTestPackage package, int origin_x, int origin_y);
 	void MixRandomTest(Drawable *drawable, RandomTestPackage package, int origin_x, int origin_y);
 	void AARandomTest(Drawable *drawable, RandomTestPackage package, int origin_x, int origin_y);
+
+	//Filling Polygons
+	void PolygonStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color);
 }

@@ -140,3 +140,27 @@ void RenderTests::AARandomTest(Drawable *drawable, RandomTestPackage package, in
 		LineRenderer::AArender(drawable, origin_x + package.xcoord[i], origin_y + package.ycoord[i], origin_x + package.xendcoord[i], origin_y + package.yendcoord[i], package.color[i]);
 	}
 }
+
+void RenderTests::PolygonStarburstTest(Drawable * drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color) {
+	const double angleinc = (2 * M_PI) / numberoflines;
+	double currentangle = 0;
+
+	std::vector<OctantWiz::Point> line1;
+	std::vector<OctantWiz::Point> line2;
+
+	for (int i = 0; i < numberoflines; i++) {
+		if (i % 2 == 0) {
+			OctantWiz::Point endpoint = MathWiz::DetermineEndPoint(currentangle, length, x, y);
+			line1 = LineRenderer::PolyDDArender(drawable, x, y, endpoint.x, endpoint.y, color);
+			currentangle = currentangle + angleinc;
+		}
+		else {
+			OctantWiz::Point endpoint = MathWiz::DetermineEndPoint(currentangle, length, x, y);
+			line2 = LineRenderer::PolyDDArender(drawable, x, y, endpoint.x, endpoint.y, color);
+			currentangle = currentangle + angleinc;
+		}
+		if (i > 0) {
+			LineRenderer::FillBetweenLines(drawable, line1, line2, color);
+		}
+	}
+}
