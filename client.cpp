@@ -16,8 +16,8 @@ void Client::nextPage() {
 
 
 	OctantWiz::Point Origin(200, 200);
-	OctantWiz::Point Point1(350, 350);
-	OctantWiz::Point Point2(280, 280);
+	OctantWiz::Point Point1(270, 160);
+	OctantWiz::Point Point2(300, 180);
 
     switch(pageNumber % 5) {
 	case 1: {

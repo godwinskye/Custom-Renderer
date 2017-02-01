@@ -7,11 +7,12 @@ void PolyFill::Triangle(Drawable *drawable, OctantWiz::Point origin, OctantWiz::
 	LineRenderer::FillPack longestline = LineRenderer::PolyDDArender(drawable, package.longest.origin, package.longest.endpoint, color);
 	LineRenderer::FillPack line2 = LineRenderer::PolyDDArender(drawable, package.shorter1.origin, package.shorter1.endpoint, color);
 	LineRenderer::FillPack line3 = LineRenderer::PolyDDArender(drawable, package.shorter2.origin, package.shorter2.endpoint, color);
-
+	
 	for (int i = 0; i < longestline.map.size(); i++) {
 		if (longestline.xiter) {
 			if (longestline.movepositive) {
 				currentIter = package.longest.origin.x + i;
+				int somepoint = line2.map[currentIter];      //TODO figure out why value is not being assigned right
 				if (line2.xiter) {
 					if (!(line2.map.find(currentIter) == line2.map.end())) {       //found && in line2 && xiter == positive
 						LineRenderer::DDArender(drawable, currentIter, longestline.map[currentIter], currentIter, line2.map[currentIter], color);
@@ -94,7 +95,7 @@ void PolyFill::Triangle(Drawable *drawable, OctantWiz::Point origin, OctantWiz::
 				}
 			}
 			else {      //moveneg
-				currentIter = package.longest.origin.y - 1;
+				currentIter = package.longest.origin.y - i;
 				if (line2.xiter) {
 					if (!(line2.map.find(longestline.map[currentIter]) == line2.map.end())) {
 						LineRenderer::DDArender(drawable, longestline.map[currentIter], currentIter, longestline.map[currentIter], line2.map[longestline.map[currentIter]], color);

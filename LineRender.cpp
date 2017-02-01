@@ -295,7 +295,8 @@ LineRenderer::FillPack LineRenderer::PolyRenderOctant1Or8(Drawable * drawable, O
 	int tempY;
 	for (int x = origin.x; x <= endpoint.x; x++) {
 		tempY = round(currentY);
-		line1[x] = tempY;
+		line1.insert(std::pair<int, int>(x, tempY));
+		//line1[x] = tempY;
 		drawable->setPixel(x, tempY, color);
 		currentY = currentY + gradient;
 	}
@@ -313,7 +314,8 @@ LineRenderer::FillPack LineRenderer::PolyRenderOctant2Or3(Drawable * drawable, O
 	int tempX;
 	for (int y = origin.y; y >= endpoint.y; y--) {
 		tempX = round(currentX);
-		line1[y] = tempX;
+		line1.insert(std::pair<int, int>(y, tempX));
+		//line1[y] = tempX;
 		drawable->setPixel(tempX, y, color);
 		currentX = currentX - reversegradient;
 	}
@@ -330,7 +332,8 @@ LineRenderer::FillPack LineRenderer::PolyRenderOctant4Or5(Drawable * drawable, O
 	int tempY;
 	for (int x = origin.x; x >= endpoint.x; x--) {
 		tempY = round(currentY);
-		line1[x] = tempY;
+		line1.insert(std::pair<int, int>(x, tempY));
+		//line1[x] = tempY;
 		drawable->setPixel(x, tempY, color);
 		currentY = currentY - gradient;
 	}
@@ -348,7 +351,8 @@ LineRenderer::FillPack LineRenderer::PolyRenderOctant6Or7(Drawable * drawable, O
 	int tempX;
 	for (int y = origin.y; y <= endpoint.y; y++) {
 		tempX = round(currentX);
-		line1[y] = tempX;
+		line1.insert(std::pair<int, int>(y, tempX));
+		//line1[y] = tempX;
 		drawable->setPixel(round(currentX), y, color);
 		currentX = currentX + reversegradient;
 	}
