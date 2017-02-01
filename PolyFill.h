@@ -11,9 +11,9 @@ namespace PolyFill {
 		OctantWiz::Point endpoint;
 
 		LinePair() {}
-		LinePair(OctantWiz::Point first, OctantWiz::Point second) {
-			origin = first;
-			endpoint = second;
+		LinePair(OctantWiz::Point originpoint, OctantWiz::Point endingpoint) {
+			origin = originpoint;
+			endpoint = endingpoint;
 		}
 	};
 

@@ -165,3 +165,7 @@ void RenderTests::PolygonStarburstTest(Drawable * drawable, int x, int y, unsign
 		}
 	}
 }
+
+void RenderTests::RandomPolyTest(Drawable * drawable, int x, int y, unsigned int numberofpoly) {
+
+}

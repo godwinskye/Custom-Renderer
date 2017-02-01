@@ -59,8 +59,8 @@ void Client::nextPage() {
         break;
     case 4:
 		draw4panels();
-		//RenderTests::PolygonStarburstTest(drawable, 200, 200, 125, 90, black);
-		PolyFill::Triangle(drawable, Origin, Point1, Point2);
+		RenderTests::PolygonStarburstTest(drawable, 200, 200, 125, 90, black);
+		//PolyFill::Triangle(drawable, Origin, Point1, Point2);
 		drawable->updateScreen();
 		break;
         // fall through...

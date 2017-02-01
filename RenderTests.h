@@ -41,4 +41,5 @@ namespace RenderTests {
 
 	//Filling Polygons
 	void PolygonStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color);
+	void RandomPolyTest(Drawable *drawable, int x, int y, unsigned int numberofpoly);
 }

@@ -74,7 +74,9 @@ unsigned int MathWiz::RandomRGBHex() {
 }
 
 double MathWiz::PointDistance(OctantWiz::Point origin, OctantWiz::Point endpoint) {
-	double distance = sqrt((endpoint.x - origin.x) ^ 2 + (endpoint.y - origin.x) ^ 2);
+	double xpart = pow(endpoint.x - origin.x, 2);
+	double ypart = pow(endpoint.y - origin.y, 2);
+	double distance = sqrt(xpart + ypart);
 	return distance;
 }
 
