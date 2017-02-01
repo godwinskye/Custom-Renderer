@@ -145,22 +145,23 @@ void RenderTests::PolygonStarburstTest(Drawable * drawable, int x, int y, unsign
 	const double angleinc = (2 * M_PI) / numberoflines;
 	double currentangle = 0;
 
-	std::vector<OctantWiz::Point> line1;
-	std::vector<OctantWiz::Point> line2;
+	OctantWiz::Point origin(x, y);
+	OctantWiz::Point endpoint1;
+	OctantWiz::Point endpoint2;
 
 	for (int i = 0; i < numberoflines; i++) {
 		if (i % 2 == 0) {
 			OctantWiz::Point endpoint = MathWiz::DetermineEndPoint(currentangle, length, x, y);
-			line1 = LineRenderer::PolyDDArender(drawable, x, y, endpoint.x, endpoint.y, color);
+			endpoint1 = endpoint;
 			currentangle = currentangle + angleinc;
 		}
 		else {
 			OctantWiz::Point endpoint = MathWiz::DetermineEndPoint(currentangle, length, x, y);
-			line2 = LineRenderer::PolyDDArender(drawable, x, y, endpoint.x, endpoint.y, color);
+			endpoint2 = endpoint;
 			currentangle = currentangle + angleinc;
 		}
 		if (i > 0) {
-			LineRenderer::FillBetweenLines(drawable, line1, line2, color);
+			PolyFill::Triangle(drawable, origin, endpoint1, endpoint2);
 		}
 	}
 }

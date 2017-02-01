@@ -69,12 +69,10 @@ void LineRenderer::AArender(Drawable *drawable, int x1, int y1, int x2, int y2, 
 	//AArender();
 }
 
-std::vector<OctantWiz::Point> LineRenderer::PolyDDArender(Drawable * drawable, int x1, int y1, int x2, int y2, unsigned int color) {
-	OctantWiz::Point origin(x1, y1);
-	OctantWiz::Point endpoint(x2, y2);
+LineRenderer::FillPack LineRenderer::PolyDDArender(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, unsigned int color) {
 	double gradient = MathWiz::GetGradient(origin, endpoint);
-	OctantWiz::Point diffpoint(x2 - x1, y2 - y1);
-	std::vector<OctantWiz::Point> line;
+	OctantWiz::Point diffpoint(endpoint.x - origin.x, endpoint.y - origin.y);
+	FillPack line;
 
 	OctantWiz::Octant target = OctantWiz::FindOctant(diffpoint);
 
@@ -288,66 +286,74 @@ void LineRenderer::BRenderOctant8(Drawable *drawable, OctantWiz::Point origin, O
 	}
 }
 
-std::vector<OctantWiz::Point> LineRenderer::PolyRenderOctant1Or8(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient, unsigned int color) {
-	std::vector<OctantWiz::Point> line1;
-	
+LineRenderer::FillPack LineRenderer::PolyRenderOctant1Or8(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient, unsigned int color) {
+	std::map<int, int> line1;
+	bool xiter = true;
+	bool movepositive = true;
+
 	double currentY = origin.y;
 	int tempY;
 	for (int x = origin.x; x <= endpoint.x; x++) {
 		tempY = round(currentY);
-		line1.push_back(OctantWiz::Point(x, tempY));
+		line1[x] = tempY;
 		drawable->setPixel(x, tempY, color);
 		currentY = currentY + gradient;
 	}
 	drawable->updateScreen();
-	return line1;
+	return FillPack(line1, xiter, movepositive);
 }
 
-std::vector<OctantWiz::Point> LineRenderer::PolyRenderOctant2Or3(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient, unsigned int color) {
-	std::vector<OctantWiz::Point> line1;
+LineRenderer::FillPack LineRenderer::PolyRenderOctant2Or3(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient, unsigned int color) {
+	std::map<int, int> line1;
+	bool xiter = false;
+	bool movepositive = false;
 
 	double currentX = origin.x;
 	double reversegradient = 1 / gradient;
 	int tempX;
 	for (int y = origin.y; y >= endpoint.y; y--) {
 		tempX = round(currentX);
-		line1.push_back(OctantWiz::Point(tempX, y));
+		line1[y] = tempX;
 		drawable->setPixel(tempX, y, color);
 		currentX = currentX - reversegradient;
 	}
 	drawable->updateScreen();
-	return line1;
+	return FillPack(line1, xiter, movepositive);
 }
 
-std::vector<OctantWiz::Point> LineRenderer::PolyRenderOctant4Or5(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient, unsigned int color) {
-	std::vector<OctantWiz::Point> line1;
+LineRenderer::FillPack LineRenderer::PolyRenderOctant4Or5(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient, unsigned int color) {
+	std::map<int, int> line1;
+	bool xiter = true;
+	bool movepositive = false;
 	
 	double currentY = origin.y;
 	int tempY;
 	for (int x = origin.x; x >= endpoint.x; x--) {
 		tempY = round(currentY);
-		line1.push_back(OctantWiz::Point(x, tempY));
+		line1[x] = tempY;
 		drawable->setPixel(x, tempY, color);
 		currentY = currentY - gradient;
 	}
 	drawable->updateScreen();
-	return line1;
+	return FillPack(line1, xiter, movepositive);
 }
 
-std::vector<OctantWiz::Point> LineRenderer::PolyRenderOctant6Or7(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient, unsigned int color) {
-	std::vector<OctantWiz::Point> line1;
+LineRenderer::FillPack LineRenderer::PolyRenderOctant6Or7(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient, unsigned int color) {
+	std::map<int, int> line1;
+	bool xiter = false;
+	bool movepositive = true;
 	
 	double currentX = origin.x;
 	double reversegradient = 1 / gradient;
 	int tempX;
 	for (int y = origin.y; y <= endpoint.y; y++) {
 		tempX = round(currentX);
-		line1.push_back(OctantWiz::Point(tempX, y));
+		line1[y] = tempX;
 		drawable->setPixel(round(currentX), y, color);
 		currentX = currentX + reversegradient;
 	}
 	drawable->updateScreen();
-	return line1;
+	return FillPack(line1, xiter, movepositive);
 }
 
 void LineRenderer::FillBetweenLines(Drawable *drawable, std::vector<OctantWiz::Point> line1, std::vector<OctantWiz::Point> line2, unsigned int color) {

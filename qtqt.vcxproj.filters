@@ -73,6 +73,9 @@
     <ClCompile Include="RenderTests.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="PolyFill.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h">
@@ -100,6 +103,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RenderTests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PolyFill.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

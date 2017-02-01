@@ -18,4 +18,6 @@ namespace MathWiz {
 	Quadrant DetermineQuadrant(double angle);
 	unsigned int RandomCoordinate(unsigned int lower, unsigned int upper);
 	unsigned int RandomRGBHex();
+	double PointDistance(OctantWiz::Point origin, OctantWiz::Point endpoint);
+	double LargestOfThree(double first, double second, double third);
 }

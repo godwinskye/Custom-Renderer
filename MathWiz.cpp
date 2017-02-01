@@ -73,4 +73,21 @@ unsigned int MathWiz::RandomRGBHex() {
 	return colour;
 }
 
+double MathWiz::PointDistance(OctantWiz::Point origin, OctantWiz::Point endpoint) {
+	double distance = sqrt((endpoint.x - origin.x) ^ 2 + (endpoint.y - origin.x) ^ 2);
+	return distance;
+}
+
+double MathWiz::LargestOfThree(double first, double second, double third) {
+	if (first >= second && first >= third) {
+		return first;
+	}
+	else if (second >= first && second >= third) {
+		return second;
+	}
+	else {
+		return third;
+	}
+}
+
 
