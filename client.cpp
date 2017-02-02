@@ -58,10 +58,7 @@ void Client::nextPage() {
 		RenderTests::BRandomPolyTest(drawable, 400, 400, 20);
 		drawable->updateScreen();
 		break;
-    default:
-        //nothing
     }
-	
 }
 
 void Client::draw4panels() {
