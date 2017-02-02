@@ -19,27 +19,12 @@ void Client::nextPage() {
 	OctantWiz::Point Point1(80, 90);
 	OctantWiz::Point Point2(250, 280);
 
-    switch(pageNumber % 5) {
+    switch(pageNumber % 6) {
 	case 1: {
 		draw4panels();
 		RenderTests::DDAStarburstTest(drawable, 200, 200, 125, 90, black);
 		RenderTests::BRStarburstTest(drawable, 550, 200, 125, 90, black);
 		RenderTests::MixStarburstTest(drawable, 200, 550, 125, 90, black);
-
-
-		//RenderTests::AAStarburstTest(drawable, 550, 550, 125, 90);
-		//LineRenderer::AArender(drawable, 550, 550, 650, 480);
-		/*
-		LineRenderer::AArender(drawable, 550, 550, 600, 400);
-		LineRenderer::AArender(drawable, 550, 550, 500, 400);
-		LineRenderer::AArender(drawable, 550, 550, 400, 500);
-		LineRenderer::AArender(drawable, 550, 550, 400, 600);
-		LineRenderer::AArender(drawable, 550, 550, 500, 700);
-		LineRenderer::AArender(drawable, 550, 550, 600, 700);
-		LineRenderer::AArender(drawable, 550, 550, 650, 600);
-		*/
-
-
 		drawable->updateScreen();   // you must call this to make the display change.
 	}
 		break;
@@ -59,12 +44,15 @@ void Client::nextPage() {
         break;
     case 4:
 		draw4panels();
-		//RenderTests::RandomPolyTest(drawable, 50, 50, 20);
-		RenderTests::PolygonStarburstTest(drawable, 200, 200, 125, 90, black);
-		//PolyFill::Triangle(drawable, Origin, Point1, Point2);
+		RenderTests::PolygonStarburstTest(drawable, 200, 200, 125, 90);
+		RenderTests::Triangles162Test(drawable, 400, 50);
+		RenderTests::TransTriangles162Test(drawable, 50, 400);
+		RenderTests::RandomPolyTest(drawable, 400, 400, 20);
 		drawable->updateScreen();
 		break;
-        // fall through...
+	case 5:
+		draw4panels();
+
     default:
         draw_rect(0, 0, 750, 750, 0xffffffff);
         draw_rect(400, 400, 700, 700, 0xff00ff40);

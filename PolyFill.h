@@ -29,7 +29,7 @@ namespace PolyFill {
 		}
 	};
 
-	void Triangle(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2);
+	void Triangle(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2, unsigned int color);
 	//LongestTriLine FindLongest(LineRenderer::FillPack line1, LineRenderer::FillPack line2, LineRenderer::FillPack line3);
 	//bool TestForLongest(LineRenderer::FillPack line1, LineRenderer::FillPack line2, LineRenderer::FillPack line3);
 }

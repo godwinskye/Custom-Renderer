@@ -1,8 +1,7 @@
 #include "PolyFill.h"
 #include "LineRender.h"
 
-void PolyFill::Triangle(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2) {
-	unsigned int color = 0xff000000;
+void PolyFill::Triangle(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2, unsigned int color) {
 	int currentIter;
 	//PolyFill::LongestTriLine package1 = DetermineLongest(origin, endpoint1, endpoint2);
 

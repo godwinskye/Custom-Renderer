@@ -142,7 +142,7 @@ void RenderTests::AARandomTest(Drawable *drawable, RandomTestPackage package, in
 	}
 }
 
-void RenderTests::PolygonStarburstTest(Drawable * drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color) {
+void RenderTests::PolygonStarburstTest(Drawable * drawable, int x, int y, unsigned int length, unsigned int numberoflines) {
 	const double angleinc = (2 * M_PI) / numberoflines;
 	double currentangle = 0;
 
@@ -162,7 +162,84 @@ void RenderTests::PolygonStarburstTest(Drawable * drawable, int x, int y, unsign
 			currentangle = currentangle + angleinc;
 		}
 		if (i > 0) {
-			PolyFill::Triangle(drawable, origin, endpoint1, endpoint2);
+			PolyFill::Triangle(drawable, origin, endpoint1, endpoint2, MathWiz::RandomRGBHex());
+		}
+	}
+}
+
+void RenderTests::Triangles162Test(Drawable *drawable, int xstart, int ystart) {
+	const int numbereachrow = 10;
+	std::vector<OctantWiz::Point> rowpoints(numbereachrow);
+	std::vector<std::vector<OctantWiz::Point>> wholearray;
+	OctantWiz::Point first(xstart + 40, ystart + 40);
+	int tempY = first.y;
+
+	for (int i = 0; i < numbereachrow; i++) {
+		for (int j = 0; j < numbereachrow; j++) {
+			rowpoints[j] = OctantWiz::Point(first.x + 25 * j, tempY);
+		}
+		tempY = tempY + 25;
+		wholearray.push_back(rowpoints);
+	}
+	for (int i = 0; i < numbereachrow; i++) {
+		for (int j = 0; j < numbereachrow; j++) {
+			unsigned int color = MathWiz::RandomRGBHex();
+			unsigned int color2 = MathWiz::RandomRGBHex();
+			if (j > 0) {
+				LineRenderer::DDArender(drawable, wholearray[i][j - 1].x, wholearray[i][j - 1].y, wholearray[i][j].x, wholearray[i][j].y, color);
+			}
+			if (i > 0) {
+				LineRenderer::DDArender(drawable, wholearray[i - 1][j].x, wholearray[i - 1][j].y, wholearray[i][j].x, wholearray[i][j].y, color);
+			}
+			if (i > 0 && j > 0) {
+				PolyFill::Triangle(drawable, wholearray[i][j], wholearray[i - 1][j], wholearray[i - 1][j - 1], color);
+				PolyFill::Triangle(drawable, wholearray[i][j - 1], wholearray[i - 1][j - 1], wholearray[i][j], color2);
+			}
+		}
+	}
+}
+
+void RenderTests::TransTriangles162Test(Drawable *drawable, int xstart, int ystart) {
+	const int numbereachrow = 10;
+	std::vector<OctantWiz::Point> rowpoints(numbereachrow);
+	std::vector<std::vector<OctantWiz::Point>> wholearray;
+	OctantWiz::Point first(xstart + 40, ystart + 40);
+	int tempY = first.y;
+	int translate;
+	int upper = 12;
+	int lower = -12;
+
+	for (int i = 0; i < numbereachrow; i++) {
+		for (int j = 0; j < numbereachrow; j++) {
+			rowpoints[j] = OctantWiz::Point(first.x + 25 * j, tempY);
+		}
+		tempY = tempY + 25;
+		wholearray.push_back(rowpoints);
+	}
+
+	//translate by [-12, 12]
+	for (int i = 0; i < numbereachrow; i++) {
+		for (int j = 0; j < numbereachrow; j++) {
+			translate = rand() % ((upper - lower) + 1) + lower;
+			wholearray[i][j].x = wholearray[i][j].x + translate;
+			wholearray[i][j].y = wholearray[i][j].y + translate;
+		}
+	}
+
+	for (int i = 0; i < numbereachrow; i++) {
+		for (int j = 0; j < numbereachrow; j++) {
+			unsigned int color = MathWiz::RandomRGBHex();
+			unsigned int color2 = MathWiz::RandomRGBHex();
+			if (j > 0) {
+				LineRenderer::DDArender(drawable, wholearray[i][j - 1].x, wholearray[i][j - 1].y, wholearray[i][j].x, wholearray[i][j].y, color);
+			}
+			if (i > 0) {
+				LineRenderer::DDArender(drawable, wholearray[i - 1][j].x, wholearray[i - 1][j].y, wholearray[i][j].x, wholearray[i][j].y, color);
+			}
+			if (i > 0 && j > 0) {
+				PolyFill::Triangle(drawable, wholearray[i][j], wholearray[i - 1][j], wholearray[i - 1][j - 1], color);
+				PolyFill::Triangle(drawable, wholearray[i][j - 1], wholearray[i - 1][j - 1], wholearray[i][j], color2);
+			}
 		}
 	}
 }
@@ -188,7 +265,7 @@ void RenderTests::RandomPolyTest(Drawable * drawable, int x, int y, unsigned int
 		yendcoord2[i] = MathWiz::RandomCoordinate(lowerboundary, upperboundary);
 	}
 
-	for (int i = 0; i < 5; i++) {
-		PolyFill::Triangle(drawable, OctantWiz::Point(xcoord[i] + x, ycoord[i] + y), OctantWiz::Point(xendcoord[i] + x, yendcoord[i] + y), OctantWiz::Point(xendcoord2[i] + x, yendcoord2[i] + y));
+	for (int i = 0; i < numberoftri; i++) {
+		PolyFill::Triangle(drawable, OctantWiz::Point(xcoord[i] + x, ycoord[i] + y), OctantWiz::Point(xendcoord[i] + x, yendcoord[i] + y), OctantWiz::Point(xendcoord2[i] + x, yendcoord2[i] + y), MathWiz::RandomRGBHex());
 	}
 }
