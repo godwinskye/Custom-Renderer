@@ -1,4 +1,5 @@
 #include "RenderTests.h"
+#include "LineRender.h"
 
 void RenderTests::DDAStarburstTest(Drawable * drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color) {
 	const double angleinc = (2 * M_PI) / numberoflines;
@@ -187,7 +188,7 @@ void RenderTests::RandomPolyTest(Drawable * drawable, int x, int y, unsigned int
 		yendcoord2[i] = MathWiz::RandomCoordinate(lowerboundary, upperboundary);
 	}
 
-	for (int i = 0; i < numberoftri; i++) {
+	for (int i = 0; i < 5; i++) {
 		PolyFill::Triangle(drawable, OctantWiz::Point(xcoord[i] + x, ycoord[i] + y), OctantWiz::Point(xendcoord[i] + x, yendcoord[i] + y), OctantWiz::Point(xendcoord2[i] + x, yendcoord2[i] + y));
 	}
 }

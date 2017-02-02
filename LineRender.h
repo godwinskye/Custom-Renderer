@@ -4,6 +4,7 @@
 #include "OctantWiz.h"
 #include "renderarea361.h"
 #include "client.h"
+#include "PolyFill.h"
 
 namespace LineRenderer {
 
@@ -11,13 +12,17 @@ namespace LineRenderer {
 		std::map<int, int> map;
 		bool xiter;
 		bool movepositive;
+		OctantWiz::Point origin;
+		OctantWiz::Point endpoint;
 
 		FillPack() {}
 
-		FillPack(std::map<int, int> some_map, bool something, bool move) {
+		FillPack(std::map<int, int> some_map, bool something, bool move, OctantWiz::Point pt1, OctantWiz::Point pt2) {
 			map = some_map;
 			xiter = something;
 			movepositive = move;
+			origin = pt1;
+			endpoint = pt2;
 		}
 	};
 
@@ -53,4 +58,6 @@ namespace LineRenderer {
 	FillPack PolyRenderOctant4Or5(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient, unsigned int color);
 	FillPack PolyRenderOctant6Or7(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient, unsigned int color);
 	void FillBetweenLines(Drawable *drawable, std::vector<OctantWiz::Point> line1, std::vector<OctantWiz::Point> line2, unsigned int color);
+	PolyFill::LongestTriLine FindLongest(LineRenderer::FillPack line1, LineRenderer::FillPack line2, LineRenderer::FillPack line3);
+	bool TestForLongest(LineRenderer::FillPack line1, LineRenderer::FillPack line2, LineRenderer::FillPack line3);
 }

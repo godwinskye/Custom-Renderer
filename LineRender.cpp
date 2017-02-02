@@ -301,7 +301,7 @@ LineRenderer::FillPack LineRenderer::PolyRenderOctant1Or8(Drawable * drawable, O
 		currentY = currentY + gradient;
 	}
 	drawable->updateScreen();
-	return FillPack(line1, xiter, movepositive);
+	return FillPack(line1, xiter, movepositive, origin, endpoint);
 }
 
 LineRenderer::FillPack LineRenderer::PolyRenderOctant2Or3(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient, unsigned int color) {
@@ -320,7 +320,7 @@ LineRenderer::FillPack LineRenderer::PolyRenderOctant2Or3(Drawable * drawable, O
 		currentX = currentX - reversegradient;
 	}
 	drawable->updateScreen();
-	return FillPack(line1, xiter, movepositive);
+	return FillPack(line1, xiter, movepositive, origin, endpoint);
 }
 
 LineRenderer::FillPack LineRenderer::PolyRenderOctant4Or5(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient, unsigned int color) {
@@ -338,7 +338,7 @@ LineRenderer::FillPack LineRenderer::PolyRenderOctant4Or5(Drawable * drawable, O
 		currentY = currentY - gradient;
 	}
 	drawable->updateScreen();
-	return FillPack(line1, xiter, movepositive);
+	return FillPack(line1, xiter, movepositive, origin, endpoint);
 }
 
 LineRenderer::FillPack LineRenderer::PolyRenderOctant6Or7(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint, double gradient, unsigned int color) {
@@ -357,7 +357,7 @@ LineRenderer::FillPack LineRenderer::PolyRenderOctant6Or7(Drawable * drawable, O
 		currentX = currentX + reversegradient;
 	}
 	drawable->updateScreen();
-	return FillPack(line1, xiter, movepositive);
+	return FillPack(line1, xiter, movepositive, origin, endpoint);
 }
 
 void LineRenderer::FillBetweenLines(Drawable *drawable, std::vector<OctantWiz::Point> line1, std::vector<OctantWiz::Point> line2, unsigned int color) {
@@ -375,4 +375,172 @@ void LineRenderer::FillBetweenLines(Drawable *drawable, std::vector<OctantWiz::P
 	for (int i = 0; i < numberofpoints; i++) {
 		DDArender(drawable, line1[i].x, line1[i].y, line2[i].x, line2[i].y, color);
 	}
+}
+
+PolyFill::LongestTriLine LineRenderer::FindLongest(LineRenderer::FillPack line1, LineRenderer::FillPack line2, LineRenderer::FillPack line3) {
+	PolyFill::LinePair pair1 = PolyFill::LinePair(line1.origin, line1.endpoint);
+	PolyFill::LinePair pair2 = PolyFill::LinePair(line2.origin, line2.endpoint);
+	PolyFill::LinePair pair3 = PolyFill::LinePair(line3.origin, line3.endpoint);
+
+	bool trial1 = TestForLongest(line1, line2, line3);
+	bool trial2 = TestForLongest(line2, line1, line3);
+	bool trial3 = TestForLongest(line3, line1, line2);
+
+	if (trial1) {
+		return PolyFill::LongestTriLine(pair1, pair2, pair3);
+	}
+	else if (trial2) {
+		return PolyFill::LongestTriLine(pair2, pair1, pair3);
+	}
+	else {
+		return PolyFill::LongestTriLine(pair3, pair1, pair2);
+	}
+}
+
+bool LineRenderer::TestForLongest(LineRenderer::FillPack line1, LineRenderer::FillPack line2, LineRenderer::FillPack line3) {
+	bool flag = true;
+	int currentIter;
+
+	if (line1.xiter) {
+		for (int i = 0; i < line2.map.size(); i++) {
+			if (line2.xiter) {
+				if (line2.movepositive) {
+					currentIter = line2.origin.x + i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line2.origin.x - i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+			else {     //line2 = yiter
+				if (line2.movepositive) {
+					currentIter = line2.origin.y + i;
+					if (line1.map.find(line2.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line2.origin.y - i;
+					if (line1.map.find(line2.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+		}
+		for (int i = 0; i < line3.map.size(); i++) {
+			if (line3.xiter) {
+				if (line3.movepositive) {
+					currentIter = line3.origin.x + i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line3.origin.x - i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+			else {       //line3 = yiter
+				if (line3.movepositive) {
+					currentIter = line3.origin.y + i;
+					if (line1.map.find(line3.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line3.origin.y - i;
+					if (line1.map.find(line3.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+		}
+
+	}
+	else {    //longestline is a yiter
+		for (int i = 0; i < line2.map.size(); i++) {
+			if (line2.xiter) {
+				if (line2.movepositive) {
+					currentIter = line2.origin.x + i;
+					if (line1.map.find(line2.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line2.origin.x - i;
+					if (line1.map.find(line2.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+			else {     //line2 is a yiter
+				if (line2.movepositive) {
+					currentIter = line2.origin.y + i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line2.origin.y - i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+		}
+		for (int i = 0; i < line3.map.size(); i++) {
+			if (line3.xiter) {
+				if (line3.movepositive) {
+					currentIter = line3.origin.x + i;
+					if (line1.map.find(line3.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line3.origin.x - i;
+					if (line1.map.find(line3.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+			else {      //line3 is a yiter
+				if (line3.movepositive) {
+					currentIter = line3.origin.y + i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line3.origin.y - i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+		}
+	}
+	return flag;
 }

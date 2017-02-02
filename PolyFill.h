@@ -1,7 +1,6 @@
 #pragma once
 #include "OctantWiz.h"
 #include "MathWiz.h"
-#include "LineRender.h"
 #include "renderarea361.h"
 
 namespace PolyFill {
@@ -31,5 +30,6 @@ namespace PolyFill {
 	};
 
 	void Triangle(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2);
-	LongestTriLine DetermineLongest(OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2);
+	//LongestTriLine FindLongest(LineRenderer::FillPack line1, LineRenderer::FillPack line2, LineRenderer::FillPack line3);
+	//bool TestForLongest(LineRenderer::FillPack line1, LineRenderer::FillPack line2, LineRenderer::FillPack line3);
 }
