@@ -167,5 +167,27 @@ void RenderTests::PolygonStarburstTest(Drawable * drawable, int x, int y, unsign
 }
 
 void RenderTests::RandomPolyTest(Drawable * drawable, int x, int y, unsigned int numberofpoly) {
+	const unsigned int numberoftri = numberofpoly;
+	const unsigned int lowerboundary = 0;
+	const unsigned int upperboundary = 300;
+	OctantWiz::Point point1();
+	OctantWiz::Point point2();
+	OctantWiz::Point point3();
 
+	std::vector<unsigned int> xcoord(numberoftri), ycoord(numberoftri);
+	std::vector<unsigned int> xendcoord(numberoftri), yendcoord(numberoftri);
+	std::vector<unsigned int> xendcoord2(numberoftri), yendcoord2(numberoftri);
+
+	for (int i = 0; i < numberoftri; i++) {
+		xcoord[i] = MathWiz::RandomCoordinate(lowerboundary, upperboundary);
+		ycoord[i] = MathWiz::RandomCoordinate(lowerboundary, upperboundary);
+		xendcoord[i] = MathWiz::RandomCoordinate(lowerboundary, upperboundary);
+		yendcoord[i] = MathWiz::RandomCoordinate(lowerboundary, upperboundary);
+		xendcoord2[i] = MathWiz::RandomCoordinate(lowerboundary, upperboundary);
+		yendcoord2[i] = MathWiz::RandomCoordinate(lowerboundary, upperboundary);
+	}
+
+	for (int i = 0; i < numberoftri; i++) {
+		PolyFill::Triangle(drawable, OctantWiz::Point(xcoord[i] + x, ycoord[i] + y), OctantWiz::Point(xendcoord[i] + x, yendcoord[i] + y), OctantWiz::Point(xendcoord2[i] + x, yendcoord2[i] + y));
+	}
 }

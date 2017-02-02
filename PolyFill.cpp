@@ -10,165 +10,94 @@ void PolyFill::Triangle(Drawable *drawable, OctantWiz::Point origin, OctantWiz::
 	bool hitend1 = false;
 	bool hitend2 = false;
 
-	for (int i = 0; i < longestline.map.size(); i++) {
-		if (longestline.xiter) {
-			if (longestline.movepositive) {
-				currentIter = package.longest.origin.x + i;
-				int somepoint = line2.map[currentIter];      //TODO figure out why value is not being assigned right
-				if (line2.xiter) {
-					if (line2.map.find(currentIter) != line2.map.end() && !hitend1) {       //found && in line2 && xiter == positive
-						if (currentIter == package.shorter1.endpoint.x) {
-							hitend1 = true;
-						}
-						LineRenderer::DDArender(drawable, currentIter, longestline.map[currentIter], currentIter, line2.map[currentIter], color);
-						continue;
-					}
+	if (longestline.xiter) {
+		for (int i = 0; i < line2.map.size(); i++) {
+			if (line2.xiter) {
+				if (line2.movepositive) {
+					currentIter = package.shorter1.origin.x + i;
+					LineRenderer::DDArender(drawable, currentIter, line2.map[currentIter], currentIter, longestline.map[currentIter], color);
 				}
 				else {
-					if (line2.map.find(longestline.map[currentIter]) != line2.map.end() && !hitend1) {   //found && in line2 && !xiter
-						if (longestline.map[currentIter] == package.shorter1.endpoint.y) {
-							hitend1 = true;
-						}
-						LineRenderer::DDArender(drawable, currentIter, longestline.map[currentIter], line2.map[longestline.map[currentIter]], longestline.map[currentIter], color);
-						continue;
-					}
-				}
-				if (line3.xiter) {
-					if (line3.map.find(currentIter) != line3.map.end() && !hitend2) {
-						if (currentIter == package.shorter2.endpoint.x) {
-							hitend2 = true;
-						}
-						LineRenderer::DDArender(drawable, currentIter, longestline.map[currentIter], currentIter, line3.map[currentIter], color);
-						continue;
-					}
-				}
-				else {
-					if (line3.map.find(longestline.map[currentIter]) != line3.map.end() && !hitend2) {
-						if (longestline.map[currentIter] == package.shorter2.endpoint.y) {
-							hitend2 = true;
-						}
-						LineRenderer::DDArender(drawable, currentIter, longestline.map[currentIter], line3.map[longestline.map[currentIter]], longestline.map[currentIter], color);
-						continue;
-					}
+					currentIter = package.shorter1.origin.x - i;
+					LineRenderer::DDArender(drawable, currentIter, line2.map[currentIter], currentIter, longestline.map[currentIter], color);
 				}
 			}
-			else {               //moveneg
-				currentIter = package.longest.origin.x - i;
-				if (line2.xiter) {
-					if (line2.map.find(currentIter) != line2.map.end() && !hitend1) {       //found && in line2 && xiter == positive
-						if (currentIter == package.shorter1.endpoint.x) {
-							hitend1 = true;
-						}
-						LineRenderer::DDArender(drawable, currentIter, longestline.map[currentIter], currentIter, line2.map[currentIter], color);
-						continue;
-					}
+			else {     //line2 = yiter
+				if (line2.movepositive) {
+					currentIter = package.shorter1.origin.y + i;
+					LineRenderer::DDArender(drawable, line2.map[currentIter], currentIter, line2.map[currentIter], longestline.map[line2.map[currentIter]], color);
 				}
 				else {
-					if (line2.map.find(longestline.map[currentIter]) != line2.map.end() && !hitend1) {   //found && in line2 && !xiter
-						if (longestline.map[currentIter] == package.shorter1.endpoint.y) {
-							hitend1 = true;
-						}
-						LineRenderer::DDArender(drawable, currentIter, longestline.map[currentIter], line2.map[longestline.map[currentIter]], longestline.map[currentIter], color);
-						continue;
-					}
-				}
-				if (line3.xiter) {
-					if (line3.map.find(currentIter) != line3.map.end() && !hitend2) {
-						if (currentIter == package.shorter2.endpoint.x) {
-							hitend2 = true;
-						}
-						LineRenderer::DDArender(drawable, currentIter, longestline.map[currentIter], currentIter, line3.map[currentIter], color);
-						continue;
-					}
-				}
-				else {
-					if (line3.map.find(longestline.map[currentIter]) != line3.map.end() && !hitend2) {
-						if (longestline.map[currentIter] == package.shorter2.endpoint.y) {
-							hitend2 = true;
-						}
-						LineRenderer::DDArender(drawable, currentIter, longestline.map[currentIter], line3.map[longestline.map[currentIter]], longestline.map[currentIter], color);
-						continue;
-					}
+					currentIter = package.shorter1.origin.y - i;
+					LineRenderer::DDArender(drawable, line2.map[currentIter], currentIter, line2.map[currentIter], longestline.map[line2.map[currentIter]], color);
 				}
 			}
 		}
-		else {              //longestline.xiter == neg    key = y-value
-			if (longestline.movepositive) {
-				currentIter = package.longest.origin.y + i;
-				if (line2.xiter) {
-					if (line2.map.find(longestline.map[currentIter]) != line2.map.end() && !hitend1) {
-						if (longestline.map[currentIter] == package.shorter1.endpoint.x) {
-							hitend1 = true;
-						}
-						LineRenderer::DDArender(drawable, longestline.map[currentIter], currentIter, longestline.map[currentIter], line2.map[longestline.map[currentIter]], color);
-						continue;
-					}
+		for (int i = 0; i < line3.map.size(); i++) {
+			if (line3.xiter) {
+				if (line3.movepositive) {
+					currentIter = package.shorter2.origin.x + i;
+					LineRenderer::DDArender(drawable, currentIter, line3.map[currentIter], currentIter, longestline.map[currentIter], color);
 				}
 				else {
-					if (line2.map.find(currentIter) != line2.map.end() && !hitend1) {
-						if (currentIter == package.shorter1.endpoint.y) {
-							hitend1 = true;
-						}
-						LineRenderer::DDArender(drawable, longestline.map[currentIter], currentIter, line2.map[currentIter], currentIter, color);
-						continue;
-					}
-				}
-				if (line3.xiter) {
-					if (line3.map.find(longestline.map[currentIter]) != line3.map.end() && !hitend2) {
-						if (longestline.map[currentIter] == package.shorter2.endpoint.x) {
-							hitend2 = true;
-						}
-						LineRenderer::DDArender(drawable, longestline.map[currentIter], currentIter, longestline.map[currentIter], line3.map[longestline.map[currentIter]], color);
-						continue;
-					}
-				}
-				else {
-					if (line3.map.find(currentIter) != line3.map.end() && !hitend2) {
-						if (currentIter == package.shorter2.endpoint.y) {
-							hitend2 = true;
-						}
-						LineRenderer::DDArender(drawable, longestline.map[currentIter], currentIter, line3.map[currentIter], currentIter, color);
-						continue;
-					}
+					currentIter = package.shorter2.origin.x - i;
+					LineRenderer::DDArender(drawable, currentIter, line3.map[currentIter], currentIter, longestline.map[currentIter], color);
 				}
 			}
-			else {      //moveneg
-				currentIter = package.longest.origin.y - i;
-				if (line2.xiter) {
-					if (line2.map.find(longestline.map[currentIter]) != line2.map.end() && !hitend1) {
-						if (longestline.map[currentIter] == package.shorter1.endpoint.x) {
-							hitend1 = true;
-						}
-						LineRenderer::DDArender(drawable, longestline.map[currentIter], currentIter, longestline.map[currentIter], line2.map[longestline.map[currentIter]], color);
-						continue;
-					}
+			else {       //line3 = yiter
+				if (line3.movepositive) {
+					currentIter = package.shorter2.origin.y + i;
+					LineRenderer::DDArender(drawable, line3.map[currentIter], currentIter, line3.map[currentIter], longestline.map[line3.map[currentIter]], color);
 				}
 				else {
-					if (line2.map.find(currentIter) != line2.map.end() && !hitend1) {
-						if (currentIter == package.shorter1.endpoint.y) {
-							hitend1 = true;
-						}
-						LineRenderer::DDArender(drawable, longestline.map[currentIter], currentIter, line2.map[currentIter], currentIter, color);
-						continue;
-					}
+					currentIter = package.shorter2.origin.y - i;
+					LineRenderer::DDArender(drawable, line3.map[currentIter], currentIter, line3.map[currentIter], longestline.map[line3.map[currentIter]], color);
 				}
-				if (line3.xiter) {
-					if (line3.map.find(longestline.map[currentIter]) != line3.map.end() && !hitend2) {
-						if (longestline.map[currentIter] == package.shorter2.endpoint.x) {
-							hitend2 = true;
-						}
-						LineRenderer::DDArender(drawable, longestline.map[currentIter], currentIter, longestline.map[currentIter], line3.map[longestline.map[currentIter]], color);
-						continue;
-					}
+			}
+		}
+	}
+	else {    //longestline is a yiter
+		for (int i = 0; i < line2.map.size(); i++) {
+			if (line2.xiter) {
+				if (line2.movepositive) {
+					currentIter = package.shorter1.origin.x + i;
+					LineRenderer::DDArender(drawable, currentIter, line2.map[currentIter], longestline.map[line2.map[currentIter]], line2.map[currentIter], color);
 				}
 				else {
-					if (line3.map.find(currentIter) != line3.map.end() && !hitend2) {
-						if (currentIter == package.shorter2.endpoint.y) {
-							hitend2 = true;
-						}
-						LineRenderer::DDArender(drawable, longestline.map[currentIter], currentIter, line3.map[currentIter], currentIter, color);
-						continue;
-					}
+					currentIter = package.shorter1.origin.x - i;
+					LineRenderer::DDArender(drawable, currentIter, line2.map[currentIter], longestline.map[line2.map[currentIter]], line2.map[currentIter], color);
+				}
+			}
+			else {     //line2 is a yiter
+				if (line2.movepositive) {
+					currentIter = package.shorter1.origin.y + i;
+					LineRenderer::DDArender(drawable, line2.map[currentIter], currentIter, longestline.map[currentIter], currentIter, color);
+				}
+				else {
+					currentIter = package.shorter1.origin.y - i;
+					LineRenderer::DDArender(drawable, line2.map[currentIter], currentIter, longestline.map[currentIter], currentIter, color);
+				}
+			}
+		}
+		for (int i = 0; i < line3.map.size(); i++) {
+			if (line3.xiter) {
+				if (line3.movepositive) {
+					currentIter = package.shorter2.origin.x + i;
+					LineRenderer::DDArender(drawable, currentIter, line3.map[currentIter], longestline.map[line3.map[currentIter]], line3.map[currentIter], color);
+				}
+				else {
+					currentIter = package.shorter2.origin.x - i;
+					LineRenderer::DDArender(drawable, currentIter, line3.map[currentIter], longestline.map[line3.map[currentIter]], line3.map[currentIter], color);
+				}
+			}
+			else {      //line3 is a yiter
+				if (line3.movepositive) {
+					currentIter = package.shorter2.origin.y + i;
+					LineRenderer::DDArender(drawable, line3.map[currentIter], currentIter, longestline.map[currentIter], currentIter, color);
+				}
+				else {
+					currentIter = package.shorter2.origin.y - i;
+					LineRenderer::DDArender(drawable, line3.map[currentIter], currentIter, longestline.map[currentIter], currentIter, color);
 				}
 			}
 		}
