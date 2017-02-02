@@ -52,11 +52,14 @@ void Client::nextPage() {
 		break;
 	case 5:
 		draw4panels();
-
+		RenderTests::BPolygonStarburstTest(drawable, 200, 200, 125, 90);
+		RenderTests::BTriangles162Test(drawable, 400, 50);
+		RenderTests::BTransTriangles162Test(drawable, 50, 400);
+		RenderTests::BRandomPolyTest(drawable, 400, 400, 20);
+		drawable->updateScreen();
+		break;
     default:
-        draw_rect(0, 0, 750, 750, 0xffffffff);
-        draw_rect(400, 400, 700, 700, 0xff00ff40);
-        drawable->updateScreen();
+        //nothing
     }
 	
 }
