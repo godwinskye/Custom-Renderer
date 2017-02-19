@@ -1,10 +1,10 @@
 #pragma once
 #include <map>
-#include "MathWiz.h"
-#include "OctantWiz.h"
+#include "../MathWiz/MathWiz.h"
+#include "../OctantWiz/OctantWiz.h"
 #include "renderarea361.h"
 #include "client.h"
-#include "PolyFill.h"
+#include "../Renderer/PolyFill.h"
 
 namespace LineRenderer {
 

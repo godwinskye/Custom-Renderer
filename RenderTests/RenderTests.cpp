@@ -1,5 +1,5 @@
 #include "RenderTests.h"
-#include "LineRender.h"
+#include "../Renderer/LineRender.h"
 
 void RenderTests::DDAStarburstTest(Drawable * drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color) {
 	const double angleinc = (2 * M_PI) / numberoflines;

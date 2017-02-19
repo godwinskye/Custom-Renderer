@@ -1,6 +1,6 @@
 #pragma once
 #define _USE_MATH_DEFINES
-#include "OctantWiz.h"
+#include "../OctantWiz/OctantWiz.h"
 #include <math.h>
 #include <string>
 

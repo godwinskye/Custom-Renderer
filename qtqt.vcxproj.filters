@@ -61,19 +61,19 @@
     <ClCompile Include="Release\moc_window361.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
-    <ClCompile Include="LineRender.cpp">
+    <ClCompile Include="MathWiz\MathWiz.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="MathWiz.cpp">
+    <ClCompile Include="OctantWiz\OctantWiz.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="OctantWiz.cpp">
+    <ClCompile Include="Renderer\LineRender.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="RenderTests.cpp">
+    <ClCompile Include="Renderer\PolyFill.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="PolyFill.cpp">
+    <ClCompile Include="RenderTests\RenderTests.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -93,19 +93,19 @@
     <CustomBuild Include="window361.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <ClInclude Include="LineRender.h">
+    <ClInclude Include="MathWiz\MathWiz.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MathWiz.h">
+    <ClInclude Include="OctantWiz\OctantWiz.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OctantWiz.h">
+    <ClInclude Include="Renderer\LineRender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RenderTests.h">
+    <ClInclude Include="Renderer\PolyFill.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PolyFill.h">
+    <ClInclude Include="RenderTests\RenderTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

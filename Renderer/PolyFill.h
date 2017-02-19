@@ -1,6 +1,6 @@
 #pragma once
-#include "OctantWiz.h"
-#include "MathWiz.h"
+#include "../OctantWiz/OctantWiz.h"
+#include "../MathWiz/MathWiz.h"
 #include "renderarea361.h"
 
 namespace PolyFill {
