@@ -21,4 +21,5 @@ namespace MathWiz {
 	unsigned int RandomRGBHex();
 	double PointDistance(OctantWiz::Point origin, OctantWiz::Point endpoint);
 	double LargestOfThree(double first, double second, double third);
+	double FindLongestLength(OctantWiz::SPoint origin, OctantWiz::SPoint endpoint);
 }

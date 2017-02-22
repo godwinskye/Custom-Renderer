@@ -21,9 +21,15 @@ namespace PolyFill {
 		OctantWiz::SPoint point2;
 
 		SLP() {}
+
 		SLP(OctantWiz::SPoint firstpoint, OctantWiz::SPoint secondpoint) {
 			point1 = firstpoint;
 			point2 = secondpoint;
+		}
+
+		SLP(OctantWiz::Point origin, OctantWiz::Point endpoint) {
+			point1 = origin;
+			point2 = endpoint;
 		}
 	};
 
@@ -46,6 +52,6 @@ namespace PolyFill {
 	//Refactored implementation
 	void TriFill(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2, unsigned int color);
 	std::vector<SLP> GetChain(OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2);
-	SLP GetNextPointWhileDDA(Drawable *drawable, SLP currentpair, double gradient, OctantWiz::Octant pairOctant);
-	SLP RecordGetNextPointWhileDDA(Drawable *drawable, SLP currentpair, double gradient, OctantWiz::Octant pairOctant, bool &finished);
+	SLP GetNextPointWhileDDA(Drawable *drawable, SLP currentpair, double gradient, OctantWiz::Octant pairOctant, unsigned int color);
+	SLP RecordGetNextPointWhileDDA(Drawable *drawable, SLP currentpair, double gradient, OctantWiz::Octant pairOctant, unsigned int color, bool &finished);
 }

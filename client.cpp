@@ -45,10 +45,11 @@ void Client::nextPage() {
         break;
     case 4:
 		draw4panels();
-		RenderTests::PolygonStarburstTest(drawable, 200, 200, 125, 90);
-		RenderTests::Triangles162Test(drawable, 400, 50);
-		RenderTests::TransTriangles162Test(drawable, 50, 400);
-		RenderTests::RandomPolyTest(drawable, 400, 400, 20);
+		//RenderTests::PolygonStarburstTest(drawable, 200, 200, 125, 90);
+		//RenderTests::Triangles162Test(drawable, 400, 50);
+		//RenderTests::TransTriangles162Test(drawable, 50, 400);
+		//RenderTests::RandomPolyTest(drawable, 400, 400, 20);
+		PolyFill::TriFill(drawable, Origin, Point1, Point2, 0xff000000);
 		drawable->updateScreen();
 		break;
 	case 5:

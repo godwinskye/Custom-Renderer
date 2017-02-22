@@ -31,6 +31,11 @@ namespace OctantWiz {
 			x = a;
 			y = b;
 		}
+
+		SPoint(Point point) {
+			x = static_cast<double>(point.x);
+			y = static_cast<double>(point.y);
+		}
 	};
 
 	enum class Octant {

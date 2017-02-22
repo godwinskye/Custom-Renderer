@@ -338,6 +338,10 @@ void PolyFill::TriFill(Drawable * drawable, OctantWiz::Point origin, OctantWiz::
 	std::vector<SLP> Chains = GetChain(origin, endpoint1, endpoint2);
 	bool finished = false;
 
+	LineRenderer::DDArender(drawable, origin.x, origin.y, endpoint1.x, endpoint1.y, color);
+	LineRenderer::DDArender(drawable, origin.x, origin.y, endpoint2.x, endpoint2.y, color);
+	LineRenderer::DDArender(drawable, endpoint1.x, endpoint1.y, endpoint2.x, endpoint2.y, color);
+
 	SLP currentpair1 = Chains[0];
 	double gradient1 = MathWiz::GetGradientS(currentpair1.point1, currentpair1.point2);
 	OctantWiz::SPoint diffpoint1(currentpair1.point2.x - currentpair1.point1.x, currentpair1.point2.y - currentpair1.point1.y);
@@ -349,8 +353,8 @@ void PolyFill::TriFill(Drawable * drawable, OctantWiz::Point origin, OctantWiz::
 	OctantWiz::Octant pair2octant = OctantWiz::FindOctantS(diffpoint2);
 
 	while (!finished) {
-		currentpair1 = GetNextPointWhileDDA(drawable, currentpair1, gradient1, pair1octant);
-		currentpair2 = RecordGetNextPointWhileDDA(drawable, currentpair2, gradient2, pair2octant, ALTER finished);
+		currentpair1 = GetNextPointWhileDDA(drawable, currentpair1, gradient1, pair1octant, color);
+		currentpair2 = RecordGetNextPointWhileDDA(drawable, currentpair2, gradient2, pair2octant, color, ALTER finished);
 		LineRenderer::DDArender(drawable, currentpair1.point1.x, currentpair1.point1.y, 
 								currentpair2.point1.x, currentpair2.point1.y, color);
 	}
@@ -362,8 +366,8 @@ void PolyFill::TriFill(Drawable * drawable, OctantWiz::Point origin, OctantWiz::
 	OctantWiz::Octant pair3octant = OctantWiz::FindOctantS(diffpoint3);
 
 	while (!finished) {
-		currentpair1 = GetNextPointWhileDDA(drawable, currentpair1, gradient1, pair1octant);
-		currentpair2 = RecordGetNextPointWhileDDA(drawable, currentpair2, gradient3, pair3octant, ALTER finished);
+		currentpair1 = GetNextPointWhileDDA(drawable, currentpair1, gradient1, pair1octant, color);
+		currentpair2 = RecordGetNextPointWhileDDA(drawable, currentpair2, gradient3, pair3octant, color, ALTER finished);
 		LineRenderer::DDArender(drawable, currentpair1.point1.x, currentpair1.point1.y,
 								currentpair2.point1.x, currentpair2.point1.y, color);
 	}
@@ -371,13 +375,116 @@ void PolyFill::TriFill(Drawable * drawable, OctantWiz::Point origin, OctantWiz::
 
 //Returns static chain as element [0] and dynamic chain at elements [1] and [2]
 std::vector<PolyFill::SLP> PolyFill::GetChain(OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2) {
-	return std::vector<PolyFill::SLP>();
+	std::vector<PolyFill::SLP> Chains;
+
+	PolyFill::SLP pair1(origin, endpoint1);
+	PolyFill::SLP pair2(origin, endpoint2);
+	PolyFill::SLP pair3(endpoint1, endpoint2);
+
+	double length1 = MathWiz::FindLongestLength(pair1.point1, pair1.point2);
+	double length2 = MathWiz::FindLongestLength(pair2.point1, pair2.point2);
+	double length3 = MathWiz::FindLongestLength(pair3.point1, pair3.point2);
+
+	if (length1 >= length2 && length1 >= length3) {
+		Chains.push_back(pair1);
+		Chains.push_back(pair2);
+		Chains.push_back(pair3);
+		return Chains;
+	}
+	else if (length2 >= length1 && length2 >= length3) {
+		Chains.push_back(pair2);
+		Chains.push_back(pair1);
+		Chains.push_back(pair3);
+		return Chains;
+	}
+	else {
+		Chains.push_back(pair3);
+		Chains.push_back(pair1);
+		Chains.push_back(pair2);
+		return Chains;
+	}
 }
 
-PolyFill::SLP PolyFill::GetNextPointWhileDDA(Drawable *drawable, SLP currentpair, double gradient, OctantWiz::Octant pairOctant) {
-	return SLP();
+PolyFill::SLP PolyFill::GetNextPointWhileDDA(Drawable *drawable, SLP currentpair, double gradient, OctantWiz::Octant pairOctant, unsigned int color) {
+	switch (pairOctant) {						//ugly octant switch
+
+	case OctantWiz::Octant::OctantOne:
+	case OctantWiz::Octant::OctantEight:
+		drawable->setPixel(currentpair.point1.x, round(currentpair.point1.y), color);
+		currentpair.point1.x += 1;
+		currentpair.point1.y += gradient;
+		break;
+
+	case OctantWiz::Octant::OctantTwo:
+	case OctantWiz::Octant::OctantThree:
+		drawable->setPixel(round(currentpair.point1.x), currentpair.point1.y, color);
+		currentpair.point1.x -= 1 / gradient;
+		currentpair.point1.y -= 1;
+		break;
+
+	case OctantWiz::Octant::OctantFour:
+	case OctantWiz::Octant::OctantFive:
+		drawable->setPixel(currentpair.point1.x, round(currentpair.point1.y), color);
+		currentpair.point1.x -= 1;
+		currentpair.point1.y - gradient;
+		break;
+
+	case OctantWiz::Octant::OctantSix:
+	case OctantWiz::Octant::OctantSeven:
+		drawable->setPixel(round(currentpair.point1.x), currentpair.point1.y, color);
+		currentpair.point1.x += 1 / gradient;
+		currentpair.point1.y += 1;
+		break;
+
+	}
+
+	return currentpair;
 }
 
-PolyFill::SLP PolyFill::RecordGetNextPointWhileDDA(Drawable *drawable, SLP currentpair, double gradient, OctantWiz::Octant pairOctant, bool & finished) {
-	return SLP();
+PolyFill::SLP PolyFill::RecordGetNextPointWhileDDA(Drawable *drawable, SLP currentpair, double gradient, OctantWiz::Octant pairOctant, unsigned int color, bool & finished) {
+	switch (pairOctant) {						//ugly octant switch
+
+	case OctantWiz::Octant::OctantOne:
+	case OctantWiz::Octant::OctantEight:
+		drawable->setPixel(currentpair.point1.x, round(currentpair.point1.y), color);
+		currentpair.point1.x += 1;
+		currentpair.point1.y += gradient;
+		if (currentpair.point1.x == currentpair.point2.x) {
+			finished = true;
+		}
+		break;
+
+	case OctantWiz::Octant::OctantTwo:
+	case OctantWiz::Octant::OctantThree:
+		drawable->setPixel(round(currentpair.point1.x), currentpair.point1.y, color);
+		currentpair.point1.x -= 1 / gradient;
+		currentpair.point1.y -= 1;
+		if (currentpair.point1.y == currentpair.point2.y) {
+			finished = true;
+		}
+		break;
+
+	case OctantWiz::Octant::OctantFour:
+	case OctantWiz::Octant::OctantFive:
+		drawable->setPixel(currentpair.point1.x, round(currentpair.point1.y), color);
+		currentpair.point1.x -= 1;
+		currentpair.point1.y - gradient;
+		if (currentpair.point1.x == currentpair.point2.x) {
+			finished = true;
+		}
+		break;
+
+	case OctantWiz::Octant::OctantSix:
+	case OctantWiz::Octant::OctantSeven:
+		drawable->setPixel(round(currentpair.point1.x), currentpair.point1.y, color);
+		currentpair.point1.x += 1 / gradient;
+		currentpair.point1.y += 1;
+		if (currentpair.point1.y == currentpair.point2.y) {
+			finished = true;
+		}
+		break;
+
+	}
+
+	return currentpair;
 }

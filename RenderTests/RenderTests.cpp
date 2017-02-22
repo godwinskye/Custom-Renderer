@@ -162,7 +162,7 @@ void RenderTests::PolygonStarburstTest(Drawable * drawable, int x, int y, unsign
 			currentangle = currentangle + angleinc;
 		}
 		if (i > 0) {
-			PolyFill::Triangle(drawable, origin, endpoint1, endpoint2, MathWiz::RandomRGBHex());
+			PolyFill::TriFill(drawable, origin, endpoint1, endpoint2, MathWiz::RandomRGBHex());
 		}
 	}
 }
@@ -192,8 +192,8 @@ void RenderTests::Triangles162Test(Drawable *drawable, int xstart, int ystart) {
 				LineRenderer::DDArender(drawable, wholearray[i - 1][j].x, wholearray[i - 1][j].y, wholearray[i][j].x, wholearray[i][j].y, color);
 			}
 			if (i > 0 && j > 0) {
-				PolyFill::Triangle(drawable, wholearray[i][j], wholearray[i - 1][j], wholearray[i - 1][j - 1], color);
-				PolyFill::Triangle(drawable, wholearray[i][j - 1], wholearray[i - 1][j - 1], wholearray[i][j], color2);
+				PolyFill::TriFill(drawable, wholearray[i][j], wholearray[i - 1][j], wholearray[i - 1][j - 1], color);
+				PolyFill::TriFill(drawable, wholearray[i][j - 1], wholearray[i - 1][j - 1], wholearray[i][j], color2);
 			}
 		}
 	}
@@ -237,8 +237,8 @@ void RenderTests::TransTriangles162Test(Drawable *drawable, int xstart, int ysta
 				LineRenderer::DDArender(drawable, wholearray[i - 1][j].x, wholearray[i - 1][j].y, wholearray[i][j].x, wholearray[i][j].y, color);
 			}
 			if (i > 0 && j > 0) {
-				PolyFill::Triangle(drawable, wholearray[i][j], wholearray[i - 1][j], wholearray[i - 1][j - 1], color);
-				PolyFill::Triangle(drawable, wholearray[i][j - 1], wholearray[i - 1][j - 1], wholearray[i][j], color2);
+				PolyFill::TriFill(drawable, wholearray[i][j], wholearray[i - 1][j], wholearray[i - 1][j - 1], color);
+				PolyFill::TriFill(drawable, wholearray[i][j - 1], wholearray[i - 1][j - 1], wholearray[i][j], color2);
 			}
 		}
 	}
@@ -266,7 +266,7 @@ void RenderTests::RandomPolyTest(Drawable * drawable, int x, int y, unsigned int
 	}
 
 	for (int i = 0; i < numberoftri; i++) {
-		PolyFill::Triangle(drawable, OctantWiz::Point(xcoord[i] + x, ycoord[i] + y), OctantWiz::Point(xendcoord[i] + x, yendcoord[i] + y), OctantWiz::Point(xendcoord2[i] + x, yendcoord2[i] + y), MathWiz::RandomRGBHex());
+		PolyFill::TriFill(drawable, OctantWiz::Point(xcoord[i] + x, ycoord[i] + y), OctantWiz::Point(xendcoord[i] + x, yendcoord[i] + y), OctantWiz::Point(xendcoord2[i] + x, yendcoord2[i] + y), MathWiz::RandomRGBHex());
 	}
 }
 

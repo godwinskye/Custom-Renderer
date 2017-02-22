@@ -96,4 +96,16 @@ double MathWiz::LargestOfThree(double first, double second, double third) {
 	}
 }
 
+double MathWiz::FindLongestLength(OctantWiz::SPoint origin, OctantWiz::SPoint endpoint) {
+	double length1 = abs(endpoint.x - origin.x);
+	double length2 = abs(endpoint.y - origin.y);
+
+	if (length1 >= length2) {
+		return length1;
+	}
+	else {
+		return length2;
+	}
+}
+
 
