@@ -146,6 +146,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Renderer\InterpolatedLines.cpp" />
     <ClCompile Include="Renderer\LineRender.cpp" />
     <ClCompile Include="MathWiz\MathWiz.cpp" />
     <ClCompile Include="OctantWiz\OctantWiz.cpp" />
@@ -163,6 +164,7 @@
   <ItemGroup>
     <ClInclude Include="client.h" />
     <ClInclude Include="drawable.h" />
+    <ClInclude Include="Renderer\InterpolatedLines.h" />
     <ClInclude Include="Renderer\LineRender.h" />
     <ClInclude Include="MathWiz\MathWiz.h" />
     <ClInclude Include="OctantWiz\OctantWiz.h" />

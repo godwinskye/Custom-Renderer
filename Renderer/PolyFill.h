@@ -50,6 +50,7 @@ namespace PolyFill {
 	void BTriangle(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2, unsigned int color);
 
 	//Refactored implementation
+	//Unused as of now - still under development
 	void TriFill(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2, unsigned int color);
 	std::vector<SLP> GetChain(OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2);
 	SLP GetNextPointWhileDDA(Drawable *drawable, SLP currentpair, double gradient, OctantWiz::Octant pairOctant, unsigned int color);

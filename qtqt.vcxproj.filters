@@ -76,6 +76,9 @@
     <ClCompile Include="RenderTests\RenderTests.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\InterpolatedLines.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h">
@@ -107,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="RenderTests\RenderTests.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\InterpolatedLines.h">
+      <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

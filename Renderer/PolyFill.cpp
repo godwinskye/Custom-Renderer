@@ -334,6 +334,9 @@ void PolyFill::BTriangle(Drawable * drawable, OctantWiz::Point origin, OctantWiz
 	}
 }
 
+/**********************************************************************************************************/
+/**************************************UNUSED SEGMENT******************************************************/
+/**********************************************************************************************************/
 void PolyFill::TriFill(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2, unsigned int color) {
 	std::vector<SLP> Chains = GetChain(origin, endpoint1, endpoint2);
 	bool finished = false;
@@ -353,7 +356,7 @@ void PolyFill::TriFill(Drawable * drawable, OctantWiz::Point origin, OctantWiz::
 	OctantWiz::Octant pair2octant = OctantWiz::FindOctantS(diffpoint2);
 
 	while (!finished) {
-		currentpair1 = GetNextPointWhileDDA(drawable, currentpair1, gradient1, pair1octant, color);
+		currentpair1 = RecordGetNextPointWhileDDA(drawable, currentpair1, gradient1, pair1octant, color, ALTER finished);
 		currentpair2 = RecordGetNextPointWhileDDA(drawable, currentpair2, gradient2, pair2octant, color, ALTER finished);
 		LineRenderer::DDArender(drawable, currentpair1.point1.x, currentpair1.point1.y, 
 								currentpair2.point1.x, currentpair2.point1.y, color);
@@ -366,7 +369,7 @@ void PolyFill::TriFill(Drawable * drawable, OctantWiz::Point origin, OctantWiz::
 	OctantWiz::Octant pair3octant = OctantWiz::FindOctantS(diffpoint3);
 
 	while (!finished) {
-		currentpair1 = GetNextPointWhileDDA(drawable, currentpair1, gradient1, pair1octant, color);
+		currentpair1 = RecordGetNextPointWhileDDA(drawable, currentpair1, gradient1, pair1octant, color, ALTER finished);
 		currentpair2 = RecordGetNextPointWhileDDA(drawable, currentpair2, gradient3, pair3octant, color, ALTER finished);
 		LineRenderer::DDArender(drawable, currentpair1.point1.x, currentpair1.point1.y,
 								currentpair2.point1.x, currentpair2.point1.y, color);
@@ -379,7 +382,7 @@ std::vector<PolyFill::SLP> PolyFill::GetChain(OctantWiz::Point origin, OctantWiz
 
 	PolyFill::SLP pair1(origin, endpoint1);
 	PolyFill::SLP pair2(origin, endpoint2);
-	PolyFill::SLP pair3(endpoint1, endpoint2);
+	PolyFill::SLP pair3(endpoint2, endpoint1);
 
 	double length1 = MathWiz::FindLongestLength(pair1.point1, pair1.point2);
 	double length2 = MathWiz::FindLongestLength(pair2.point1, pair2.point2);
@@ -394,13 +397,16 @@ std::vector<PolyFill::SLP> PolyFill::GetChain(OctantWiz::Point origin, OctantWiz
 	else if (length2 >= length1 && length2 >= length3) {
 		Chains.push_back(pair2);
 		Chains.push_back(pair1);
-		Chains.push_back(pair3);
+		PolyFill::SLP rearrangepair(endpoint1, endpoint2);
+		Chains.push_back(rearrangepair);
 		return Chains;
 	}
 	else {
 		Chains.push_back(pair3);
-		Chains.push_back(pair1);
-		Chains.push_back(pair2);
+		PolyFill::SLP rearrangepair1(endpoint2, origin);
+		PolyFill::SLP rearrangepair2(origin, endpoint1);
+		Chains.push_back(rearrangepair1);
+		Chains.push_back(rearrangepair2);
 		return Chains;
 	}
 }
@@ -426,7 +432,7 @@ PolyFill::SLP PolyFill::GetNextPointWhileDDA(Drawable *drawable, SLP currentpair
 	case OctantWiz::Octant::OctantFive:
 		drawable->setPixel(currentpair.point1.x, round(currentpair.point1.y), color);
 		currentpair.point1.x -= 1;
-		currentpair.point1.y - gradient;
+		currentpair.point1.y -= gradient;
 		break;
 
 	case OctantWiz::Octant::OctantSix:
@@ -468,7 +474,7 @@ PolyFill::SLP PolyFill::RecordGetNextPointWhileDDA(Drawable *drawable, SLP curre
 	case OctantWiz::Octant::OctantFive:
 		drawable->setPixel(currentpair.point1.x, round(currentpair.point1.y), color);
 		currentpair.point1.x -= 1;
-		currentpair.point1.y - gradient;
+		currentpair.point1.y -= gradient;
 		if (currentpair.point1.x == currentpair.point2.x) {
 			finished = true;
 		}

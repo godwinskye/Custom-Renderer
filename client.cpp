@@ -16,9 +16,9 @@ void Client::nextPage() {
     std::cout << "PageNumber " << pageNumber << std::endl;
 
 
-	OctantWiz::Point Origin(100, 80);
-	OctantWiz::Point Point1(80, 90);
-	OctantWiz::Point Point2(250, 280);
+	OctantWiz::Point Origin(100, 80);				//100, 80
+	OctantWiz::Point Point1(80, 90);				//80, 90
+	OctantWiz::Point Point2(250, 280);				//250, 280
 
     switch(pageNumber % 6) {
 	case 1: {
@@ -45,11 +45,10 @@ void Client::nextPage() {
         break;
     case 4:
 		draw4panels();
-		//RenderTests::PolygonStarburstTest(drawable, 200, 200, 125, 90);
-		//RenderTests::Triangles162Test(drawable, 400, 50);
-		//RenderTests::TransTriangles162Test(drawable, 50, 400);
-		//RenderTests::RandomPolyTest(drawable, 400, 400, 20);
-		PolyFill::TriFill(drawable, Origin, Point1, Point2, 0xff000000);
+		RenderTests::PolygonStarburstTest(drawable, 200, 200, 125, 90);
+		RenderTests::Triangles162Test(drawable, 400, 50);
+		RenderTests::TransTriangles162Test(drawable, 50, 400);
+		RenderTests::RandomPolyTest(drawable, 400, 400, 20);
 		drawable->updateScreen();
 		break;
 	case 5:
