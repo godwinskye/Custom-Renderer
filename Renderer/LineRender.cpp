@@ -9,7 +9,7 @@ void LineRenderer::DDArender(Drawable *drawable,int x1, int y1, int x2, int y2, 
 
 	OctantWiz::Octant target = OctantWiz::FindOctant(diffpoint);
 
-	switch (target) {                              //rather ugly switch
+	switch (target) {							//rather ugly switch
 	case OctantWiz::Octant::OctantOne:
 	case OctantWiz::Octant::OctantEight:
 		RenderOctant1Or8(drawable, origin, endpoint, gradient, color);

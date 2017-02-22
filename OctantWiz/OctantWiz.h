@@ -18,6 +18,21 @@ namespace OctantWiz {
 		}
 	};
 
+	struct SPoint {
+		double x;
+		double y;
+
+		SPoint() {
+			x = 0.f;
+			y = 0.f;
+		}
+
+		SPoint(double a, double b) {
+			x = a;
+			y = b;
+		}
+	};
+
 	enum class Octant {
 		OctantOne,
 		OctantTwo,
@@ -29,5 +44,6 @@ namespace OctantWiz {
 		OctantEight
 	};
 
-	Octant FindOctant(Point endpoint);
+	Octant FindOctant(Point diffpoint);
+	Octant FindOctantS(SPoint diffpoint);
 }

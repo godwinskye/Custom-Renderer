@@ -2,10 +2,14 @@
 #include <stdlib.h>
 
 //to only calculate this once
-double thirdquad = M_PI + M_PI_2;
+static double thirdquad = M_PI + M_PI_2;
 
 double MathWiz::GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint) {
 	return (double)(endpoint.y - origin.y) / (double)(endpoint.x - origin.x);
+}
+
+double MathWiz::GetGradientS(OctantWiz::SPoint point1, OctantWiz::SPoint point2) {
+	return (point2.y - point1.y) / (point2.x - point1.x);
 }
 
 OctantWiz::Point MathWiz::DetermineEndPoint(double currentangle, int length, int x, int y) {

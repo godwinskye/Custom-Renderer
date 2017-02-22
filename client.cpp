@@ -1,5 +1,6 @@
 #include <iostream>
 #include "client.h"
+#include "RenderTests/RenderTests.h"
 
 Client::Client(Drawable *drawable)
 {
