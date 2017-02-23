@@ -1,5 +1,5 @@
 #include "RenderTests.h"
-#include "../Renderer/LineRender.h"
+#include "../Renderer/InterpolatedLines.h"
 
 void RenderTests::DDAStarburstTest(Drawable * drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color) {
 	const double angleinc = (2 * M_PI) / numberoflines;
@@ -399,5 +399,48 @@ void RenderTests::BRandomPolyTest(Drawable * drawable, int x, int y, unsigned in
 
 	for (int i = 0; i < numberoftri; i++) {
 		PolyFill::BTriangle(drawable, OctantWiz::Point(xcoord[i] + x, ycoord[i] + y), OctantWiz::Point(xendcoord[i] + x, yendcoord[i] + y), OctantWiz::Point(xendcoord2[i] + x, yendcoord2[i] + y), MathWiz::RandomRGBHex());
+	}
+}
+
+void RenderTests::TransWireframeTri162Test(Drawable * drawable, int xstart, int ystart) {
+	const int numbereachrow = 10;
+	std::vector<OctantWiz::Point> rowpoints(numbereachrow);
+	std::vector<std::vector<OctantWiz::Point>> wholearray;
+	OctantWiz::Point first(xstart + 40, ystart + 40);
+	int tempY = first.y;
+	int translate;
+	int upper = 12;
+	int lower = -12;
+
+	for (int i = 0; i < numbereachrow; i++) {
+		for (int j = 0; j < numbereachrow; j++) {
+			rowpoints[j] = OctantWiz::Point(first.x + 25 * j, tempY);
+		}
+		tempY = tempY + 25;
+		wholearray.push_back(rowpoints);
+	}
+
+	//translate by [-12, 12]
+	for (int i = 0; i < numbereachrow; i++) {
+		for (int j = 0; j < numbereachrow; j++) {
+			translate = rand() % ((upper - lower) + 1) + lower;
+			wholearray[i][j].x = wholearray[i][j].x + translate;
+			wholearray[i][j].y = wholearray[i][j].y + translate;
+		}
+	}
+
+	for (int i = 0; i < numbereachrow; i++) {
+		for (int j = 0; j < numbereachrow; j++) {
+			unsigned int color = MathWiz::RandomRGBHex();
+			unsigned int color2 = MathWiz::RandomRGBHex();
+			unsigned int color3 = MathWiz::RandomRGBHex();
+			unsigned int color4 = MathWiz::RandomRGBHex();
+			if (j > 0) {
+				LineRenderer::LiDDArender(drawable, wholearray[i][j - 1].x, wholearray[i][j - 1].y, wholearray[i][j].x, wholearray[i][j].y, color, color2);
+			}
+			if (i > 0) {
+				LineRenderer::LiDDArender(drawable, wholearray[i - 1][j].x, wholearray[i - 1][j].y, wholearray[i][j].x, wholearray[i][j].y, color3, color4);
+			}
+		}
 	}
 }

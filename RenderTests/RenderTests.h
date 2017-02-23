@@ -49,4 +49,7 @@ namespace RenderTests {
 	void BTriangles162Test(Drawable *drawable, int xstart, int ystart);
 	void BTransTriangles162Test(Drawable *drawable, int xstart, int ystart);
 	void BRandomPolyTest(Drawable *drawable, int x, int y, unsigned int numberofpoly);
+
+	//Wireframe test
+	void TransWireframeTri162Test(Drawable *drawable, int xstart, int ystart);
 }

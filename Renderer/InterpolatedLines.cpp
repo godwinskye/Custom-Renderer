@@ -5,7 +5,6 @@ void LineRenderer::LiDDArender(Drawable * drawable, int x1, int y1, int x2, int 
 	OctantWiz::Point endpoint(x2, y2);
 	double gradient = MathWiz::GetGradient(origin, endpoint);
 	OctantWiz::Point diffpoint(x2 - x1, y2 - y1);
-
 	OctantWiz::Octant target = OctantWiz::FindOctant(diffpoint);
 
 	switch (target) {							//rather ugly switch
