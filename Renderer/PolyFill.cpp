@@ -5,7 +5,6 @@
 
 void PolyFill::Triangle(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2, unsigned int color) {
 	int currentIter;
-	//PolyFill::LongestTriLine package1 = DetermineLongest(origin, endpoint1, endpoint2);
 
 	LineRenderer::FillPack line11 = LineRenderer::PolyDDArender(drawable, origin, endpoint1, color);
 	LineRenderer::FillPack line22 = LineRenderer::PolyDDArender(drawable, origin, endpoint2, color);

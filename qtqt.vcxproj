@@ -147,6 +147,7 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer\InterpolatedLines.cpp" />
+    <ClCompile Include="Renderer\InterpolatedPolyFill.cpp" />
     <ClCompile Include="Renderer\LineRender.cpp" />
     <ClCompile Include="MathWiz\MathWiz.cpp" />
     <ClCompile Include="OctantWiz\OctantWiz.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="client.h" />
     <ClInclude Include="drawable.h" />
     <ClInclude Include="Renderer\InterpolatedLines.h" />
+    <ClInclude Include="Renderer\InterpolatedPolyFill.h" />
     <ClInclude Include="Renderer\LineRender.h" />
     <ClInclude Include="MathWiz\MathWiz.h" />
     <ClInclude Include="OctantWiz\OctantWiz.h" />

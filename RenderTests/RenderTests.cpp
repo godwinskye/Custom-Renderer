@@ -1,5 +1,6 @@
 #include "RenderTests.h"
 #include "../Renderer/InterpolatedLines.h"
+#include "../Renderer/InterpolatedPolyFill.h"
 
 void RenderTests::DDAStarburstTest(Drawable * drawable, int x, int y, unsigned int length, unsigned int numberoflines, unsigned int color) {
 	const double angleinc = (2 * M_PI) / numberoflines;
@@ -440,6 +441,58 @@ void RenderTests::TransWireframeTri162Test(Drawable * drawable, int xstart, int 
 			}
 			if (i > 0) {
 				LineRenderer::LiDDArender(drawable, wholearray[i - 1][j].x, wholearray[i - 1][j].y, wholearray[i][j].x, wholearray[i][j].y, color3, color4);
+			}
+		}
+	}
+}
+
+void RenderTests::TransMeshTri162Test(Drawable * drawable, int xstart, int ystart) {
+	const int numbereachrow = 10;
+	std::vector<OctantWiz::Point> rowpoints(numbereachrow);
+	std::vector<std::vector<OctantWiz::Point>> wholearray;
+	OctantWiz::Point first(xstart + 40, ystart + 40);
+	int tempY = first.y;
+	int translate;
+	int upper = 12;
+	int lower = -12;
+
+	for (int i = 0; i < numbereachrow; i++) {
+		for (int j = 0; j < numbereachrow; j++) {
+			rowpoints[j] = OctantWiz::Point(first.x + 25 * j, tempY);
+		}
+		tempY = tempY + 25;
+		wholearray.push_back(rowpoints);
+	}
+
+	//translate by [-12, 12]
+	for (int i = 0; i < numbereachrow; i++) {
+		for (int j = 0; j < numbereachrow; j++) {
+			translate = rand() % ((upper - lower) + 1) + lower;
+			wholearray[i][j].x = wholearray[i][j].x + translate;
+			wholearray[i][j].y = wholearray[i][j].y + translate;
+		}
+	}
+
+	for (int i = 0; i < numbereachrow; i++) {
+		for (int j = 0; j < numbereachrow; j++) {
+			unsigned int color = MathWiz::RandomRGBHex();
+			unsigned int color2 = MathWiz::RandomRGBHex();
+			unsigned int color3 = MathWiz::RandomRGBHex();
+			unsigned int color4 = MathWiz::RandomRGBHex();
+			if (j > 0) {
+				LineRenderer::LiDDArender(drawable, wholearray[i][j - 1].x, wholearray[i][j - 1].y, wholearray[i][j].x, wholearray[i][j].y, color, color2);
+			}
+			if (i > 0) {
+				LineRenderer::LiDDArender(drawable, wholearray[i - 1][j].x, wholearray[i - 1][j].y, wholearray[i][j].x, wholearray[i][j].y, color3, color4);
+			}
+			if (i > 0 && j > 0) {
+				PolyFill::LiTriangle(drawable, wholearray[i][j], wholearray[i - 1][j], wholearray[i - 1][j - 1],
+					drawable->getPixel(wholearray[i][j].x, wholearray[i][j].y), drawable->getPixel(wholearray[i - 1][j].x, wholearray[i - 1][j].y), 
+					drawable->getPixel(wholearray[i - 1][j - 1].x, wholearray[i - 1][j - 1].y));
+
+				PolyFill::LiTriangle(drawable, wholearray[i][j - 1], wholearray[i - 1][j - 1], wholearray[i][j], 
+					drawable->getPixel(wholearray[i][j - 1].x, wholearray[i][j - 1].y), drawable->getPixel(wholearray[i - 1][j - 1].x, wholearray[i - 1][j - 1].y), 
+					drawable->getPixel(wholearray[i][j].x, wholearray[i][j].y));
 			}
 		}
 	}

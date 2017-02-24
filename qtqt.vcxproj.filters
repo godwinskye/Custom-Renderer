@@ -79,6 +79,9 @@
     <ClCompile Include="Renderer\InterpolatedLines.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer\InterpolatedPolyFill.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h">
@@ -112,6 +115,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Renderer\InterpolatedLines.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer\InterpolatedPolyFill.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
