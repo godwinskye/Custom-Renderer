@@ -82,6 +82,9 @@
     <ClCompile Include="Renderer\InterpolatedPolyFill.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="Interpreter\Interpreter.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h">
@@ -120,5 +123,11 @@
     <ClInclude Include="Renderer\InterpolatedPolyFill.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
+    <ClInclude Include="Interpreter\Interpreter.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cube.simp" />
   </ItemGroup>
 </Project>

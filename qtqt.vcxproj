@@ -145,6 +145,7 @@
     <ClCompile Include="Debug\moc_window361.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="Interpreter\Interpreter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer\InterpolatedLines.cpp" />
     <ClCompile Include="Renderer\InterpolatedPolyFill.cpp" />
@@ -165,6 +166,7 @@
   <ItemGroup>
     <ClInclude Include="client.h" />
     <ClInclude Include="drawable.h" />
+    <ClInclude Include="Interpreter\Interpreter.h" />
     <ClInclude Include="Renderer\InterpolatedLines.h" />
     <ClInclude Include="Renderer\InterpolatedPolyFill.h" />
     <ClInclude Include="Renderer\LineRender.h" />
@@ -193,6 +195,11 @@
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cube.simp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

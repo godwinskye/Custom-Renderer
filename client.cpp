@@ -1,6 +1,8 @@
 #include <iostream>
+#include <string>
 #include "client.h"
 #include "RenderTests/RenderTests.h"
+#include "Interpreter/Interpreter.h"
 
 Client::Client(Drawable *drawable)
 {
@@ -15,6 +17,9 @@ void Client::nextPage() {
     pageNumber++;
     std::cout << "PageNumber " << pageNumber << std::endl;
 
+	//Files for page 3 to page 8
+	std::string inputfile("cube");
+	Interpreter Parser(inputfile);
 
 	OctantWiz::Point Origin(100, 80);				//100, 80
 	OctantWiz::Point Point1(80, 90);				//80, 90
