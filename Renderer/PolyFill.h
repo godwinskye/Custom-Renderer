@@ -16,6 +16,17 @@ namespace PolyFill {
 		}
 	};
 
+	struct LinePair3D {
+		OctantWiz::Point3D origin;
+		OctantWiz::Point3D endpoint;
+
+		LinePair3D() {}
+		LinePair3D(OctantWiz::Point3D originpoint, OctantWiz::Point3D endingpoint) {
+			origin = originpoint;
+			endpoint = endingpoint;
+		}
+	};
+
 	struct SLP {					//special LinePair
 		OctantWiz::SPoint point1;
 		OctantWiz::SPoint point2;
@@ -40,6 +51,19 @@ namespace PolyFill {
 
 		LongestTriLine() {}
 		LongestTriLine(LinePair important, LinePair other1, LinePair other2) {
+			longest = important;
+			shorter1 = other1;
+			shorter2 = other2;
+		}
+	};
+
+	struct LongestTriLine3D {
+		LinePair3D longest;
+		LinePair3D shorter1;
+		LinePair3D shorter2;
+
+		LongestTriLine3D() {}
+		LongestTriLine3D(LinePair3D important, LinePair3D other1, LinePair3D other2) {
 			longest = important;
 			shorter1 = other1;
 			shorter2 = other2;

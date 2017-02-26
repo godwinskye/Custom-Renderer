@@ -544,3 +544,171 @@ bool LineRenderer::TestForLongest(LineRenderer::FillPack line1, LineRenderer::Fi
 	}
 	return flag;
 }
+
+PolyFill::LongestTriLine3D LineRenderer::FindLongest3D(LineRenderer::FillPack3D line1, LineRenderer::FillPack3D line2, LineRenderer::FillPack3D line3) {
+	PolyFill::LinePair3D pair1 = PolyFill::LinePair3D(line1.origin, line1.endpoint);
+	PolyFill::LinePair3D pair2 = PolyFill::LinePair3D(line2.origin, line2.endpoint);
+	PolyFill::LinePair3D pair3 = PolyFill::LinePair3D(line3.origin, line3.endpoint);
+
+	bool trial1 = TestForLongest3D(line1, line2, line3);
+	bool trial2 = TestForLongest3D(line2, line1, line3);
+	bool trial3 = TestForLongest3D(line3, line1, line2);
+
+	if (trial1) {
+		return PolyFill::LongestTriLine3D(pair1, pair2, pair3);
+	}
+	else if (trial2) {
+		return PolyFill::LongestTriLine3D(pair2, pair1, pair3);
+	}
+	else {
+		return PolyFill::LongestTriLine3D(pair3, pair1, pair2);
+	}
+}
+
+bool LineRenderer::TestForLongest3D(LineRenderer::FillPack3D line1, LineRenderer::FillPack3D line2, LineRenderer::FillPack3D line3) {
+	bool flag = true;
+	int currentIter;
+
+	if (line1.xiter) {
+		for (int i = 0; i < line2.map.size(); i++) {
+			if (line2.xiter) {
+				if (line2.movepositive) {
+					currentIter = line2.origin.x + i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line2.origin.x - i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+			else {     //line2 = yiter
+				if (line2.movepositive) {
+					currentIter = line2.origin.y + i;
+					if (line1.map.find(line2.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line2.origin.y - i;
+					if (line1.map.find(line2.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+		}
+		for (int i = 0; i < line3.map.size(); i++) {
+			if (line3.xiter) {
+				if (line3.movepositive) {
+					currentIter = line3.origin.x + i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line3.origin.x - i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+			else {       //line3 = yiter
+				if (line3.movepositive) {
+					currentIter = line3.origin.y + i;
+					if (line1.map.find(line3.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line3.origin.y - i;
+					if (line1.map.find(line3.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+		}
+
+	}
+	else {    //longestline is a yiter
+		for (int i = 0; i < line2.map.size(); i++) {
+			if (line2.xiter) {
+				if (line2.movepositive) {
+					currentIter = line2.origin.x + i;
+					if (line1.map.find(line2.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line2.origin.x - i;
+					if (line1.map.find(line2.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+			else {     //line2 is a yiter
+				if (line2.movepositive) {
+					currentIter = line2.origin.y + i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line2.origin.y - i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+		}
+		for (int i = 0; i < line3.map.size(); i++) {
+			if (line3.xiter) {
+				if (line3.movepositive) {
+					currentIter = line3.origin.x + i;
+					if (line1.map.find(line3.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line3.origin.x - i;
+					if (line1.map.find(line3.map[currentIter]) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+			else {      //line3 is a yiter
+				if (line3.movepositive) {
+					currentIter = line3.origin.y + i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+				else {
+					currentIter = line3.origin.y - i;
+					if (line1.map.find(currentIter) == line1.map.end()) {
+						flag = false;
+						return flag;
+					}
+				}
+			}
+		}
+	}
+	return flag;
+}

@@ -26,6 +26,24 @@ namespace LineRenderer {
 		}
 	};
 
+	struct FillPack3D {
+		std::map<int, int> map;
+		bool xiter;
+		bool movepositive;
+		OctantWiz::Point3D origin;
+		OctantWiz::Point3D endpoint;
+
+		FillPack3D() {}
+
+		FillPack3D(std::map<int, int> some_map, bool something, bool move, OctantWiz::Point3D pt1, OctantWiz::Point3D pt2) {
+			map = some_map;
+			xiter = something;
+			movepositive = move;
+			origin = pt1;
+			endpoint = pt2;
+		}
+	};
+
 	void DDArender(Drawable *drawable, int x1, int y1, int x2, int y2, unsigned int color);
 	void BRErender(Drawable *drawable, int x1, int y1, int x2, int y2, unsigned int color);
 	void AArender(Drawable *drawable, int x1, int y1, int x2, int y2, unsigned int color);
@@ -60,4 +78,8 @@ namespace LineRenderer {
 	void FillBetweenLines(Drawable *drawable, std::vector<OctantWiz::Point> line1, std::vector<OctantWiz::Point> line2, unsigned int color);
 	PolyFill::LongestTriLine FindLongest(LineRenderer::FillPack line1, LineRenderer::FillPack line2, LineRenderer::FillPack line3);
 	bool TestForLongest(LineRenderer::FillPack line1, LineRenderer::FillPack line2, LineRenderer::FillPack line3);
+
+
+	PolyFill::LongestTriLine3D FindLongest3D(LineRenderer::FillPack3D line1, LineRenderer::FillPack3D line2, LineRenderer::FillPack3D line3);
+	bool TestForLongest3D(LineRenderer::FillPack3D line1, LineRenderer::FillPack3D line2, LineRenderer::FillPack3D line3);
 }
