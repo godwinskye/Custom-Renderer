@@ -38,7 +38,7 @@ void Interpreter::interpretLine(std::string line) {
 		return;
 	}
 	for (int i = 0; i < line.length(); i++) {
-		if (line[i] == ' ' || line[i] == '\n') {
+		if (line[i] == ' ' || line[i] == '\n' || line[i] == '\t') {
 			continue;
 		}
 		else if (line[i] == '{') {
@@ -99,14 +99,38 @@ double Interpreter::grabNextNum(std::string line, int & position) {
 //position at WHITESPACE or NEWLINE
 void Interpreter::fitToken(std::string token, std::string line, int &position) {
 	if (token == "polygon") {
-		OctantWiz::Point3D origin(grabNextNum(line, position), grabNextNum(line, position), grabNextNum(line, position));
-		OctantWiz::Point3D endpoint1(grabNextNum(line, position), grabNextNum(line, position), grabNextNum(line, position));
-		OctantWiz::Point3D endpoint2(grabNextNum(line, position), grabNextNum(line, position), grabNextNum(line, position));
+		double a, b, c;
+
+		a = grabNextNum(line, position);
+		b = grabNextNum(line, position);
+		c = grabNextNum(line, position);
+		OctantWiz::Point3D origin(a, b, c);
+		
+		a = grabNextNum(line, position);
+		b = grabNextNum(line, position);
+		c = grabNextNum(line, position);
+		OctantWiz::Point3D endpoint1(a, b, c);
+
+		a = grabNextNum(line, position);
+		b = grabNextNum(line, position);
+		c = grabNextNum(line, position);
+		OctantWiz::Point3D endpoint2(a, b, c);
+
 		RenderPolygon(origin, endpoint1, endpoint2);
 	}
 	else if (token == "line") {
-		OctantWiz::Point3D origin(grabNextNum(line, position), grabNextNum(line, position), grabNextNum(line, position));
-		OctantWiz::Point3D endpoint(grabNextNum(line, position), grabNextNum(line, position), grabNextNum(line, position));
+		double a, b, c;
+
+		a = grabNextNum(line, position);
+		b = grabNextNum(line, position);
+		c = grabNextNum(line, position);
+		OctantWiz::Point3D origin(a, b, c);
+
+		a = grabNextNum(line, position);
+		b = grabNextNum(line, position);
+		c = grabNextNum(line, position);
+		OctantWiz::Point3D endpoint(a, b, c);
+
 		RenderLine(origin, endpoint);
 	}
 	else if (token == "scale") {
@@ -140,7 +164,11 @@ void Interpreter::fitToken(std::string token, std::string line, int &position) {
 		TranslateCTM(tx, ty, tz);
 	}
 	else if (token == "file") {
-		//TODO: Write file-reader
+		std::ifstream substream;
+		std::string filename = getFilename(line, position);
+		filename += ".simp";
+		ALTER substream.open(filename, std::ifstream::in);
+		interpretStream(substream);
 	}
 	else if (token == "wire") {
 		FILLED = false;
@@ -150,49 +178,74 @@ void Interpreter::fitToken(std::string token, std::string line, int &position) {
 	}
 }
 
+std::string Interpreter::getFilename(std::string line, int & position) {
+	std::string filename;
+	bool insidestring = false;
+	for (position; position < line.length(); position++) {
+		if (insidestring && line[position] != '"') {
+			filename += line[position];
+		}
+		if (line[position] == '"' && !insidestring) {
+			insidestring = true;
+		}
+		else if (line[position] == '"' && insidestring) {
+			return filename;
+		}
+	}
+}
+
 void Interpreter::ScaleCTM(double sx, double sy, double sz) {
-	Matrix scaler = MathWiz::makeScaleFactorMatrix(sx, sy, sz);
+	Matrix* scaler = MathWiz::makeScaleFactorMatrix(sx, sy, sz);
 	CTM = MathWiz::matrixMultiplication(CTM, scaler);
-	delete[] & scaler;
+	delete[] scaler;
 }
 
 void Interpreter::TranslateCTM(double tx, double ty, double tz) {
-	Matrix translation = MathWiz::makeTranslationMatrix(tx, ty, tz);
+	Matrix* translation = MathWiz::makeTranslationMatrix(tx, ty, tz);
 	CTM = MathWiz::matrixMultiplication(CTM, translation);
-	delete[] & translation;
+	delete[] translation;
 }
 
 void Interpreter::RotateCTM(Axis axis, double degrees) {
 	switch (axis) {
 		case Axis::XAXIS: {
-			Matrix rotation = MathWiz::makeXRotation(degrees);
+			Matrix* rotation = MathWiz::makeXRotation(degrees);
 			CTM = MathWiz::matrixMultiplication(CTM, rotation);
-			delete[] & rotation;
+			delete[] rotation;
 			break;
 		}
 		case Axis::YAXIS: {
-			Matrix rotation = MathWiz::makeYRotation(degrees);
+			Matrix* rotation = MathWiz::makeYRotation(degrees);
 			CTM = MathWiz::matrixMultiplication(CTM, rotation);
-			delete[] & rotation;
+			delete[] rotation;
 			break;
 		}
 		case Axis::ZAXIS: {
-			Matrix rotation = MathWiz::makeZRotation(degrees);
+			Matrix* rotation = MathWiz::makeZRotation(degrees);
 			CTM = MathWiz::matrixMultiplication(CTM, rotation);
-			delete[] & rotation;
+			delete[] rotation;
 			break;
 		}
 	}
 }
 
 void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint1, OctantWiz::Point3D endpoint2) {
-	Matrix origin1 = MathWiz::PointToMatrix(origin);
-	Matrix endpoint11 = MathWiz::PointToMatrix(endpoint1);
-	Matrix endpoint22 = MathWiz::PointToMatrix(endpoint2);
+	Matrix* origin1 = MathWiz::PointToMatrix(origin);
+	
+	Matrix* endpoint11 = MathWiz::PointToMatrix(endpoint1);
+	Matrix* endpoint22 = MathWiz::PointToMatrix(endpoint2);
 
-	Matrix torigin = MathWiz::matrixMultiplication(CTM, origin1);
-	Matrix tendpoint1 = MathWiz::matrixMultiplication(CTM, endpoint11);
-	Matrix tendpoint2 = MathWiz::matrixMultiplication(CTM, endpoint22);
+	Matrix* torigin = MathWiz::matrixMultiplication(CTM, origin1);
+	double ctm1 = CTM->at(0, 0);
+	double ctm2 = CTM->at(1, 1);
+	double ctm3 = CTM->at(0, 1);
+
+	double stuff = torigin->at(0, 0);
+	double stuff1 = torigin->at(1, 0);
+	double stuff2 = torigin->at(2, 0);
+	double stuff3 = torigin->at(3, 0);
+	Matrix* tendpoint1 = MathWiz::matrixMultiplication(CTM, endpoint11);
+	Matrix* tendpoint2 = MathWiz::matrixMultiplication(CTM, endpoint22);
 
 	OctantWiz::Point3D res_origin = MathWiz::MatrixToPoint(torigin);
 	OctantWiz::Point3D res_endpt1 = MathWiz::MatrixToPoint(tendpoint1);
@@ -207,10 +260,6 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 	res_endpt2.x = res_endpt2.x * scale;
 	res_endpt2.y = res_endpt2.y * scale;
 	res_endpt2.z = res_endpt2.z * scale;
-
-	delete[] & origin1;
-	delete[] & endpoint11;
-	delete[] & endpoint22;
 
 	OctantWiz::Point3D color1 = obtainColor(res_origin.z);
 	OctantWiz::Point3D color2 = obtainColor(res_endpt1.z);
@@ -229,11 +278,12 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 }
 
 void Interpreter::RenderLine(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint) {
-	Matrix origin1 = MathWiz::PointToMatrix(origin);
-	Matrix endpoint11 = MathWiz::PointToMatrix(endpoint);
+	
+	Matrix* origin1 = MathWiz::PointToMatrix(origin);
+	Matrix* endpoint11 = MathWiz::PointToMatrix(endpoint);
 
-	Matrix torigin = MathWiz::matrixMultiplication(CTM, origin1);
-	Matrix tendpoint1 = MathWiz::matrixMultiplication(CTM, endpoint11);
+	Matrix* torigin = MathWiz::matrixMultiplication(CTM, origin1);
+	Matrix* tendpoint1 = MathWiz::matrixMultiplication(CTM, endpoint11);
 
 	OctantWiz::Point3D res_origin = MathWiz::MatrixToPoint(torigin);
 	OctantWiz::Point3D res_endpt = MathWiz::MatrixToPoint(tendpoint1);
@@ -255,6 +305,7 @@ void Interpreter::RenderLine(OctantWiz::Point3D origin, OctantWiz::Point3D endpo
 	unsigned int res_color2 = getColor(color2);
 
 	LineRenderer::LiDDArender3D(draw, res_origin, res_endpt, zBuffer, res_color1, res_color2);
+	
 }
 
 OctantWiz::Point3D Interpreter::obtainColor(double zvalue) {

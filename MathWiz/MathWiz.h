@@ -14,19 +14,19 @@ namespace MathWiz {
 		Quadrant4
 	};
 
-	Matrix& PointToMatrix(OctantWiz::Point3D point);
-	OctantWiz::Point3D MatrixToPoint(Matrix& matrix);
+	Matrix* PointToMatrix(OctantWiz::Point3D point);
+	OctantWiz::Point3D MatrixToPoint(Matrix* matrix);
 
-	Matrix& initZBuffer();
-	Matrix& matrixMultiplication(Matrix& matrix1, Matrix& matrix2);
-	Matrix& makeTranslationMatrix(double tx, double ty, double tz);
-	Matrix& makeScaleFactorMatrix(double sx, double sy, double sz);
-	Matrix& makeRotationMatrix(Axis type, double degrees);
+	Matrix* initZBuffer();
+	Matrix* matrixMultiplication(Matrix* matrix1, Matrix* matrix2);
+	Matrix* makeTranslationMatrix(double tx, double ty, double tz);
+	Matrix* makeScaleFactorMatrix(double sx, double sy, double sz);
+	Matrix* makeRotationMatrix(Axis type, double degrees);
 
 	//Rotation types
-	Matrix& makeXRotation(double degrees);
-	Matrix& makeYRotation(double degrees);
-	Matrix& makeZRotation(double degrees);
+	Matrix* makeXRotation(double degrees);
+	Matrix* makeYRotation(double degrees);
+	Matrix* makeZRotation(double degrees);
 
 	double GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint);
 	double GetGradient3D(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint);

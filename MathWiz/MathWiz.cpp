@@ -4,68 +4,69 @@
 //to only calculate this once
 static double thirdquad = M_PI + M_PI_2;
 
-Matrix & MathWiz::PointToMatrix(OctantWiz::Point3D point) {
-	Matrix result(4, 1, MType::ZERO);
+Matrix* MathWiz::PointToMatrix(OctantWiz::Point3D point) {
+	Matrix* result = new Matrix(4, 1, MType::ZERO);
 	
-	result.setAt(0, 0, point.x);
-	result.setAt(1, 0, point.y);
-	result.setAt(2, 0, point.z);
-	result.setAt(3, 0, 1);
+	result->setAt(0, 0, point.x);
+	result->setAt(1, 0, point.y);
+	result->setAt(2, 0, point.z);
+	result->setAt(3, 0, 1);
 
 	return result;
 }
 
-OctantWiz::Point3D MathWiz::MatrixToPoint(Matrix & matrix) {
-	double x = matrix.at(0, 0);
-	double y = matrix.at(1, 0);
-	double z = matrix.at(2, 0);
+OctantWiz::Point3D MathWiz::MatrixToPoint(Matrix* matrix) {
+	double x = matrix->at(0, 0);
+	double y = matrix->at(1, 0);
+	double z = matrix->at(2, 0);
 
 	OctantWiz::Point3D result(x, y, z);
-	delete[] & matrix;
 	return result;
 }
 
-Matrix& MathWiz::initZBuffer() {
-	return Matrix(650, 650, MType::BACK_PLANE);
+Matrix* MathWiz::initZBuffer() {
+	Matrix* buffer = new Matrix(650, 650, MType::BACK_PLANE);
+	return buffer;
 }
 
-Matrix& MathWiz::matrixMultiplication(Matrix& matrix1, Matrix& matrix2) {
+Matrix* MathWiz::matrixMultiplication(Matrix* matrix1, Matrix* matrix2) {
 	int temp;
-	Matrix result(matrix1.getRow(), matrix2.getWidth, MType::ZERO);
+	Matrix* result = new Matrix(matrix1->getRow(), matrix2->getWidth(), MType::ZERO);
 
-	for (int row = 0; row < matrix1.getRow(); row++) {
-		for (int col = 0; col < matrix2.getWidth(); col++) {
-			for (int m2row = 0; m2row < matrix2.getRow(); m2row++) {
-				temp = matrix1.at(row, m2row) * matrix2.at(m2row, col);
-				result.setAt(row, col, temp);
+	for (int row = 0; row < matrix1->getRow(); row++) {
+		for (int col = 0; col < matrix2->getWidth(); col++) {
+			for (int m2row = 0; m2row < matrix2->getRow(); m2row++) {
+				temp = temp + matrix1->at(row, m2row) * matrix2->at(m2row, col);
 			}
+			result->setAt(row, col, temp);
+			temp = 0;
 		}
 	}
 	return result;
 }
 
-Matrix& MathWiz::makeTranslationMatrix(double tx, double ty, double tz) {
-	Matrix result(4, 4, MType::IDENTITY);
+Matrix* MathWiz::makeTranslationMatrix(double tx, double ty, double tz) {
+	Matrix* result = new Matrix(4, 4, MType::IDENTITY);
 
-	result.setAt(0, 3, tx);
-	result.setAt(1, 3, ty);
-	result.setAt(2, 3, tz);
+	result->setAt(0, 3, tx);
+	result->setAt(1, 3, ty);
+	result->setAt(2, 3, tz);
 	
 	return result;
 }
 
-Matrix & MathWiz::makeScaleFactorMatrix(double sx, double sy, double sz) {
-	Matrix result(4, 4, MType::ZERO);
+Matrix* MathWiz::makeScaleFactorMatrix(double sx, double sy, double sz) {
+	Matrix* result = new Matrix(4, 4, MType::ZERO);
 
-	result.setAt(0, 0, sx);
-	result.setAt(1, 1, sy);
-	result.setAt(2, 2, sz);
-	result.setAt(3, 3, 1);
+	result->setAt(0, 0, sx);
+	result->setAt(1, 1, sy);
+	result->setAt(2, 2, sz);
+	result->setAt(3, 3, 1);
 
 	return result;
 }
 
-Matrix & MathWiz::makeRotationMatrix(Axis type, double degrees) {
+Matrix* MathWiz::makeRotationMatrix(Axis type, double degrees) {
 	switch (type) {
 	case Axis::XAXIS:
 		return makeXRotation(degrees);
@@ -76,44 +77,44 @@ Matrix & MathWiz::makeRotationMatrix(Axis type, double degrees) {
 	}
 }
 
-Matrix & MathWiz::makeXRotation(double degrees) {
+Matrix* MathWiz::makeXRotation(double degrees) {
 	double angle = degrees * M_PI / 180;
-	Matrix result(4, 4, MType::ZERO);
+	Matrix* result = new Matrix(4, 4, MType::ZERO);
 
-	result.setAt(0, 0, 1);
-	result.setAt(1, 1, cos(angle));
-	result.setAt(1, 2, -sin(angle));
-	result.setAt(2, 1, sin(angle));
-	result.setAt(2, 2, cos(angle));
-	result.setAt(3, 3, 1);
+	result->setAt(0, 0, 1);
+	result->setAt(1, 1, cos(angle));
+	result->setAt(1, 2, -sin(angle));
+	result->setAt(2, 1, sin(angle));
+	result->setAt(2, 2, cos(angle));
+	result->setAt(3, 3, 1);
 
 	return result;
 }
 
-Matrix & MathWiz::makeYRotation(double degrees) {
+Matrix* MathWiz::makeYRotation(double degrees) {
 	double angle = degrees * M_PI / 180;
-	Matrix result(4, 4, MType::ZERO);
+	Matrix* result = new Matrix(4, 4, MType::ZERO);
 
-	result.setAt(0, 0, cos(angle));
-	result.setAt(0, 2, sin(angle));
-	result.setAt(1, 1, 1);
-	result.setAt(2, 0, -sin(angle));
-	result.setAt(2, 2, cos(angle));
-	result.setAt(3, 3, 1);
+	result->setAt(0, 0, cos(angle));
+	result->setAt(0, 2, sin(angle));
+	result->setAt(1, 1, 1);
+	result->setAt(2, 0, -sin(angle));
+	result->setAt(2, 2, cos(angle));
+	result->setAt(3, 3, 1);
 
 	return result;
 }
 
-Matrix & MathWiz::makeZRotation(double degrees) {
+Matrix* MathWiz::makeZRotation(double degrees) {
 	double angle = degrees * M_PI / 180;
-	Matrix result(4, 4, MType::ZERO);
+	Matrix* result = new Matrix(4, 4, MType::ZERO);
 
-	result.setAt(0, 0, cos(angle));
-	result.setAt(0, 1, -sin(angle));
-	result.setAt(1, 0, sin(angle));
-	result.setAt(1, 1, cos(angle));
-	result.setAt(2, 2, 1);
-	result.setAt(3, 3, 1);
+	result->setAt(0, 0, cos(angle));
+	result->setAt(0, 1, -sin(angle));
+	result->setAt(1, 0, sin(angle));
+	result->setAt(1, 1, cos(angle));
+	result->setAt(2, 2, 1);
+	result->setAt(3, 3, 1);
 
 	return result;
 }

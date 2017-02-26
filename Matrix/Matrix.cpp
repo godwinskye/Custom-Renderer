@@ -38,14 +38,13 @@ void Matrix::setAll(double newvalue) {
 }
 
 void Matrix::setIdentity() {
-	int side = sqrt(size);
-	for (int i = 0; i < side; i++) {
-		for (int j = 0; j < side; j++) {
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < width; j++) {
 			if (i == j) {
-				marray[j] = 1;
+				setAt(i, j, 1);
 			}
 			else {
-				marray[j] = 0;
+				setAt(i, j, 0);
 			}
 		}
 	}

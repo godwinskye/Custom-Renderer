@@ -135,5 +135,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="cube.simp" />
+    <None Include="cube2.simp" />
+    <None Include="z0_face.simp" />
   </ItemGroup>
 </Project>

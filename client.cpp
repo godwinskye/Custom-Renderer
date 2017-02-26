@@ -17,20 +17,21 @@ void Client::nextPage() {
     pageNumber++;
     std::cout << "PageNumber " << pageNumber << std::endl;
 
-	//Files for page 3 to page 8
-	std::string inputfile("cube");
-	Interpreter Parser(drawable, inputfile);
-
 	OctantWiz::Point Origin(100, 80);				//100, 80
 	OctantWiz::Point Point1(80, 90);				//80, 90
 	OctantWiz::Point Point2(250, 280);				//250, 280
 
     switch(pageNumber % 6) {
 	case 1: {
+		/*
 		draw4panels();
 		RenderTests::DDAStarburstTest(drawable, 200, 200, 125, 90, black);
 		RenderTests::BRStarburstTest(drawable, 550, 200, 125, 90, black);
 		RenderTests::MixStarburstTest(drawable, 200, 550, 125, 90, black);
+		*/
+		draw_rect(0, 0, 750, 750, 0xffff0080);
+		std::string inputfile("cube2");
+		Interpreter Parser(drawable, inputfile);
 		drawable->updateScreen();   // you must call this to make the display change.
 	}
 		break;
