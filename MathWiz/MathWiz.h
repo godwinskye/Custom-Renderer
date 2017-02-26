@@ -14,6 +14,9 @@ namespace MathWiz {
 		Quadrant4
 	};
 
+	Matrix& PointToMatrix(OctantWiz::Point3D point);
+	OctantWiz::Point3D MatrixToPoint(Matrix& matrix);
+
 	Matrix& initZBuffer();
 	Matrix& matrixMultiplication(Matrix& matrix1, Matrix& matrix2);
 	Matrix& makeTranslationMatrix(double tx, double ty, double tz);

@@ -19,7 +19,7 @@ void Client::nextPage() {
 
 	//Files for page 3 to page 8
 	std::string inputfile("cube");
-	Interpreter Parser(inputfile);
+	Interpreter Parser(drawable, inputfile);
 
 	OctantWiz::Point Origin(100, 80);				//100, 80
 	OctantWiz::Point Point1(80, 90);				//80, 90

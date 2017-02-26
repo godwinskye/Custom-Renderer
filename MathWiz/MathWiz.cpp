@@ -4,6 +4,27 @@
 //to only calculate this once
 static double thirdquad = M_PI + M_PI_2;
 
+Matrix & MathWiz::PointToMatrix(OctantWiz::Point3D point) {
+	Matrix result(4, 1, MType::ZERO);
+	
+	result.setAt(0, 0, point.x);
+	result.setAt(1, 0, point.y);
+	result.setAt(2, 0, point.z);
+	result.setAt(3, 0, 1);
+
+	return result;
+}
+
+OctantWiz::Point3D MathWiz::MatrixToPoint(Matrix & matrix) {
+	double x = matrix.at(0, 0);
+	double y = matrix.at(1, 0);
+	double z = matrix.at(2, 0);
+
+	OctantWiz::Point3D result(x, y, z);
+	delete[] & matrix;
+	return result;
+}
+
 Matrix& MathWiz::initZBuffer() {
 	return Matrix(650, 650, MType::BACK_PLANE);
 }
@@ -20,8 +41,6 @@ Matrix& MathWiz::matrixMultiplication(Matrix& matrix1, Matrix& matrix2) {
 			}
 		}
 	}
-	delete &matrix1;
-	delete &matrix2;
 	return result;
 }
 

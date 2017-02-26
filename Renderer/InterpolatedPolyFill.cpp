@@ -404,3 +404,9 @@ void PolyFill::Triangle3D(Drawable * drawable, OctantWiz::Point3D origin, Octant
 
 	}
 }
+
+void PolyFill::WireTriangle3D(Drawable * drawable, OctantWiz::Point3D origin, OctantWiz::Point3D endpoint1, OctantWiz::Point3D endpoint2, Matrix & zBuffer, unsigned int color1, unsigned int color2, unsigned int color3) {
+	LineRenderer::LiDDArender3D(drawable, origin, endpoint1, zBuffer, color1, color2);
+	LineRenderer::LiDDArender3D(drawable, origin, endpoint2, zBuffer, color1, color3);
+	LineRenderer::LiDDArender3D(drawable, endpoint1, endpoint2, zBuffer, color2, color3);
+}
