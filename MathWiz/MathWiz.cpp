@@ -25,7 +25,7 @@ Matrix& MathWiz::matrixMultiplication(Matrix& matrix1, Matrix& matrix2) {
 	return result;
 }
 
-Matrix& MathWiz::makeTranslation(double tx, double ty, double tz) {
+Matrix& MathWiz::makeTranslationMatrix(double tx, double ty, double tz) {
 	Matrix result(4, 4, MType::IDENTITY);
 
 	result.setAt(0, 3, tx);
@@ -35,12 +35,65 @@ Matrix& MathWiz::makeTranslation(double tx, double ty, double tz) {
 	return result;
 }
 
-Matrix & MathWiz::makeScaleFactor(double sx, double sy, double sz) {
+Matrix & MathWiz::makeScaleFactorMatrix(double sx, double sy, double sz) {
 	Matrix result(4, 4, MType::ZERO);
 
 	result.setAt(0, 0, sx);
 	result.setAt(1, 1, sy);
 	result.setAt(2, 2, sz);
+	result.setAt(3, 3, 1);
+
+	return result;
+}
+
+Matrix & MathWiz::makeRotationMatrix(Axis type, double degrees) {
+	switch (type) {
+	case Axis::XAXIS:
+		return makeXRotation(degrees);
+	case Axis::YAXIS:
+		return makeYRotation(degrees);
+	case Axis::ZAXIS:
+		return makeZRotation(degrees);
+	}
+}
+
+Matrix & MathWiz::makeXRotation(double degrees) {
+	double angle = degrees * M_PI / 180;
+	Matrix result(4, 4, MType::ZERO);
+
+	result.setAt(0, 0, 1);
+	result.setAt(1, 1, cos(angle));
+	result.setAt(1, 2, -sin(angle));
+	result.setAt(2, 1, sin(angle));
+	result.setAt(2, 2, cos(angle));
+	result.setAt(3, 3, 1);
+
+	return result;
+}
+
+Matrix & MathWiz::makeYRotation(double degrees) {
+	double angle = degrees * M_PI / 180;
+	Matrix result(4, 4, MType::ZERO);
+
+	result.setAt(0, 0, cos(angle));
+	result.setAt(0, 2, sin(angle));
+	result.setAt(1, 1, 1);
+	result.setAt(2, 0, -sin(angle));
+	result.setAt(2, 2, cos(angle));
+	result.setAt(3, 3, 1);
+
+	return result;
+}
+
+Matrix & MathWiz::makeZRotation(double degrees) {
+	double angle = degrees * M_PI / 180;
+	Matrix result(4, 4, MType::ZERO);
+
+	result.setAt(0, 0, cos(angle));
+	result.setAt(0, 1, -sin(angle));
+	result.setAt(1, 0, sin(angle));
+	result.setAt(1, 1, cos(angle));
+	result.setAt(2, 2, 1);
 	result.setAt(3, 3, 1);
 
 	return result;

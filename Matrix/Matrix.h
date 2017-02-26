@@ -6,6 +6,12 @@ enum class MType {
 	ZERO
 };
 
+enum class Axis {
+	XAXIS,
+	YAXIS,
+	ZAXIS
+};
+
 class Matrix {
 public:
 	Matrix(int row, int column, MType);

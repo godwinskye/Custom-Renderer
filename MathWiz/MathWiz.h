@@ -16,8 +16,14 @@ namespace MathWiz {
 
 	Matrix& initZBuffer();
 	Matrix& matrixMultiplication(Matrix& matrix1, Matrix& matrix2);
-	Matrix& makeTranslation(double tx, double ty, double tz);
-	Matrix& makeScaleFactor(double sx, double sy, double sz);
+	Matrix& makeTranslationMatrix(double tx, double ty, double tz);
+	Matrix& makeScaleFactorMatrix(double sx, double sy, double sz);
+	Matrix& makeRotationMatrix(Axis type, double degrees);
+
+	//Rotation types
+	Matrix& makeXRotation(double degrees);
+	Matrix& makeYRotation(double degrees);
+	Matrix& makeZRotation(double degrees);
 
 	double GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint);
 	double GetGradient3D(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint);
