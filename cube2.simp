@@ -35,7 +35,8 @@
 # x=1 face
 {
 	translate 1, 0, 0
-	rotate Y 90
+# rotate Y 90
+	rotate Z 90
 	file "z0_face"
 }
 }

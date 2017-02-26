@@ -94,6 +94,14 @@ double Interpreter::grabNextNum(std::string line, int & position) {
 			}
 		}
 	}
+	if (start) {
+		if (floating) {
+			return std::stod(number);
+		}
+		else {
+			return static_cast<double>(std::stoi(number));
+		}
+	}
 }
 
 //position at WHITESPACE or NEWLINE
