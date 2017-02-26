@@ -4,8 +4,16 @@
 //to only calculate this once
 static double thirdquad = M_PI + M_PI_2;
 
+Matrix MathWiz::initZBuffer() {
+	return Matrix(650, 650);
+}
+
 double MathWiz::GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint) {
-	return (double)(endpoint.y - origin.y) / (double)(endpoint.x - origin.x);
+	return static_cast<double>((endpoint.y - origin.y)) / static_cast<double>((endpoint.x - origin.x));
+}
+
+double MathWiz::GetGradient3D(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint) {
+	return static_cast<double>((endpoint.y - origin.y)) / static_cast<double>((endpoint.x - origin.x));
 }
 
 double MathWiz::GetGradientS(OctantWiz::SPoint point1, OctantWiz::SPoint point2) {

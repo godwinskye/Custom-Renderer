@@ -1,6 +1,7 @@
 #pragma once
 #define _USE_MATH_DEFINES
 #include "../OctantWiz/OctantWiz.h"
+#include "../Matrix/Matrix.h"
 #include <math.h>
 #include <string>
 
@@ -13,7 +14,10 @@ namespace MathWiz {
 		Quadrant4
 	};
 
+	Matrix initZBuffer();
+
 	double GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint);
+	double GetGradient3D(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint);
 	double GetGradientS(OctantWiz::SPoint point1, OctantWiz::SPoint point2);
 	OctantWiz::Point DetermineEndPoint(double currentangle, int length, int x, int y);
 	Quadrant DetermineQuadrant(double angle);

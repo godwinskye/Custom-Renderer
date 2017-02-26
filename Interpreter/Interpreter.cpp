@@ -35,7 +35,7 @@ void Interpreter::interpretLine(std::string line) {
 		}
 		else {
 			token = appendSubsequentAlphabets(line, ALTER i);
-			applyToken(line, ALTER i);
+			fitToken(line, ALTER i);
 		}
 	}
 }
@@ -54,9 +54,9 @@ std::string Interpreter::appendSubsequentAlphabets(std::string line, int &positi
 	}
 	return token;
 }
-//TODO: Fill applyToken
+//TODO: Fill fitToken
 //position at WHITESPACE or NEWLINE
-void Interpreter::applyToken(std::string token, int &position) {
+void Interpreter::fitToken(std::string token, int &position) {
 	if (token == "polygon") {
 		//code
 	}

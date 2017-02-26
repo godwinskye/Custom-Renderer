@@ -85,6 +85,9 @@
     <ClCompile Include="Interpreter\Interpreter.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="Matrix\Matrix.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h">
@@ -124,6 +127,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="Interpreter\Interpreter.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix\Matrix.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

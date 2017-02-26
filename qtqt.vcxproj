@@ -147,6 +147,7 @@
     </ClCompile>
     <ClCompile Include="Interpreter\Interpreter.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Matrix\Matrix.cpp" />
     <ClCompile Include="Renderer\InterpolatedLines.cpp" />
     <ClCompile Include="Renderer\InterpolatedPolyFill.cpp" />
     <ClCompile Include="Renderer\LineRender.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="client.h" />
     <ClInclude Include="drawable.h" />
     <ClInclude Include="Interpreter\Interpreter.h" />
+    <ClInclude Include="Matrix\Matrix.h" />
     <ClInclude Include="Renderer\InterpolatedLines.h" />
     <ClInclude Include="Renderer\InterpolatedPolyFill.h" />
     <ClInclude Include="Renderer\LineRender.h" />

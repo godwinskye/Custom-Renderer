@@ -38,6 +38,30 @@ namespace OctantWiz {
 		}
 	};
 
+	struct Point3D {
+		double x;
+		double y;
+		double z;
+
+		Point3D() {
+			x = 0.f;
+			y = 0.f;
+			z = 0.f;
+		}
+
+		Point3D(double a, double b, double c) {
+			x = a;
+			y = b;
+			z = c;
+		}
+
+		Point3D(int a, int b, int c) {
+			x = static_cast<double>(a);
+			y = static_cast<double>(b);
+			z = static_cast<double>(c);
+		}
+	};
+
 	enum class Octant {
 		OctantOne,
 		OctantTwo,

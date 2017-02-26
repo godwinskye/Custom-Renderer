@@ -274,3 +274,162 @@ LineRenderer::FillPack LineRenderer::LiPolyRenderOctant6Or7(Drawable * drawable,
 	drawable->updateScreen();
 	return FillPack(line1, xiter, movepositive, origin, endpoint);
 }
+
+void LineRenderer::LiDDArender3D(Drawable * drawable, OctantWiz::Point3D origin, OctantWiz::Point3D endpoint, Matrix& zBuffer, unsigned int color1, unsigned int color2) {
+	double gradient = MathWiz::GetGradient3D(origin, endpoint);
+	OctantWiz::Point diffpoint(endpoint.x - origin.x, endpoint.y - origin.y);
+	OctantWiz::Octant target = OctantWiz::FindOctant(diffpoint);
+
+	switch (target) {							//rather ugly switch
+	case OctantWiz::Octant::OctantOne:
+	case OctantWiz::Octant::OctantEight:
+		RenderOctant3D1Or8(drawable, origin, endpoint, zBuffer, gradient, color1, color2);
+		break;
+	case OctantWiz::Octant::OctantTwo:
+	case OctantWiz::Octant::OctantThree:
+		RenderOctant3D2Or3(drawable, origin, endpoint, zBuffer, gradient, color1, color2);
+		break;
+	case OctantWiz::Octant::OctantFour:
+	case OctantWiz::Octant::OctantFive:
+		RenderOctant3D4Or5(drawable, origin, endpoint, zBuffer, gradient, color1, color2);
+		break;
+	case OctantWiz::Octant::OctantSix:
+	case OctantWiz::Octant::OctantSeven:
+		RenderOctant3D6Or7(drawable, origin, endpoint, zBuffer, gradient, color1, color2);
+		break;
+	}
+}
+
+void LineRenderer::RenderOctant3D1Or8(Drawable * drawable, OctantWiz::Point3D origin, OctantWiz::Point3D endpoint, Matrix& zBuffer, double gradient, unsigned int color1, unsigned int color2) {
+	double currentY = origin.y;
+
+	//Color interpolation
+	double red = (color1 >> 16) & 0xff;
+	double green = (color1 >> 8) & 0xff;
+	double blue = color1 & 0xff;
+	double redgradient = (((color2 >> 16) & 0xff) - red) / (endpoint.x - origin.x);
+	double greengradient = (((color2 >> 8) & 0xff) - green) / (endpoint.x - origin.x);
+	double bluegradient = ((color2 & 0xff) - blue) / (endpoint.x - origin.x);
+
+	double color = static_cast<double>(color1);
+
+	//Z-component
+	double currentZ = origin.z;
+	double dz = static_cast<double>((endpoint.z - origin.z) / (endpoint.x - origin.x));
+
+	for (int x = origin.x; x <= endpoint.x; x++) {
+		if (currentZ < zBuffer.at(x, round(currentY))) {
+			drawable->setPixel(x, round(currentY), color);
+			zBuffer.setAt(x, round(currentY), round(currentZ));
+		}
+		currentY = currentY + gradient;
+		currentZ = currentZ + dz;
+
+		red = red + redgradient;
+		green = green + greengradient;
+		blue = blue + bluegradient;
+		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(green)) & 0xff);
+	}
+	drawable->updateScreen();
+}
+
+void LineRenderer::RenderOctant3D2Or3(Drawable * drawable, OctantWiz::Point3D origin, OctantWiz::Point3D endpoint, Matrix& zBuffer, double gradient, unsigned int color1, unsigned int color2) {
+	double currentX = origin.x;
+	double reversegradient = 1 / gradient;
+
+	//Color interpolation
+	double red = (color1 >> 16) & 0xff;
+	double green = (color1 >> 8) & 0xff;
+	double blue = color1 & 0xff;
+	double redgradient = (((color2 >> 16) & 0xff) - red) / (endpoint.y - origin.y);
+	double greengradient = (((color2 >> 8) & 0xff) - green) / (endpoint.y - origin.y);
+	double bluegradient = ((color2 & 0xff) - blue) / (endpoint.y - origin.y);
+
+	double color = static_cast<double>(color1);
+
+	//Z-component
+	double currentZ = origin.z;
+	double dz = static_cast<double>((endpoint.z - origin.z) / (endpoint.y - origin.y));
+
+	for (int y = origin.y; y >= endpoint.y; y--) {
+		if (currentZ < zBuffer.at(round(currentX), y)) {
+			drawable->setPixel(round(currentX), y, color);
+			zBuffer.setAt(round(currentX), y, round(currentZ));
+		}
+		currentX = currentX - reversegradient;
+		currentZ = currentZ + dz;
+
+		red = red + redgradient;
+		green = green + greengradient;
+		blue = blue + bluegradient;
+		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(green)) & 0xff);
+	}
+	drawable->updateScreen();
+}
+
+void LineRenderer::RenderOctant3D4Or5(Drawable * drawable, OctantWiz::Point3D origin, OctantWiz::Point3D endpoint, Matrix& zBuffer, double gradient, unsigned int color1, unsigned int color2) {
+	double currentY = origin.y;
+
+	//Color interpolation
+	double red = (color1 >> 16) & 0xff;
+	double green = (color1 >> 8) & 0xff;
+	double blue = color1 & 0xff;
+	double redgradient = (((color2 >> 16) & 0xff) - red) / (endpoint.x - origin.x);
+	double greengradient = (((color2 >> 8) & 0xff) - green) / (endpoint.x - origin.x);
+	double bluegradient = ((color2 & 0xff) - blue) / (endpoint.x - origin.x);
+
+	double color = static_cast<double>(color1);
+
+	//Z-component
+	double currentZ = origin.z;
+	double dz = static_cast<double>((endpoint.z - origin.z) / (endpoint.x - origin.x));
+
+	for (int x = origin.x; x >= endpoint.x; x--) {
+		if (currentZ < zBuffer.at(x, round(currentY))) {
+			drawable->setPixel(x, round(currentY), color);
+			zBuffer.setAt(x, round(currentY), round(currentZ));
+		}
+		currentY = currentY - gradient;
+		currentZ = currentZ + dz;
+
+		red = red + redgradient;
+		green = green + greengradient;
+		blue = blue + bluegradient;
+		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(green)) & 0xff);
+	}
+	drawable->updateScreen();
+}
+
+void LineRenderer::RenderOctant3D6Or7(Drawable * drawable, OctantWiz::Point3D origin, OctantWiz::Point3D endpoint, Matrix& zBuffer, double gradient, unsigned int color1, unsigned int color2) {
+	double currentX = origin.x;
+	double reversegradient = 1 / gradient;
+
+	//Color interpolation
+	double red = (color1 >> 16) & 0xff;
+	double green = (color1 >> 8) & 0xff;
+	double blue = color1 & 0xff;
+	double redgradient = (((color2 >> 16) & 0xff) - red) / (endpoint.y - origin.y);
+	double greengradient = (((color2 >> 8) & 0xff) - green) / (endpoint.y - origin.y);
+	double bluegradient = ((color2 & 0xff) - blue) / (endpoint.y - origin.y);
+
+	double color = static_cast<double>(color1);
+
+	//Z-component
+	double currentZ = origin.z;
+	double dz = static_cast<double>((endpoint.z - origin.z) / (endpoint.y - origin.y));
+
+	for (int y = origin.y; y <= endpoint.y; y++) {
+		if (currentZ < zBuffer.at(round(currentX), y)) {
+			drawable->setPixel(round(currentX), y, color);
+			zBuffer.setAt(round(currentX), y, round(currentZ));
+		}
+		currentX = currentX + reversegradient;
+		currentZ = currentZ + dz;
+
+		red = red + redgradient;
+		green = green + greengradient;
+		blue = blue + bluegradient;
+		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(green)) & 0xff);
+	}
+	drawable->updateScreen();
+}
