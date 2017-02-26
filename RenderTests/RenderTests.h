@@ -53,4 +53,7 @@ namespace RenderTests {
 	//Interpolation Tests
 	void TransWireframeTri162Test(Drawable *drawable, int xstart, int ystart);
 	void TransMeshTri162Test(Drawable *drawable, int xstart, int ystart);
+
+	//TODO: zBuffer-3D Test
+	//test();
 }

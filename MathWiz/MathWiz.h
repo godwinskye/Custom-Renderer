@@ -14,7 +14,10 @@ namespace MathWiz {
 		Quadrant4
 	};
 
-	Matrix initZBuffer();
+	Matrix& initZBuffer();
+	Matrix& matrixMultiplication(Matrix& matrix1, Matrix& matrix2);
+	Matrix& makeTranslation(double tx, double ty, double tz);
+	Matrix& makeScaleFactor(double sx, double sy, double sz);
 
 	double GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint);
 	double GetGradient3D(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint);

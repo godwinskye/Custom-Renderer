@@ -4,8 +4,46 @@
 //to only calculate this once
 static double thirdquad = M_PI + M_PI_2;
 
-Matrix MathWiz::initZBuffer() {
-	return Matrix(650, 650);
+Matrix& MathWiz::initZBuffer() {
+	return Matrix(650, 650, MType::BACK_PLANE);
+}
+
+Matrix& MathWiz::matrixMultiplication(Matrix& matrix1, Matrix& matrix2) {
+	int temp;
+	Matrix result(matrix1.getRow(), matrix2.getWidth, MType::ZERO);
+
+	for (int row = 0; row < matrix1.getRow(); row++) {
+		for (int col = 0; col < matrix2.getWidth(); col++) {
+			for (int m2row = 0; m2row < matrix2.getRow(); m2row++) {
+				temp = matrix1.at(row, m2row) * matrix2.at(m2row, col);
+				result.setAt(row, col, temp);
+			}
+		}
+	}
+	delete &matrix1;
+	delete &matrix2;
+	return result;
+}
+
+Matrix& MathWiz::makeTranslation(double tx, double ty, double tz) {
+	Matrix result(4, 4, MType::IDENTITY);
+
+	result.setAt(0, 3, tx);
+	result.setAt(1, 3, ty);
+	result.setAt(2, 3, tz);
+	
+	return result;
+}
+
+Matrix & MathWiz::makeScaleFactor(double sx, double sy, double sz) {
+	Matrix result(4, 4, MType::ZERO);
+
+	result.setAt(0, 0, sx);
+	result.setAt(1, 1, sy);
+	result.setAt(2, 2, sz);
+	result.setAt(3, 3, 1);
+
+	return result;
 }
 
 double MathWiz::GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint) {

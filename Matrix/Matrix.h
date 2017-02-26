@@ -1,16 +1,30 @@
 #pragma once
 
+enum class MType {
+	BACK_PLANE,
+	IDENTITY,
+	ZERO
+};
+
 class Matrix {
 public:
-	Matrix(int row, int column);
+	Matrix(int row, int column, MType);
 	~Matrix();
-	int at(int x, int y);
-	void setAt(int x, int y, int newvalue);
-	void setAll(int newvalue);
+
+	double at(int x, int y);
+
+	void setAt(int x, int y, double newvalue);
+	void setAll(double newvalue);
+	void setIdentity();
+
 	int index(int x, int y) const;
+
+	int getRow();
+	int getWidth();
 private:
-	int* marray;
+	double* marray;
 	int width;
 	int size;
+	int row;
 	static const int BACK_CLIPPING_PLANE = 200;
 };
