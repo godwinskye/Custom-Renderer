@@ -1,39 +1,32 @@
-#cube 1
+#start
 {
 	scale 50, 50, 50
 	rotate X 45
 	rotate Y -45
-	file "cube"
+	file "mountain"
 }
-#cube 2
 {
 	translate -100, -100, 200
 	scale 50, 50, 50
 	rotate X -45
 	rotate Y -60
-	file "cube"
+	file "mountain"
 }
-#cube 3
-{
-	translate -100, 50, 0
-	scale 50, 50, 50
-	rotate Z -60
-	file "cube"
-}
-#cube 4
 {
 	translate 50, 50, 100
 	scale 35, 35, 35
 	rotate Z 60
 	rotate Y -50
 	rotate X 30
-	file "cube"
+	file "cube2"
+	file "mountain"
 }
-#cube 5
 {
-	translate 90, -50, 60
+	translate 50, -80, 60
 	scale 35, 35, 35
 	rotate Y -60
 	rotate Z 80
+	file "cube2"
 	file "cube"
+	file "mountain"
 }

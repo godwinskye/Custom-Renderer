@@ -15,7 +15,6 @@ Client::Client(Drawable *drawable)
 void Client::nextPage() {
     static int pageNumber = 0;
 	unsigned int black = 0xff000000;
-	RenderTests::RandomTestPackage package = RenderTests::GetPackage();
     pageNumber++;
     std::cout << "PageNumber " << pageNumber << std::endl;
 
@@ -42,21 +41,33 @@ void Client::nextPage() {
 		drawable->updateScreen();
 	}
 		break;
-	case 5:
+	case 5: {
 		draw_rect(0, 0, 650, 650, black);
+		std::string inputfile("page5");
+		Interpreter Parser(drawable, inputfile);
 		drawable->updateScreen();
+	}
 		break;
-	case 6:
+	case 6: {
 		draw_rect(0, 0, 650, 650, black);
+		std::string inputfile("test1");
+		Interpreter Parser(drawable, inputfile);
 		drawable->updateScreen();
+	}
 		break;
-	case 7:
+	case 7: {
 		draw_rect(0, 0, 650, 650, black);
+		std::string inputfile("test2");
+		Interpreter Parser(drawable, inputfile);
 		drawable->updateScreen();
+	}
 		break;
-	case 8:
+	case 8: {
 		draw_rect(0, 0, 650, 650, black);
+		std::string inputfile("test3");
+		Interpreter Parser(drawable, inputfile);
 		drawable->updateScreen();
+	}
 		break;
 	}
 }

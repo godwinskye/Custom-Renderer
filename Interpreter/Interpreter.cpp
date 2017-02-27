@@ -312,7 +312,7 @@ void Interpreter::RenderLine(OctantWiz::Point3D origin, OctantWiz::Point3D endpo
 }
 
 OctantWiz::Point3D Interpreter::obtainColor(double zvalue) {
-	if (round(zvalue) == 1) {
+	if (round(zvalue) == 0) {
 		return near;
 	}
 	else if (round(zvalue) == zBufferMaxDistance) {

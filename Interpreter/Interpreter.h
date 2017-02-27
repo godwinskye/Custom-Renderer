@@ -30,13 +30,13 @@ public:
 	std::ifstream mainfile;
 private:
 	double scale = 3.25;
-	int zBufferMaxDistance = 198;
+	int zBufferMaxDistance = 200;
 
 	OctantWiz::Point3D near = OctantWiz::Point3D(0, 1, 0);
 	OctantWiz::Point3D far = OctantWiz::Point3D(0, 0, 0);
 
 	std::stack<Matrix*> CTMstack;
-	Matrix zBuffer = Matrix(700, 700, MType::BACK_PLANE);
+	Matrix zBuffer = Matrix(651, 651, MType::BACK_PLANE);
 	Matrix* CTM = new Matrix(4, 4, MType::IDENTITY);
 	bool FILLED = true;
 	Drawable* draw;

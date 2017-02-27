@@ -138,5 +138,7 @@
     <None Include="cube2.simp" />
     <None Include="z0_face.simp" />
     <None Include="largecube.simp" />
+    <None Include="mountain.simp" />
+    <None Include="page5.simp" />
   </ItemGroup>
 </Project>
