@@ -22,7 +22,16 @@ SOURCES += main.cpp\
     MathWiz.cpp \
     OctantWiz.cpp \
     PolyFill.cpp \
-    RenderTests.cpp
+    RenderTests.cpp \
+    Interpreter/Interpreter.cpp \
+    MathWiz/MathWiz.cpp \
+    Matrix/Matrix.cpp \
+    OctantWiz/OctantWiz.cpp \
+    Renderer/InterpolatedLines.cpp \
+    Renderer/InterpolatedPolyFill.cpp \
+    Renderer/LineRender.cpp \
+    Renderer/PolyFill.cpp \
+    RenderTests/RenderTests.cpp
 
 HEADERS  += \
     drawable.h \
@@ -34,7 +43,16 @@ HEADERS  += \
     MathWiz.h \
     OctantWiz.h \
     PolyFill.h \
-    RenderTests.h
+    RenderTests.h \
+    Interpreter/Interpreter.h \
+    MathWiz/MathWiz.h \
+    Matrix/Matrix.h \
+    OctantWiz/OctantWiz.h \
+    Renderer/InterpolatedLines.h \
+    Renderer/InterpolatedPolyFill.h \
+    Renderer/LineRender.h \
+    Renderer/PolyFill.h \
+    RenderTests/RenderTests.h
 
 DISTFILES += \
     Debug/qtqt.ilk \
@@ -60,5 +78,11 @@ DISTFILES += \
     x64/Debug/qtqt.Build.CppClean.log \
     x64/Debug/qtqt.log \
     .gitattributes \
-    .gitignore
+    .gitignore \
+    cube.simp \
+    cube2.simp \
+    largecube.simp \
+    mountain.simp \
+    page5.simp \
+    z0_face.simp
 
