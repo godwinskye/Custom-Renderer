@@ -75,7 +75,7 @@ double Interpreter::grabNextNum(std::string line, int & position) {
 	bool start = false;
 	bool floating = false;
 	for (position; position < line.length(); position++) {
-		if (isdigit(line[position])) {
+		if (isdigit(line[position]) || line[position] == '-') {
 			number += line[position];
 			start = true;
 		}

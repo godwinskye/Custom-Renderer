@@ -31,7 +31,9 @@ Matrix* MathWiz::initZBuffer() {
 
 Matrix* MathWiz::matrixMultiplication(Matrix* matrix1, Matrix* matrix2) {
 	int temp = 0;
-	Matrix* result = new Matrix(matrix1->getRow(), matrix2->getWidth(), MType::ZERO);
+	int row = matrix1->getRow();
+	int column = matrix2->getWidth();
+	Matrix* result = new Matrix(row, column, MType::ZERO);
 
 	for (int row = 0; row < matrix1->getRow(); row++) {
 		for (int col = 0; col < matrix2->getWidth(); col++) {
