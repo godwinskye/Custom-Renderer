@@ -21,9 +21,6 @@ void PolyFill::LiTriangle(Drawable * drawable, OctantWiz::Point origin, OctantWi
 	LineRenderer::FillPack line3 = LineRenderer::LiPolyDDArender(drawable, package.shorter2.origin, package.shorter2.endpoint, 
 									drawable->getPixel(package.shorter2.origin.x, package.shorter2.origin.y),
 									drawable->getPixel(package.shorter2.endpoint.x, package.shorter2.endpoint.y));
-	
-
-	int something;
 
 	if (longestline.xiter) {
 		for (int i = 0; i < line2.map.size(); i++) {
@@ -209,7 +206,6 @@ void PolyFill::Triangle3D(Drawable * drawable, OctantWiz::Point3D origin, Octant
 		drawable->getPixel(package.shorter2.endpoint.x, package.shorter2.endpoint.y));
 
 	int z, z2;
-	int something;
 
 	if (longestline.xiter) {
 		for (int i = 0; i < line2.map.size(); i++) {

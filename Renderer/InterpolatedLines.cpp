@@ -374,7 +374,7 @@ void LineRenderer::RenderOctant3D1Or8(Drawable * drawable, OctantWiz::Point3D or
 	for (int x = origin.x; x <= endpoint.x; x++) {
 		if (currentZ < zBuffer.at(x, round(currentY))) {
 			drawable->setPixel(x, round(currentY), color);
-			zBuffer.setAt(x, round(currentY), round(currentZ));
+			zBuffer.setAt(x, round(currentY), currentZ);
 		}
 		currentY = currentY + gradient;
 		currentZ = currentZ + dz;
@@ -408,7 +408,7 @@ void LineRenderer::RenderOctant3D2Or3(Drawable * drawable, OctantWiz::Point3D or
 	for (int y = origin.y; y >= endpoint.y; y--) {
 		if (currentZ < zBuffer.at(round(currentX), y)) {
 			drawable->setPixel(round(currentX), y, color);
-			zBuffer.setAt(round(currentX), y, round(currentZ));
+			zBuffer.setAt(round(currentX), y, currentZ);
 		}
 		currentX = currentX - reversegradient;
 		currentZ = currentZ + dz;
@@ -441,7 +441,7 @@ void LineRenderer::RenderOctant3D4Or5(Drawable * drawable, OctantWiz::Point3D or
 	for (int x = origin.x; x >= endpoint.x; x--) {
 		if (currentZ < zBuffer.at(x, round(currentY))) {
 			drawable->setPixel(x, round(currentY), color);
-			zBuffer.setAt(x, round(currentY), round(currentZ));
+			zBuffer.setAt(x, round(currentY), currentZ);
 		}
 		currentY = currentY - gradient;
 		currentZ = currentZ + dz;
@@ -475,7 +475,7 @@ void LineRenderer::RenderOctant3D6Or7(Drawable * drawable, OctantWiz::Point3D or
 	for (int y = origin.y; y <= endpoint.y; y++) {
 		if (currentZ < zBuffer.at(round(currentX), y)) {
 			drawable->setPixel(round(currentX), y, color);
-			zBuffer.setAt(round(currentX), y, round(currentZ));
+			zBuffer.setAt(round(currentX), y, currentZ);
 		}
 		currentX = currentX + reversegradient;
 		currentZ = currentZ + dz;
@@ -552,9 +552,9 @@ LineRenderer::FillPack3D LineRenderer::PolyRenderOctant3D2Or3(Drawable * drawabl
 	for (int y = origin.y; y >= endpoint.y; y--) {
 		if (currentZ < zBuffer.at(round(currentX), y)) {
 			drawable->setPixel(round(currentX), y, color);
-			zBuffer.setAt(round(currentX), y, round(currentZ));
+			zBuffer.setAt(round(currentX), y, currentZ);
 		}
-		line1.insert(std::pair<int, int>(round(currentX), y));
+		line1.insert(std::pair<int, int>(y, round(currentX)));
 		currentX = currentX - reversegradient;
 		currentZ = currentZ + dz;
 
@@ -591,7 +591,7 @@ LineRenderer::FillPack3D LineRenderer::PolyRenderOctant3D4Or5(Drawable * drawabl
 	for (int x = origin.x; x >= endpoint.x; x--) {
 		if (currentZ < zBuffer.at(x, round(currentY))) {
 			drawable->setPixel(x, round(currentY), color);
-			zBuffer.setAt(x, round(currentY), round(currentZ));
+			zBuffer.setAt(x, round(currentY), currentZ);
 		}
 		line1.insert(std::pair<int, int>(x, round(currentY)));
 		currentY = currentY - gradient;
@@ -631,9 +631,9 @@ LineRenderer::FillPack3D LineRenderer::PolyRenderOctant3D6Or7(Drawable * drawabl
 	for (int y = origin.y; y <= endpoint.y; y++) {
 		if (currentZ < zBuffer.at(round(currentX), y)) {
 			drawable->setPixel(round(currentX), y, color);
-			zBuffer.setAt(round(currentX), y, round(currentZ));
+			zBuffer.setAt(round(currentX), y, currentZ);
 		}
-		line1.insert(std::pair<int, int>(round(currentX), y));
+		line1.insert(std::pair<int, int>(y, round(currentX)));
 		currentX = currentX + reversegradient;
 		currentZ = currentZ + dz;
 

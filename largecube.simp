@@ -1,0 +1,6 @@
+
+#cube 2
+{
+	translate -100, -100, 1
+	file "cube"
+}

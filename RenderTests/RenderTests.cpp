@@ -415,9 +415,9 @@ void RenderTests::TransWireframeTri162Test(Drawable * drawable, int xstart, int 
 
 	for (int i = 0; i < numbereachrow; i++) {
 		for (int j = 0; j < numbereachrow; j++) {
-			rowpoints[j] = OctantWiz::Point(first.x + 25 * j, tempY);
+			rowpoints[j] = OctantWiz::Point(first.x + 60 * j, tempY);
 		}
-		tempY = tempY + 25;
+		tempY = tempY + 60;
 		wholearray.push_back(rowpoints);
 	}
 
@@ -458,9 +458,9 @@ void RenderTests::TransMeshTri162Test(Drawable * drawable, int xstart, int ystar
 
 	for (int i = 0; i < numbereachrow; i++) {
 		for (int j = 0; j < numbereachrow; j++) {
-			rowpoints[j] = OctantWiz::Point(first.x + 25 * j, tempY);
+			rowpoints[j] = OctantWiz::Point(first.x + 60 * j, tempY);
 		}
-		tempY = tempY + 25;
+		tempY = tempY + 60;
 		wholearray.push_back(rowpoints);
 	}
 
@@ -496,4 +496,48 @@ void RenderTests::TransMeshTri162Test(Drawable * drawable, int xstart, int ystar
 			}
 		}
 	}
+}
+
+void RenderTests::zBufferTest(Drawable * drawable) {
+	Matrix* zBuffer = new Matrix(650, 650, MType::BACK_PLANE);
+
+	double base_angle = 240;
+	double sub_angle = 300;
+	double newbase, newsub;
+	unsigned int color;
+	std::vector<OctantWiz::Point3D> colors;
+
+	colors.push_back(OctantWiz::Point3D(1, 1, 1));
+	colors.push_back(OctantWiz::Point3D(0.85, 0.85, 0.85));
+	colors.push_back(OctantWiz::Point3D(0.7, 0.7, 0.7));
+	colors.push_back(OctantWiz::Point3D(0.55, 0.55, 0.55));
+	colors.push_back(OctantWiz::Point3D(0.4, 0.4, 0.4));
+	colors.push_back(OctantWiz::Point3D(0.25, 0.25, 0.25));
+
+	for (int i = 0; i < 6; i++) {
+		color = MathWiz::getCorrespondingColor(colors[i]);
+		int rotation = rand() % 241 - 120;
+		newbase = (base_angle + rotation) * M_PI / 180;
+		if (rotation > 60) {
+			newsub = (sub_angle + rotation - 360) * M_PI / 180;
+		}
+		else {
+			newsub = (sub_angle + rotation) * M_PI / 180;
+		}
+
+		OctantWiz::Point point1 = MathWiz::DetermineEndPoint(newbase, 275, 325, 325);
+		OctantWiz::Point point2 = MathWiz::DetermineEndPoint(newsub, 275, 325, 325);
+
+		int z1 = rand() % 199 + 1;
+		int z2 = rand() % 199 + 1;
+		int z3 = rand() % 199 + 1;
+
+		OctantWiz::Point3D origin(325, 325, z1);
+		OctantWiz::Point3D endpoint1(point1.x, point1.y, z2);
+		OctantWiz::Point3D endpoint2(point2.x, point2.y, z3);
+
+		PolyFill::Triangle3D(drawable, origin, endpoint1, endpoint2, *zBuffer, color, color, color);
+	}
+
+	delete zBuffer;
 }

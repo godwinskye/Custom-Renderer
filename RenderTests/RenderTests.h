@@ -55,5 +55,5 @@ namespace RenderTests {
 	void TransMeshTri162Test(Drawable *drawable, int xstart, int ystart);
 
 	//TODO: zBuffer-3D Test
-	//test();
+	void zBufferTest(Drawable* drawable);
 }

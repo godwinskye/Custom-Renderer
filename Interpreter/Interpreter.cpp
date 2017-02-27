@@ -259,15 +259,9 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 	delete tendpoint1;
 	delete tendpoint2;
 
-	res_origin.x = res_origin.x * scale;
-	res_origin.y = res_origin.y * scale;
-	res_origin.z = res_origin.z * scale;
-	res_endpt1.x = res_endpt1.x * scale;
-	res_endpt1.y = res_endpt1.y * scale;
-	res_endpt1.z = res_endpt1.z * scale;
-	res_endpt2.x = res_endpt2.x * scale;
-	res_endpt2.y = res_endpt2.y * scale;
-	res_endpt2.z = res_endpt2.z * scale;
+	MathWiz::translateToWindowSpace(res_origin);
+	MathWiz::translateToWindowSpace(res_endpt1);
+	MathWiz::translateToWindowSpace(res_endpt2);
 
 	OctantWiz::Point3D color1 = obtainColor(res_origin.z);
 	OctantWiz::Point3D color2 = obtainColor(res_endpt1.z);
@@ -276,8 +270,6 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 	unsigned int res_color1 = getColor(color1);
 	unsigned int res_color2 = getColor(color2);
 	unsigned int res_color3 = getColor(color3);
-
-
 
 	if (FILLED) {
 		PolyFill::Triangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3);
@@ -320,7 +312,7 @@ void Interpreter::RenderLine(OctantWiz::Point3D origin, OctantWiz::Point3D endpo
 }
 
 OctantWiz::Point3D Interpreter::obtainColor(double zvalue) {
-	if (round(zvalue) == 0) {
+	if (round(zvalue) == 1) {
 		return near;
 	}
 	else if (round(zvalue) == zBufferMaxDistance) {

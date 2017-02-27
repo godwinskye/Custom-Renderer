@@ -28,6 +28,12 @@ namespace MathWiz {
 	Matrix* makeYRotation(double degrees);
 	Matrix* makeZRotation(double degrees);
 
+	//Final translate
+	void translateToWindowSpace(OctantWiz::Point3D& point);
+	
+	//Color swapper
+	unsigned int getCorrespondingColor(OctantWiz::Point3D point);
+
 	double GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint);
 	double GetGradient3D(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint);
 	double GetGradientS(OctantWiz::SPoint point1, OctantWiz::SPoint point2);
