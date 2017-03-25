@@ -4,6 +4,7 @@
 #include "../Matrix/Matrix.h"
 #include <math.h>
 #include <string>
+#include <vector>
 
 namespace MathWiz {
 
@@ -34,7 +35,11 @@ namespace MathWiz {
 	//Color swapper
 	unsigned int getCorrespondingColor(OctantWiz::Point3D point);
 
+	//PolyFill method
+	OctantWiz::Point GetLargestYAndRemoveIt(std::vector<OctantWiz::Point>& list);
+
 	double GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint);
+	double GetReverseGradient(OctantWiz::Point origin, OctantWiz::Point endpoint);
 	double GetGradient3D(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint);
 	double GetGradientS(OctantWiz::SPoint point1, OctantWiz::SPoint point2);
 	OctantWiz::Point DetermineEndPoint(double currentangle, int length, int x, int y);

@@ -406,3 +406,7 @@ void PolyFill::WireTriangle3D(Drawable * drawable, OctantWiz::Point3D origin, Oc
 	LineRenderer::LiDDArender3D(drawable, origin, endpoint2, zBuffer, color1, color3);
 	LineRenderer::LiDDArender3D(drawable, endpoint1, endpoint2, zBuffer, color2, color3);
 }
+
+void PolyFill::RealLiTriangle(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2, unsigned int color1, unsigned int color2, unsigned int color3) {
+
+}

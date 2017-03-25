@@ -3,162 +3,85 @@
 
 #define ALTER
 
-void PolyFill::Triangle(Drawable *drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2, unsigned int color) {
-	int currentIter;
+void PolyFill::Triangle(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2, unsigned int color) {
+	std::vector<OctantWiz::Point> list;
+	OctantWiz::Point top, middle, bottom;
+	list.push_back(origin);
+	list.push_back(endpoint1);
+	list.push_back(endpoint2);
+	bool leftIsVar = false;
 
-	LineRenderer::FillPack line11 = LineRenderer::PolyDDArender(drawable, origin, endpoint1, color);
-	LineRenderer::FillPack line22 = LineRenderer::PolyDDArender(drawable, origin, endpoint2, color);
-	LineRenderer::FillPack line33 = LineRenderer::PolyDDArender(drawable, endpoint1, endpoint2, color);
-	PolyFill::LongestTriLine package = LineRenderer::FindLongest(line11, line22, line33);
+	bottom = MathWiz::GetLargestYAndRemoveIt(list);
+	middle = MathWiz::GetLargestYAndRemoveIt(list);
+	top = MathWiz::GetLargestYAndRemoveIt(list);
 
-	LineRenderer::FillPack longestline = LineRenderer::PolyDDArender(drawable, package.longest.origin, package.longest.endpoint, color);
-	LineRenderer::FillPack line2 = LineRenderer::PolyDDArender(drawable, package.shorter1.origin, package.shorter1.endpoint, color);
-	LineRenderer::FillPack line3 = LineRenderer::PolyDDArender(drawable, package.shorter2.origin, package.shorter2.endpoint, color);
-	int something;
+	double gradient = MathWiz::GetReverseGradient(top, middle);
+	double fgradient = MathWiz::GetReverseGradient(top, bottom);
 
-	if (longestline.xiter) {
-		for (int i = 0; i < line2.map.size(); i++) {
-			if (line2.xiter) {
-				if (line2.movepositive) {
-					currentIter = package.shorter1.origin.x + i;
-					if (longestline.map.find(currentIter) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, currentIter, line2.map[currentIter], currentIter, longestline.map[currentIter], color);
-				}
-				else {
-					currentIter = package.shorter1.origin.x - i;
-					if (longestline.map.find(currentIter) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, currentIter, line2.map[currentIter], currentIter, longestline.map[currentIter], color);
-				}
-			}
-			else {     //line2 = yiter
-				if (line2.movepositive) {
-					currentIter = package.shorter1.origin.y + i;
-					if (longestline.map.find(line2.map[currentIter]) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, line2.map[currentIter], currentIter, line2.map[currentIter], longestline.map[line2.map[currentIter]], color);
-				}
-				else {
-					currentIter = package.shorter1.origin.y - i;
-					if (longestline.map.find(line2.map[currentIter]) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, line2.map[currentIter], currentIter, line2.map[currentIter], longestline.map[line2.map[currentIter]], color);
-				}
-			}
+	double leftpoint, rightpoint;
+	double lgradient, rgradient;
+
+	if (middle.x <= bottom.x) {
+		leftpoint = top.x + gradient;
+		rightpoint = top.x + fgradient;
+		lgradient = gradient;
+		rgradient = fgradient;
+		if (top.x == middle.x) {
+			lgradient = 0;
 		}
-		
-		for (int i = 0; i < line3.map.size(); i++) {
-			if (line3.xiter) {
-				if (line3.movepositive) {
-					currentIter = package.shorter2.origin.x + i;
-					if (longestline.map.find(currentIter) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, currentIter, line3.map[currentIter], currentIter, longestline.map[currentIter], color);
-				}
-				else {
-					currentIter = package.shorter2.origin.x - i;
-					if (longestline.map.find(currentIter) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, currentIter, line3.map[currentIter], currentIter, longestline.map[currentIter], color);
-				}
-			}
-			else {       //line3 = yiter
-				if (line3.movepositive) {
-					currentIter = package.shorter2.origin.y + i;
-					if (longestline.map.find(line3.map[currentIter]) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, line3.map[currentIter], currentIter, line3.map[currentIter], longestline.map[line3.map[currentIter]], color);
-				}
-				else {
-					currentIter = package.shorter2.origin.y - i;
-					if (longestline.map.find(line3.map[currentIter]) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, line3.map[currentIter], currentIter, line3.map[currentIter], longestline.map[line3.map[currentIter]], color);
-				}
-			}
+		else if (top.x == bottom.x) {
+			rgradient = 0;
 		}
-		
+		leftIsVar = true;
 	}
-	else {    //longestline is a yiter
-		for (int i = 0; i < line2.map.size(); i++) {
-			if (line2.xiter) {
-				if (line2.movepositive) {
-					currentIter = package.shorter1.origin.x + i;
-					if (longestline.map.find(line2.map[currentIter]) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, currentIter, line2.map[currentIter], longestline.map[line2.map[currentIter]], line2.map[currentIter], color);
-				}
-				else {
-					currentIter = package.shorter1.origin.x - i;
-					if (longestline.map.find(line2.map[currentIter]) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, currentIter, line2.map[currentIter], longestline.map[line2.map[currentIter]], line2.map[currentIter], color);
-				}
-			}
-			else {     //line2 is a yiter
-				if (line2.movepositive) {
-					currentIter = package.shorter1.origin.y + i;
-					if (longestline.map.find(currentIter) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, line2.map[currentIter], currentIter, longestline.map[currentIter], currentIter, color);
-				}
-				else {
-					currentIter = package.shorter1.origin.y - i;
-					if (longestline.map.find(currentIter) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, line2.map[currentIter], currentIter, longestline.map[currentIter], currentIter, color);
-				}
-			}
+	else {
+		leftpoint = top.x + fgradient;
+		rightpoint = top.x + gradient;
+		lgradient = fgradient;
+		rgradient = gradient;
+		if (top.x == middle.x) {
+			rgradient = 0;
 		}
-		
-		for (int i = 0; i < line3.map.size(); i++) {
-			if (line3.xiter) {
-				if (line3.movepositive) {
-					currentIter = package.shorter2.origin.x + i;
-					if (longestline.map.find(line3.map[currentIter]) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, currentIter, line3.map[currentIter], longestline.map[line3.map[currentIter]], line3.map[currentIter], color);
-				}
-				else {
-					currentIter = package.shorter2.origin.x - i;
-					if (longestline.map.find(line3.map[currentIter]) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, currentIter, line3.map[currentIter], longestline.map[line3.map[currentIter]], line3.map[currentIter], color);
-				}
-			}
-			else {      //line3 is a yiter
-				if (line3.movepositive) {
-					currentIter = package.shorter2.origin.y + i;
-					if (longestline.map.find(currentIter) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, line3.map[currentIter], currentIter, longestline.map[currentIter], currentIter, color);
-				}
-				else {
-					currentIter = package.shorter2.origin.y - i;
-					if (longestline.map.find(currentIter) == longestline.map.end()) {
-						continue;
-					}
-					LineRenderer::DDArender(drawable, line3.map[currentIter], currentIter, longestline.map[currentIter], currentIter, color);
-				}
-			}
+		else if (top.x == bottom.x) {
+			lgradient = 0;
 		}
-		
+		leftIsVar = false;
+	}
+
+	
+	for (int y = top.y + 1; y < middle.y; y++) {
+		for (int x = leftpoint; x <= rightpoint - 1; x++) {
+			drawable->setPixel(x, y, color);
+		}
+		leftpoint += lgradient;
+		rightpoint += rgradient;
+	}
+
+
+
+	if (leftIsVar) {
+		lgradient = MathWiz::GetReverseGradient(middle, bottom);
+		if (middle.x == bottom.x) {
+			lgradient = 0;
+		}
+		leftpoint = middle.x;
+	}
+	else {
+		rgradient = MathWiz::GetReverseGradient(middle, bottom);
+		if (middle.x == bottom.x) {
+			rgradient = 0;
+		}
+		rightpoint = middle.x;
+	}
+
+
+
+	for (int y = middle.y; y < bottom.y; y++) {
+		for (int x = leftpoint; x <= rightpoint - 1; x++) {
+			drawable->setPixel(x, y, color);
+		}
+		leftpoint += lgradient;
+		rightpoint += rgradient;
 	}
 }
 

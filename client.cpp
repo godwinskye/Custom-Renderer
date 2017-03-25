@@ -18,6 +18,7 @@ void Client::nextPage() {
     pageNumber++;
     std::cout << "PageNumber " << pageNumber << std::endl;
 
+
 	switch (pageNumber % 9) {
 	case 1: 
 		draw_rect(0, 0, 650, 650, black);

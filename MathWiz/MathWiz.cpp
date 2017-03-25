@@ -135,8 +135,28 @@ unsigned int MathWiz::getCorrespondingColor(OctantWiz::Point3D point) {
 	return colour;
 }
 
+OctantWiz::Point MathWiz::GetLargestYAndRemoveIt(std::vector<OctantWiz::Point>& list) {
+	OctantWiz::Point largestpoint = list[0];
+	int index = 0;
+	for (int i = 0; i < list.size(); i++) {
+		if (largestpoint.y <= list[i].y) {
+			largestpoint = list[i];
+			index = i;
+		}
+	}
+	list.erase(list.begin() + index);
+	return largestpoint;
+}
+
 double MathWiz::GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint) {
 	return static_cast<double>((endpoint.y - origin.y)) / static_cast<double>((endpoint.x - origin.x));
+}
+
+double MathWiz::GetReverseGradient(OctantWiz::Point origin, OctantWiz::Point endpoint) {
+	if ((endpoint.y - origin.y) == 0) {
+		return 0.f;
+	}
+	return static_cast<double>((endpoint.x - origin.x)) / static_cast<double>((endpoint.y - origin.y));
 }
 
 double MathWiz::GetGradient3D(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint) {
