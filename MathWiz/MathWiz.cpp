@@ -135,6 +135,44 @@ unsigned int MathWiz::getCorrespondingColor(OctantWiz::Point3D point) {
 	return colour;
 }
 
+void MathWiz::InterpolateColorOnce(unsigned int& color, double redgradient, double greengradient, double bluegradient) {
+	double red = (color >> 16) & 0xff;
+	double green = (color >> 8) & 0xff;
+	double blue = color & 0xff;
+
+	if (red + redgradient >= 255) {
+		red = 255;
+	}
+	else if (red + redgradient <= 0) {
+		red = 0;
+	}
+	else {
+		red = red + redgradient;
+	}
+
+	if (green + greengradient >= 255) {
+		green = 255;
+	}
+	else if (green + greengradient <= 0) {
+		green = 0;
+	}
+	else {
+		green = green + greengradient;
+	}
+
+	if (blue + bluegradient >= 255) {
+		blue = 255;
+	}
+	else if (blue + bluegradient <= 0) {
+		blue = 0;
+	}
+	else {
+		blue = blue + bluegradient;
+	}
+
+	color = (0xff << 24) + ((static_cast<unsigned int>(round(red)) & 0xff) << 16) + ((static_cast<unsigned int>(round(green)) & 0xff) << 8) + (static_cast<unsigned int>(round(blue)) & 0xff);
+}
+
 OctantWiz::Point MathWiz::GetLargestYAndRemoveIt(std::vector<OctantWiz::Point>& list) {
 	OctantWiz::Point largestpoint = list[0];
 	int index = 0;

@@ -177,7 +177,7 @@ LineRenderer::FillPack LineRenderer::LiPolyRenderOctant1Or8(Drawable * drawable,
 		red = red + redgradient;
 		green = green + greengradient;
 		blue = blue + bluegradient;
-		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(green)) & 0xff);
+		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(blue)) & 0xff);
 	}
 	drawable->updateScreen();
 	return FillPack(line1, xiter, movepositive, origin, endpoint);
@@ -208,7 +208,7 @@ LineRenderer::FillPack LineRenderer::LiPolyRenderOctant2Or3(Drawable * drawable,
 		red = red + redgradient;
 		green = green + greengradient;
 		blue = blue + bluegradient;
-		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(green)) & 0xff);
+		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(blue)) & 0xff);
 	}
 	drawable->updateScreen();
 	return FillPack(line1, xiter, movepositive, origin, endpoint);
@@ -238,7 +238,7 @@ LineRenderer::FillPack LineRenderer::LiPolyRenderOctant4Or5(Drawable * drawable,
 		red = red + redgradient;
 		green = green + greengradient;
 		blue = blue + bluegradient;
-		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(green)) & 0xff);
+		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(blue)) & 0xff);
 	}
 	drawable->updateScreen();
 	return FillPack(line1, xiter, movepositive, origin, endpoint);
@@ -269,7 +269,7 @@ LineRenderer::FillPack LineRenderer::LiPolyRenderOctant6Or7(Drawable * drawable,
 		red = red + redgradient;
 		green = green + greengradient;
 		blue = blue + bluegradient;
-		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(green)) & 0xff);
+		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(blue)) & 0xff);
 	}
 	drawable->updateScreen();
 	return FillPack(line1, xiter, movepositive, origin, endpoint);

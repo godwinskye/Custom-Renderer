@@ -35,6 +35,9 @@ namespace MathWiz {
 	//Color swapper
 	unsigned int getCorrespondingColor(OctantWiz::Point3D point);
 
+	//Color Interpolation
+	void InterpolateColorOnce(unsigned int& color, double redgradient, double greengradient, double bluegradient);
+
 	//PolyFill method
 	OctantWiz::Point GetLargestYAndRemoveIt(std::vector<OctantWiz::Point>& list);
 

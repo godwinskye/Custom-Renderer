@@ -408,5 +408,172 @@ void PolyFill::WireTriangle3D(Drawable * drawable, OctantWiz::Point3D origin, Oc
 }
 
 void PolyFill::RealLiTriangle(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2, unsigned int color1, unsigned int color2, unsigned int color3) {
+	std::vector<OctantWiz::Point> list;
+	OctantWiz::Point top, middle, bottom;
+	list.push_back(origin);
+	list.push_back(endpoint1);
+	list.push_back(endpoint2);
+	bool leftIsVar = false;
 
+	bottom = MathWiz::GetLargestYAndRemoveIt(list);
+	middle = MathWiz::GetLargestYAndRemoveIt(list);
+	top = MathWiz::GetLargestYAndRemoveIt(list);
+
+	double gradient = MathWiz::GetReverseGradient(top, middle);
+	double fgradient = MathWiz::GetReverseGradient(top, bottom);
+
+	//Initialization of variables
+	double leftpoint, rightpoint;
+	double lgradient, rgradient;
+	unsigned int leftcolor, rightcolor;
+	double leftredgr, leftbluegr, leftgreengr;
+	double rightredgr, rightbluegr, rightgreengr;
+
+	//Assignment of variables
+	if (middle.x <= bottom.x) {
+		leftpoint = top.x + gradient;
+		rightpoint = top.x + fgradient;
+		lgradient = gradient;
+		rgradient = fgradient;
+		if (top.x == middle.x) {
+			lgradient = 0;
+		}
+		else if (top.x == bottom.x) {
+			rgradient = 0;
+		}
+		leftIsVar = true;
+
+		//Color interpolation for left
+		int range = middle.y - top.y;
+
+		int red1 = ((color2 >> 16) & 0xff) - ((color1 >> 16) & 0xff);
+		leftredgr = static_cast<double>(red1) / static_cast<double>(range);
+		
+		int green1 = ((color2 >> 8) & 0xff) - ((color1 >> 8) & 0xff);
+		leftgreengr = static_cast<double>(green1) / static_cast<double>(range);
+		
+		int blue1 = (color2 & 0xff) - (color1 & 0xff);
+		leftbluegr = static_cast<double>(blue1) / static_cast<double>(range);
+
+		leftcolor = color1;
+		MathWiz::InterpolateColorOnce(leftcolor, leftredgr, leftgreengr, leftbluegr);
+
+		//Color interpolation for right
+		int range2 = bottom.y - top.y;
+
+		int red2 = ((color3 >> 16) & 0xff) - ((color1 >> 16) & 0xff);
+		rightredgr = static_cast<double>(red2) / static_cast<double>(range2);
+
+		int green2 = ((color3 >> 8) & 0xff) - ((color1 >> 8) & 0xff);
+		rightgreengr = static_cast<double>(green2) / static_cast<double>(range2);
+
+		int blue2 = (color3 & 0xff) - (color1 & 0xff);
+		rightbluegr = static_cast<double>(blue2) / static_cast<double>(range2);
+
+		rightcolor = color1;
+		MathWiz::InterpolateColorOnce(rightcolor, rightredgr, rightgreengr, rightbluegr);
+	}
+	else {
+		leftpoint = top.x + fgradient;
+		rightpoint = top.x + gradient;
+		lgradient = fgradient;
+		rgradient = gradient;
+		if (top.x == middle.x) {
+			rgradient = 0;
+		}
+		else if (top.x == bottom.x) {
+			lgradient = 0;
+		}
+		leftIsVar = false;
+
+		//Color interpolation for left
+		leftredgr = (((color3 >> 16) & 0xff) - ((color1 >> 16) & 0xff)) / (bottom.y - top.y);
+		leftgreengr = (((color3 >> 8) & 0xff) - ((color1 >> 8) & 0xff)) / (bottom.y - top.y);
+		leftbluegr = ((color3 & 0xff) - (color1 & 0xff)) / (bottom.y - top.y);
+		leftcolor = color1;
+		MathWiz::InterpolateColorOnce(leftcolor, leftredgr, leftgreengr, leftbluegr);
+
+		//Color interpolation for right
+		rightredgr = (((color2 >> 16) & 0xff) - ((color1 >> 16) & 0xff)) / (middle.y - top.y);
+		rightgreengr = (((color2 >> 8) & 0xff) - ((color1 >> 8) & 0xff)) / (middle.y - top.y);
+		rightbluegr = ((color2 & 0xff) - (color1 & 0xff)) / (middle.y - top.y);
+		rightcolor = color1;
+		MathWiz::InterpolateColorOnce(rightcolor, rightredgr, rightgreengr, rightbluegr);
+	}
+
+	unsigned int color = leftcolor;
+	double redgr, greengr, bluegr;
+
+	redgr = (((rightcolor >> 16) & 0xff) - ((leftcolor >> 16) & 0xff)) / (rightpoint - leftpoint);
+	greengr = (((rightcolor >> 8) & 0xff) - ((leftcolor >> 8) & 0xff)) / (rightpoint - leftpoint);
+	bluegr = ((rightcolor & 0xff) - (leftcolor & 0xff)) / (rightpoint - leftpoint);
+
+	for (int y = top.y + 1; y < middle.y; y++) {
+		for (int x = leftpoint; x <= rightpoint - 1; x++) {
+			drawable->setPixel(x, y, color);
+			MathWiz::InterpolateColorOnce(color, redgr, greengr, bluegr);
+		}
+		leftpoint += lgradient;
+		rightpoint += rgradient;
+
+		MathWiz::InterpolateColorOnce(leftcolor, leftredgr, leftgreengr, leftbluegr);
+		MathWiz::InterpolateColorOnce(rightcolor, rightredgr, rightgreengr, rightbluegr);
+
+		redgr = (((rightcolor >> 16) & 0xff) - ((leftcolor >> 16) & 0xff)) / (rightpoint - leftpoint);
+		greengr = (((rightcolor >> 8) & 0xff) - ((leftcolor >> 8) & 0xff)) / (rightpoint - leftpoint);
+		bluegr = ((rightcolor & 0xff) - (leftcolor & 0xff)) / (rightpoint - leftpoint);
+
+		color = leftcolor;
+	}
+
+
+
+	if (leftIsVar) {
+		lgradient = MathWiz::GetReverseGradient(middle, bottom);
+		if (middle.x == bottom.x) {
+			lgradient = 0;
+		}
+		leftpoint = middle.x;
+
+		leftcolor = color2;
+
+		leftredgr = (((color3 >> 16) & 0xff) - ((color2 >> 16) & 0xff)) / abs(bottom.y - middle.y);
+		leftgreengr = (((color3 >> 8) & 0xff) - ((color2 >> 8) & 0xff)) / abs(bottom.y - middle.y);
+		leftbluegr = ((color3 & 0xff) - (color2 & 0xff)) / abs(bottom.y - middle.y);
+	}
+	else {
+		rgradient = MathWiz::GetReverseGradient(middle, bottom);
+		if (middle.x == bottom.x) {
+			rgradient = 0;
+		}
+		rightpoint = middle.x;
+
+		rightcolor = color2;
+
+		rightredgr = (((color3 >> 16) & 0xff) - ((color2 >> 16) & 0xff)) / abs(bottom.y - middle.y);
+		rightgreengr = (((color3 >> 8) & 0xff) - ((color2 >> 8) & 0xff)) / abs(bottom.y - middle.y);
+		rightbluegr = ((color3 & 0xff) - (color2 & 0xff)) / abs(bottom.y - middle.y);
+	}
+
+	redgr = (((rightcolor >> 16) & 0xff) - ((leftcolor >> 16) & 0xff)) / abs(rightpoint - leftpoint);
+	greengr = (((rightcolor >> 8) & 0xff) - ((leftcolor >> 8) & 0xff)) / abs(rightpoint - leftpoint);
+	bluegr = ((rightcolor & 0xff) - (leftcolor & 0xff)) / abs(rightpoint - leftpoint);
+
+	for (int y = middle.y; y < bottom.y; y++) {
+		for (int x = leftpoint; x <= rightpoint - 1; x++) {
+			drawable->setPixel(x, y, color);
+			MathWiz::InterpolateColorOnce(color, redgr, greengr, bluegr);
+		}
+		leftpoint += lgradient;
+		rightpoint += rgradient;
+
+		MathWiz::InterpolateColorOnce(leftcolor, leftredgr, leftgreengr, leftbluegr);
+		MathWiz::InterpolateColorOnce(rightcolor, rightredgr, rightgreengr, rightbluegr);
+
+		redgr = (((rightcolor >> 16) & 0xff) - ((leftcolor >> 16) & 0xff)) / abs(rightpoint - leftpoint);
+		greengr = (((rightcolor >> 8) & 0xff) - ((leftcolor >> 8) & 0xff)) / abs(rightpoint - leftpoint);
+		bluegr = ((rightcolor & 0xff) - (leftcolor & 0xff)) / abs(rightpoint - leftpoint);
+
+		color = leftcolor;
+	}
 }
