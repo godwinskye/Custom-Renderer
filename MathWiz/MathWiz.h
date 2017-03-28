@@ -2,6 +2,7 @@
 #define _USE_MATH_DEFINES
 #include "../OctantWiz/OctantWiz.h"
 #include "../Matrix/Matrix.h"
+#include "../Color/Color.h"
 #include <math.h>
 #include <string>
 #include <vector>
@@ -37,6 +38,7 @@ namespace MathWiz {
 
 	//Color Interpolation
 	void InterpolateColorOnce(unsigned int& color, double redgradient, double greengradient, double bluegradient);
+	Color GradientOfColors(Color origin, Color destination, int range);
 
 	//PolyFill method
 	OctantWiz::Point GetLargestYAndRemoveIt(std::vector<OctantWiz::Point>& list);

@@ -486,11 +486,11 @@ void RenderTests::TransMeshTri162Test(Drawable * drawable, int xstart, int ystar
 				LineRenderer::LiDDArender(drawable, wholearray[i - 1][j].x, wholearray[i - 1][j].y, wholearray[i][j].x, wholearray[i][j].y, color3, color4);
 			}
 			if (i > 0 && j > 0) {
-				PolyFill::LiTriangle(drawable, wholearray[i][j], wholearray[i - 1][j], wholearray[i - 1][j - 1],
+				PolyFill::RealLiTriangle(drawable, wholearray[i][j], wholearray[i - 1][j], wholearray[i - 1][j - 1],
 					drawable->getPixel(wholearray[i][j].x, wholearray[i][j].y), drawable->getPixel(wholearray[i - 1][j].x, wholearray[i - 1][j].y), 
 					drawable->getPixel(wholearray[i - 1][j - 1].x, wholearray[i - 1][j - 1].y));
 
-				PolyFill::LiTriangle(drawable, wholearray[i][j - 1], wholearray[i - 1][j - 1], wholearray[i][j], 
+				PolyFill::RealLiTriangle(drawable, wholearray[i][j - 1], wholearray[i - 1][j - 1], wholearray[i][j], 
 					drawable->getPixel(wholearray[i][j - 1].x, wholearray[i][j - 1].y), drawable->getPixel(wholearray[i - 1][j - 1].x, wholearray[i - 1][j - 1].y), 
 					drawable->getPixel(wholearray[i][j].x, wholearray[i][j].y));
 			}

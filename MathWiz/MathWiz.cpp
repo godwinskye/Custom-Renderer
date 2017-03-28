@@ -173,6 +173,12 @@ void MathWiz::InterpolateColorOnce(unsigned int& color, double redgradient, doub
 	color = (0xff << 24) + ((static_cast<unsigned int>(round(red)) & 0xff) << 16) + ((static_cast<unsigned int>(round(green)) & 0xff) << 8) + (static_cast<unsigned int>(round(blue)) & 0xff);
 }
 
+Color MathWiz::GradientOfColors(Color origin, Color destination, int range) {
+	destination.SubtractColor(origin);
+	destination.DivideScalar(range);
+	return destination;
+}
+
 OctantWiz::Point MathWiz::GetLargestYAndRemoveIt(std::vector<OctantWiz::Point>& list) {
 	OctantWiz::Point largestpoint = list[0];
 	int index = 0;

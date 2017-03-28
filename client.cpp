@@ -25,9 +25,9 @@ void Client::nextPage() {
 	switch (pageNumber % 9) {
 	case 1: 
 		draw_rect(0, 0, 650, 650, black);
-		PolyFill::RealLiTriangle(drawable, first, second, third, 0xff0000ff, 0xffff0000, 0xff00ff00);
+		//PolyFill::RealLiTriangle(drawable, first, second, third, 0xff0000ff, 0xffff0000, 0xff00ff00);
 		//PolyFill::Triangle(drawable, first, second, third, 0xff000000);
-		//RenderTests::TransWireframeTri162Test(drawable, 10, 10);
+		RenderTests::TransWireframeTri162Test(drawable, 10, 10);
 		drawable->updateScreen();   // you must call this to make the display change.
 		break;
 	case 2:

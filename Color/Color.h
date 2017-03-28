@@ -1,7 +1,8 @@
 #pragma once
 
 class Color {
-
+public:
+	Color();
 	Color(unsigned int hex);
 
 	void AddColor(Color othercolor);

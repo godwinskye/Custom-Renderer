@@ -1,5 +1,11 @@
 #include "Color.h"
 
+Color::Color() {
+	red = 0.f;
+	green = 0.f;
+	blue = 0.f;
+}
+
 Color::Color(unsigned int hex) {
 	red = ((hex >> 16) & 0xff);
 	green = ((hex >> 8) & 0xff);
