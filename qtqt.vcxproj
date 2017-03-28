@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="client.cpp" />
+    <ClCompile Include="Color\Color.cpp" />
     <ClCompile Include="Debug\moc_renderarea361.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -166,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h" />
+    <ClInclude Include="Color\Color.h" />
     <ClInclude Include="drawable.h" />
     <ClInclude Include="Interpreter\Interpreter.h" />
     <ClInclude Include="Matrix\Matrix.h" />

@@ -487,16 +487,33 @@ void PolyFill::RealLiTriangle(Drawable * drawable, OctantWiz::Point origin, Octa
 		leftIsVar = false;
 
 		//Color interpolation for left
-		leftredgr = (((color3 >> 16) & 0xff) - ((color1 >> 16) & 0xff)) / (bottom.y - top.y);
-		leftgreengr = (((color3 >> 8) & 0xff) - ((color1 >> 8) & 0xff)) / (bottom.y - top.y);
-		leftbluegr = ((color3 & 0xff) - (color1 & 0xff)) / (bottom.y - top.y);
+		int range = bottom.y - top.y;
+
+		int red = ((color3 >> 16) & 0xff) - ((color1 >> 16) & 0xff);
+		leftredgr = static_cast<double>(red) / static_cast<double>(range);
+
+		int green = ((color3 >> 8) & 0xff) - ((color1 >> 8) & 0xff);
+		leftgreengr = static_cast<double>(green) / static_cast<double>(range);
+
+		int blue = (color3 & 0xff) - (color1 & 0xff);
+		leftbluegr = static_cast<double>(blue) / static_cast<double>(range);
+
+
 		leftcolor = color1;
 		MathWiz::InterpolateColorOnce(leftcolor, leftredgr, leftgreengr, leftbluegr);
 
 		//Color interpolation for right
-		rightredgr = (((color2 >> 16) & 0xff) - ((color1 >> 16) & 0xff)) / (middle.y - top.y);
-		rightgreengr = (((color2 >> 8) & 0xff) - ((color1 >> 8) & 0xff)) / (middle.y - top.y);
-		rightbluegr = ((color2 & 0xff) - (color1 & 0xff)) / (middle.y - top.y);
+		int range2 = middle.y - top.y;
+
+		int red2 = ((color2 >> 16) & 0xff) - ((color1 >> 16) & 0xff);
+		rightredgr = static_cast<double>(red2) / static_cast<double>(range2);
+
+		int green2 = ((color2 >> 8) & 0xff) - ((color1 >> 8) & 0xff);
+		rightgreengr = static_cast<double>(green2) / static_cast<double>(range2);
+
+		int blue2 = (color2 & 0xff) - (color1 & 0xff);
+		rightbluegr = static_cast<double>(blue2) / static_cast<double>(range2);
+		
 		rightcolor = color1;
 		MathWiz::InterpolateColorOnce(rightcolor, rightredgr, rightgreengr, rightbluegr);
 	}
@@ -504,9 +521,16 @@ void PolyFill::RealLiTriangle(Drawable * drawable, OctantWiz::Point origin, Octa
 	unsigned int color = leftcolor;
 	double redgr, greengr, bluegr;
 
-	redgr = (((rightcolor >> 16) & 0xff) - ((leftcolor >> 16) & 0xff)) / (rightpoint - leftpoint);
-	greengr = (((rightcolor >> 8) & 0xff) - ((leftcolor >> 8) & 0xff)) / (rightpoint - leftpoint);
-	bluegr = ((rightcolor & 0xff) - (leftcolor & 0xff)) / (rightpoint - leftpoint);
+	int innerRange = rightpoint - leftpoint;
+
+	int red = ((rightcolor >> 16) & 0xff) - ((leftcolor >> 16) & 0xff);
+	redgr = static_cast<double>(red) / static_cast<double>(innerRange);
+
+	int green = ((rightcolor >> 8) & 0xff) - ((leftcolor >> 8) & 0xff);
+	greengr = static_cast<double>(green) / static_cast<double>(innerRange);
+
+	int blue = (rightcolor & 0xff) - (leftcolor & 0xff);
+	bluegr = static_cast<double>(blue) / static_cast<double>(innerRange);
 
 	for (int y = top.y + 1; y < middle.y; y++) {
 		for (int x = leftpoint; x <= rightpoint - 1; x++) {
@@ -519,9 +543,16 @@ void PolyFill::RealLiTriangle(Drawable * drawable, OctantWiz::Point origin, Octa
 		MathWiz::InterpolateColorOnce(leftcolor, leftredgr, leftgreengr, leftbluegr);
 		MathWiz::InterpolateColorOnce(rightcolor, rightredgr, rightgreengr, rightbluegr);
 
-		redgr = (((rightcolor >> 16) & 0xff) - ((leftcolor >> 16) & 0xff)) / (rightpoint - leftpoint);
-		greengr = (((rightcolor >> 8) & 0xff) - ((leftcolor >> 8) & 0xff)) / (rightpoint - leftpoint);
-		bluegr = ((rightcolor & 0xff) - (leftcolor & 0xff)) / (rightpoint - leftpoint);
+		innerRange = rightpoint - leftpoint;
+
+		red = ((rightcolor >> 16) & 0xff) - ((leftcolor >> 16) & 0xff);
+		redgr = static_cast<double>(red) / static_cast<double>(innerRange);
+
+		green = ((rightcolor >> 8) & 0xff) - ((leftcolor >> 8) & 0xff);
+		greengr = static_cast<double>(green) / static_cast<double>(innerRange);
+
+		blue = (rightcolor & 0xff) - (leftcolor & 0xff);
+		bluegr = static_cast<double>(blue) / static_cast<double>(innerRange);
 
 		color = leftcolor;
 	}
@@ -537,9 +568,17 @@ void PolyFill::RealLiTriangle(Drawable * drawable, OctantWiz::Point origin, Octa
 
 		leftcolor = color2;
 
-		leftredgr = (((color3 >> 16) & 0xff) - ((color2 >> 16) & 0xff)) / abs(bottom.y - middle.y);
-		leftgreengr = (((color3 >> 8) & 0xff) - ((color2 >> 8) & 0xff)) / abs(bottom.y - middle.y);
-		leftbluegr = ((color3 & 0xff) - (color2 & 0xff)) / abs(bottom.y - middle.y);
+
+		int range = bottom.y - middle.y;
+
+		int red1 = ((color3 >> 16) & 0xff) - ((color2 >> 16) & 0xff);
+		leftredgr = static_cast<double>(red1) / static_cast<double>(range);
+
+		int green1 = ((color3 >> 8) & 0xff) - ((color2 >> 8) & 0xff);
+		leftgreengr = static_cast<double>(green1) / static_cast<double>(range);
+
+		int blue1 = (color3 & 0xff) - (color2 & 0xff);
+		leftbluegr = static_cast<double>(blue1) / static_cast<double>(range);
 	}
 	else {
 		rgradient = MathWiz::GetReverseGradient(middle, bottom);
@@ -550,14 +589,28 @@ void PolyFill::RealLiTriangle(Drawable * drawable, OctantWiz::Point origin, Octa
 
 		rightcolor = color2;
 
-		rightredgr = (((color3 >> 16) & 0xff) - ((color2 >> 16) & 0xff)) / abs(bottom.y - middle.y);
-		rightgreengr = (((color3 >> 8) & 0xff) - ((color2 >> 8) & 0xff)) / abs(bottom.y - middle.y);
-		rightbluegr = ((color3 & 0xff) - (color2 & 0xff)) / abs(bottom.y - middle.y);
+		int range = bottom.y - middle.y;
+
+		int red1 = ((color3 >> 16) & 0xff) - ((color2 >> 16) & 0xff);
+		rightredgr = static_cast<double>(red1) / static_cast<double>(range);
+
+		int green1 = ((color3 >> 8) & 0xff) - ((color2 >> 8) & 0xff);
+		rightgreengr = static_cast<double>(green1) / static_cast<double>(range);
+
+		int blue1 = (color3 & 0xff) - (color2 & 0xff);
+		rightbluegr = static_cast<double>(blue1) / static_cast<double>(range);
 	}
 
-	redgr = (((rightcolor >> 16) & 0xff) - ((leftcolor >> 16) & 0xff)) / abs(rightpoint - leftpoint);
-	greengr = (((rightcolor >> 8) & 0xff) - ((leftcolor >> 8) & 0xff)) / abs(rightpoint - leftpoint);
-	bluegr = ((rightcolor & 0xff) - (leftcolor & 0xff)) / abs(rightpoint - leftpoint);
+	innerRange = rightpoint - leftpoint;
+
+	red = ((rightcolor >> 16) & 0xff) - ((leftcolor >> 16) & 0xff);
+	redgr = static_cast<double>(red) / static_cast<double>(innerRange);
+
+	green = ((rightcolor >> 8) & 0xff) - ((leftcolor >> 8) & 0xff);
+	greengr = static_cast<double>(green) / static_cast<double>(innerRange);
+
+	blue = (rightcolor & 0xff) - (leftcolor & 0xff);
+	bluegr = static_cast<double>(blue) / static_cast<double>(innerRange);
 
 	for (int y = middle.y; y < bottom.y; y++) {
 		for (int x = leftpoint; x <= rightpoint - 1; x++) {
@@ -570,9 +623,16 @@ void PolyFill::RealLiTriangle(Drawable * drawable, OctantWiz::Point origin, Octa
 		MathWiz::InterpolateColorOnce(leftcolor, leftredgr, leftgreengr, leftbluegr);
 		MathWiz::InterpolateColorOnce(rightcolor, rightredgr, rightgreengr, rightbluegr);
 
-		redgr = (((rightcolor >> 16) & 0xff) - ((leftcolor >> 16) & 0xff)) / abs(rightpoint - leftpoint);
-		greengr = (((rightcolor >> 8) & 0xff) - ((leftcolor >> 8) & 0xff)) / abs(rightpoint - leftpoint);
-		bluegr = ((rightcolor & 0xff) - (leftcolor & 0xff)) / abs(rightpoint - leftpoint);
+		innerRange = rightpoint - leftpoint;
+
+		red = ((rightcolor >> 16) & 0xff) - ((leftcolor >> 16) & 0xff);
+		redgr = static_cast<double>(red) / static_cast<double>(innerRange);
+
+		green = ((rightcolor >> 8) & 0xff) - ((leftcolor >> 8) & 0xff);
+		greengr = static_cast<double>(green) / static_cast<double>(innerRange);
+
+		blue = (rightcolor & 0xff) - (leftcolor & 0xff);
+		bluegr = static_cast<double>(blue) / static_cast<double>(innerRange);
 
 		color = leftcolor;
 	}

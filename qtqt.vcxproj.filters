@@ -88,6 +88,9 @@
     <ClCompile Include="Matrix\Matrix.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="Color\Color.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h">
@@ -130,6 +133,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="Matrix\Matrix.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Color\Color.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
