@@ -419,6 +419,12 @@ void PolyFill::RealLiTriangle(Drawable * drawable, OctantWiz::Point origin, Octa
 	middle = MathWiz::GetLargestYAndRemoveIt(list);
 	top = MathWiz::GetLargestYAndRemoveIt(list);
 
+	if (top.y == middle.y && top.x < bottom.x) {
+		OctantWiz::Point temp = top;
+		top = middle;
+		middle = temp;
+	}
+
 	double gradient = MathWiz::GetReverseGradient(top, middle);
 	double fgradient = MathWiz::GetReverseGradient(top, bottom);
 

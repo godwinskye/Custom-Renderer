@@ -151,7 +151,7 @@ void RenderTests::PolygonStarburstTest(Drawable * drawable, int x, int y, unsign
 	OctantWiz::Point endpoint1;
 	OctantWiz::Point endpoint2;
 
-	for (int i = 0; i < numberoflines; i++) {
+	for (int i = 0; i < numberoflines + 1; i++) {
 		if (i % 2 == 0) {
 			OctantWiz::Point endpoint = MathWiz::DetermineEndPoint(currentangle, length, x, y);
 			endpoint1 = endpoint;
@@ -163,7 +163,7 @@ void RenderTests::PolygonStarburstTest(Drawable * drawable, int x, int y, unsign
 			currentangle = currentangle + angleinc;
 		}
 		if (i > 0) {
-			PolyFill::Triangle(drawable, origin, endpoint1, endpoint2, MathWiz::RandomRGBHex());
+			PolyFill::Triangle(drawable, origin, endpoint1, endpoint2, 0xffffffff);
 		}
 	}
 }

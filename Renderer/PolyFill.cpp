@@ -15,6 +15,12 @@ void PolyFill::Triangle(Drawable * drawable, OctantWiz::Point origin, OctantWiz:
 	middle = MathWiz::GetLargestYAndRemoveIt(list);
 	top = MathWiz::GetLargestYAndRemoveIt(list);
 
+	if (top.y == middle.y && top.x < bottom.x) {
+		OctantWiz::Point temp = top;
+		top = middle;
+		middle = temp;
+	}
+
 	double gradient = MathWiz::GetReverseGradient(top, middle);
 	double fgradient = MathWiz::GetReverseGradient(top, bottom);
 
@@ -64,7 +70,9 @@ void PolyFill::Triangle(Drawable * drawable, OctantWiz::Point origin, OctantWiz:
 		if (middle.x == bottom.x) {
 			lgradient = 0;
 		}
-		leftpoint = middle.x;
+		if (leftpoint > middle.x) {
+			leftpoint = middle.x;
+		}
 	}
 	else {
 		rgradient = MathWiz::GetReverseGradient(middle, bottom);
@@ -73,6 +81,7 @@ void PolyFill::Triangle(Drawable * drawable, OctantWiz::Point origin, OctantWiz:
 		}
 		rightpoint = middle.x;
 	}
+
 
 
 

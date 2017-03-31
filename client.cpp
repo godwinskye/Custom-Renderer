@@ -18,15 +18,17 @@ void Client::nextPage() {
     pageNumber++;
     std::cout << "PageNumber " << pageNumber << std::endl;
 
-	OctantWiz::Point first(200, 200);
-	OctantWiz::Point second(120, 400);
-	OctantWiz::Point third(450, 500);
+	OctantWiz::Point first(200, 300);
+	OctantWiz::Point second(300, 300);
+	OctantWiz::Point third(300, 450);
 
 	switch (pageNumber % 9) {
 	case 1: 
-		draw_rect(0, 0, 650, 650, black);
-		//PolyFill::RealLiTriangle(drawable, first, second, third, 0xff0000ff, 0xffff0000, 0xff00ff00);
+		draw_rect(0, 0, 650, 650, 0xff000000);
+		//PolyFill::RealLiTriangle(drawable, first, second, third, 0xffffffff, 0xffff0000, 0xff00ff00);
 		//PolyFill::Triangle(drawable, first, second, third, 0xff000000);
+		//RenderTests::PolygonStarburstTest(drawable, 325, 325, 200, 90);
+		//RenderTests::Triangles162Test(drawable, 350, 350);
 		RenderTests::TransWireframeTri162Test(drawable, 10, 10);
 		drawable->updateScreen();   // you must call this to make the display change.
 		break;

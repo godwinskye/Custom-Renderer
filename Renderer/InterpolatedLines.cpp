@@ -59,22 +59,15 @@ void LineRenderer::LiRenderOctant1Or8(Drawable * drawable, OctantWiz::Point orig
 	double currentY = origin.y;
 
 	//Color interpolation
-	double red = (color1 >> 16) & 0xff;
-	double green = (color1 >> 8) & 0xff;
-	double blue = color1 & 0xff;
-	double redgradient = (((color2 >> 16) & 0xff) - red) / (endpoint.x - origin.x);
-	double greengradient = (((color2 >> 8) & 0xff) - green) / (endpoint.x - origin.x);
-	double bluegradient = ((color2 & 0xff) - blue) / (endpoint.x - origin.x);
+	int range = endpoint.x - origin.x;
+	Color color(color1);
+	Color colorgradient = MathWiz::GradientOfColors(Color(color1), Color(color2), range);
 	
-	double color = static_cast<double>(color1);
 	for (int x = origin.x; x <= endpoint.x; x++) {
-		drawable->setPixel(x, round(currentY), color);
+		drawable->setPixel(x, round(currentY), color.getHex());
 		currentY = currentY + gradient;
 
-		red = red + redgradient;
-		green = green + greengradient;
-		blue = blue + bluegradient;
-		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(green)) & 0xff);
+		color.AddColor(colorgradient);
 	}
 	drawable->updateScreen();
 }
@@ -84,22 +77,15 @@ void LineRenderer::LiRenderOctant2Or3(Drawable * drawable, OctantWiz::Point orig
 	double reversegradient = 1 / gradient;
 
 	//Color interpolation
-	double red = (color1 >> 16) & 0xff;
-	double green = (color1 >> 8) & 0xff;
-	double blue = color1 & 0xff;
-	double redgradient = (((color2 >> 16) & 0xff) - red) / (endpoint.y - origin.y);
-	double greengradient = (((color2 >> 8) & 0xff) - green) / (endpoint.y - origin.y);
-	double bluegradient = ((color2 & 0xff) - blue) / (endpoint.y - origin.y);
+	int range = endpoint.y - origin.y;
+	Color color(color1);
+	Color colorgradient = MathWiz::GradientOfColors(Color(color1), Color(color2), range);
 
-	double color = static_cast<double>(color1);
 	for (int y = origin.y; y >= endpoint.y; y--) {
-		drawable->setPixel(round(currentX), y, color);
+		drawable->setPixel(round(currentX), y, color.getHex());
 		currentX = currentX - reversegradient;
 
-		red = red + redgradient;
-		green = green + greengradient;
-		blue = blue + bluegradient;
-		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(green)) & 0xff);
+		color.AddColor(colorgradient);
 	}
 	drawable->updateScreen();
 }
@@ -108,22 +94,15 @@ void LineRenderer::LiRenderOctant4Or5(Drawable * drawable, OctantWiz::Point orig
 	double currentY = origin.y;
 
 	//Color interpolation
-	double red = (color1 >> 16) & 0xff;
-	double green = (color1 >> 8) & 0xff;
-	double blue = color1 & 0xff;
-	double redgradient = (((color2 >> 16) & 0xff) - red) / (endpoint.x - origin.x);
-	double greengradient = (((color2 >> 8) & 0xff) - green) / (endpoint.x - origin.x);
-	double bluegradient = ((color2 & 0xff) - blue) / (endpoint.x - origin.x);
+	int range = endpoint.x - origin.x;
+	Color color(color1);
+	Color colorgradient = MathWiz::GradientOfColors(Color(color1), Color(color2), range);
 
-	double color = static_cast<double>(color1);
 	for (int x = origin.x; x >= endpoint.x; x--) {
-		drawable->setPixel(x, round(currentY), color);
+		drawable->setPixel(x, round(currentY), color.getHex());
 		currentY = currentY - gradient;
 
-		red = red + redgradient;
-		green = green + greengradient;
-		blue = blue + bluegradient;
-		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(green)) & 0xff);
+		color.AddColor(colorgradient);
 	}
 	drawable->updateScreen();
 }
@@ -133,22 +112,15 @@ void LineRenderer::LiRenderOctant6Or7(Drawable * drawable, OctantWiz::Point orig
 	double reversegradient = 1 / gradient;
 
 	//Color interpolation
-	double red = (color1 >> 16) & 0xff;
-	double green = (color1 >> 8) & 0xff;
-	double blue = color1 & 0xff;
-	double redgradient = (((color2 >> 16) & 0xff) - red) / (endpoint.y - origin.y);
-	double greengradient = (((color2 >> 8) & 0xff) - green) / (endpoint.y - origin.y);
-	double bluegradient = ((color2 & 0xff) - blue) / (endpoint.y - origin.y);
+	int range = endpoint.y - origin.y;
+	Color color(color1);
+	Color colorgradient = MathWiz::GradientOfColors(Color(color1), Color(color2), range);
 
-	double color = static_cast<double>(color1);
 	for (int y = origin.y; y <= endpoint.y; y++) {
-		drawable->setPixel(round(currentX), y, color);
+		drawable->setPixel(round(currentX), y, color.getHex());
 		currentX = currentX + reversegradient;
 
-		red = red + redgradient;
-		green = green + greengradient;
-		blue = blue + bluegradient;
-		color = (0xff << 24) + ((static_cast<int>(round(red)) & 0xff) << 16) + ((static_cast<int>(round(green)) & 0xff) << 8) + (static_cast<int>(round(green)) & 0xff);
+		color.AddColor(colorgradient);
 	}
 	drawable->updateScreen();
 }
