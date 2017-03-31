@@ -5,6 +5,8 @@
 
 namespace PolyFill {
 
+	void Hooker(OctantWiz::Point, OctantWiz::Point, OctantWiz::Point);
+
 	struct LinePair {
 		OctantWiz::Point origin;
 		OctantWiz::Point endpoint;

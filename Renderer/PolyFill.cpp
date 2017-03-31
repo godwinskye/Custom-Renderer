@@ -27,7 +27,7 @@ void PolyFill::Triangle(Drawable * drawable, OctantWiz::Point origin, OctantWiz:
 	double leftpoint, rightpoint;
 	double lgradient, rgradient;
 
-	if (middle.x <= bottom.x) {
+	if (middle.x < bottom.x) {
 		leftpoint = top.x + gradient;
 		rightpoint = top.x + fgradient;
 		lgradient = gradient;
@@ -39,6 +39,28 @@ void PolyFill::Triangle(Drawable * drawable, OctantWiz::Point origin, OctantWiz:
 			rgradient = 0;
 		}
 		leftIsVar = true;
+	}
+	else if (middle.x == bottom.x) {
+		leftpoint = top.x + gradient;
+		rightpoint = top.x + fgradient;
+		lgradient = gradient;
+		rgradient = fgradient;
+		if (top.x == middle.x) {
+			lgradient = 0;
+		}
+		else if (top.x == bottom.x) {
+			rgradient = 0;
+		}
+		leftIsVar = true;
+		if (leftpoint > rightpoint) {			//swap
+			double temp = leftpoint;
+			leftpoint = rightpoint;
+			rightpoint = temp;
+			temp = lgradient;
+			lgradient = rgradient;
+			rgradient = temp;
+			leftIsVar = false;
+		}
 	}
 	else {
 		leftpoint = top.x + fgradient;
@@ -54,13 +76,20 @@ void PolyFill::Triangle(Drawable * drawable, OctantWiz::Point origin, OctantWiz:
 		leftIsVar = false;
 	}
 
+	bool hook1 = true;
+	bool hook2 = false;
 	
 	for (int y = top.y + 1; y < middle.y; y++) {
 		for (int x = leftpoint; x <= rightpoint - 1; x++) {
 			drawable->setPixel(x, y, color);
+			hook1 = false;
+		}
+		if (hook1) {
+			hook2 = true;
 		}
 		leftpoint += lgradient;
 		rightpoint += rgradient;
+		hook1 = true;
 	}
 
 
@@ -83,18 +112,27 @@ void PolyFill::Triangle(Drawable * drawable, OctantWiz::Point origin, OctantWiz:
 	}
 
 
-
+	bool hook = true;
 
 	for (int y = middle.y; y < bottom.y; y++) {
 		for (int x = leftpoint; x <= rightpoint - 1; x++) {
 			drawable->setPixel(x, y, color);
+			hook = false;
+		}
+		if (hook && hook2) {
+			Hooker(top, middle, bottom);
 		}
 		leftpoint += lgradient;
 		rightpoint += rgradient;
+		hook = true;
 	}
 }
 
-
+void PolyFill::Hooker(OctantWiz::Point top, OctantWiz::Point middle, OctantWiz::Point bottom) {
+	int comehere = 5;
+	int something_else = comehere + 3;
+	//do something;
+}
 
 //For blend use in page 5 only
 void PolyFill::BTriangle(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2, unsigned int color) {

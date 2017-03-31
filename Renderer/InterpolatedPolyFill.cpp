@@ -424,7 +424,7 @@ void PolyFill::RealLiTriangle(Drawable * drawable, OctantWiz::Point origin, Octa
 		top = middle;
 		middle = temp;
 	}
-
+	
 	double gradient = MathWiz::GetReverseGradient(top, middle);
 	double fgradient = MathWiz::GetReverseGradient(top, bottom);
 
@@ -435,7 +435,7 @@ void PolyFill::RealLiTriangle(Drawable * drawable, OctantWiz::Point origin, Octa
 	Color leftcolorgradient, rightcolorgradient;
 
 	//Assignment of variables
-	if (middle.x <= bottom.x) {
+	if (middle.x < bottom.x) {
 		leftpoint = top.x + gradient;
 		rightpoint = top.x + fgradient;
 		lgradient = gradient;
@@ -461,6 +461,51 @@ void PolyFill::RealLiTriangle(Drawable * drawable, OctantWiz::Point origin, Octa
 		rightcolorgradient = MathWiz::GradientOfColors(Color(color1), Color(color3), range);
 		rightcolor = Color(color1);
 		rightcolor.AddColor(rightcolorgradient);
+	}
+	else if (middle.x == bottom.x) {
+		leftpoint = top.x + gradient;
+		rightpoint = top.x + fgradient;
+		lgradient = gradient;
+		rgradient = fgradient;
+		if (top.x == middle.x) {
+			lgradient = 0;
+		}
+		else if (top.x == bottom.x) {
+			rgradient = 0;
+		}
+		leftIsVar = true;
+
+		//Color interpolation for left
+		int range = middle.y - top.y;
+
+		leftcolorgradient = MathWiz::GradientOfColors(Color(color1), Color(color2), range);
+		leftcolor = Color(color1);
+		leftcolor.AddColor(leftcolorgradient);
+
+		//Color interpolation for right
+		range = bottom.y - top.y;
+
+		rightcolorgradient = MathWiz::GradientOfColors(Color(color1), Color(color3), range);
+		rightcolor = Color(color1);
+		rightcolor.AddColor(rightcolorgradient);
+
+		if (leftpoint > rightpoint) {			//swap
+			double temp = leftpoint;
+			leftpoint = rightpoint;
+			rightpoint = temp;
+			temp = lgradient;
+			lgradient = rgradient;
+			rgradient = temp;
+			leftIsVar = false;
+
+			Color temp1 = leftcolor;
+			leftcolor = rightcolor;
+			rightcolor = temp1;
+
+			temp1 = leftcolorgradient;
+			leftcolorgradient = rightcolorgradient;
+			rightcolorgradient = temp1;
+		}
 	}
 	else {
 		leftpoint = top.x + fgradient;
