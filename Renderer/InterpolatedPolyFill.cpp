@@ -735,7 +735,6 @@ void PolyFill::RealTriangle3D(Drawable * drawable, OctantWiz::Point3D origin, Oc
 		leftzpoint = top.z + zgradient;
 		rightzpoint = top.z + fzgradient;
 
-
 		lgradient = gradient;
 		rgradient = fgradient;
 		lzgradient = zgradient;
@@ -767,9 +766,17 @@ void PolyFill::RealTriangle3D(Drawable * drawable, OctantWiz::Point3D origin, Oc
 			double temp = leftpoint;
 			leftpoint = rightpoint;
 			rightpoint = temp;
-			temp = lgradient;								//lzgradient and rzgradient work
+			temp = lgradient;								
 			lgradient = rgradient;
 			rgradient = temp;
+
+			temp = leftzpoint;
+			leftzpoint = rightzpoint;
+			rightzpoint = temp;
+			temp = lzgradient;
+			lzgradient = rzgradient;
+			rzgradient = temp;
+
 			leftIsVar = false;
 
 			Color temp1 = leftcolor;
@@ -784,8 +791,14 @@ void PolyFill::RealTriangle3D(Drawable * drawable, OctantWiz::Point3D origin, Oc
 	else {
 		leftpoint = top.x + fgradient;
 		rightpoint = top.x + gradient;
+		leftzpoint = top.z + fzgradient;
+		rightzpoint = top.z + zgradient;
+
 		lgradient = fgradient;
 		rgradient = gradient;
+		lzgradient = fzgradient;
+		rzgradient = zgradient;
+
 		if (top.x == middle.x) {
 			rgradient = 0;
 		}
@@ -813,33 +826,43 @@ void PolyFill::RealTriangle3D(Drawable * drawable, OctantWiz::Point3D origin, Oc
 	double redgr, greengr, bluegr;
 
 	int innerRange = rightpoint - leftpoint;
+	double currentZ = leftzpoint;
+	double innerZgradient = (rightzpoint - leftzpoint) / innerRange;
 
 	Color colorgradient = MathWiz::GradientOfColors(leftcolor, rightcolor, innerRange);
 
 	for (int y = top.y + 1; y < middle.y; y++) {
 		for (int x = leftpoint; x <= rightpoint - 1; x++) {
-			
-			drawable->setPixel(x, y, color.getHex());
+			if (currentZ < zBuffer.at(x, y)) {
+				drawable->setPixel(x, y, color.getHex());
+			}
 			color.AddColor(colorgradient);
+			currentZ += innerZgradient;
 		}
 		leftpoint += lgradient;
 		rightpoint += rgradient;
+		leftzpoint += lzgradient;
+		rightzpoint += rzgradient;
 
 		leftcolor.AddColor(leftcolorgradient);
 		rightcolor.AddColor(rightcolorgradient);
 
 		innerRange = rightpoint - leftpoint;
 		colorgradient = MathWiz::GradientOfColors(leftcolor, rightcolor, innerRange);
+		innerZgradient = (rightzpoint - leftzpoint) / innerRange;
+		currentZ = leftzpoint;
 		color = leftcolor;
 	}
 
 
-
 	if (leftIsVar) {
 		lgradient = MathWiz::GetReverseGradient3D(middle, bottom);
+		lzgradient = MathWiz::GetZGradient(middle, bottom);
+
 		if (middle.x == bottom.x) {
 			lgradient = 0;
 		}
+
 		leftpoint = middle.x;
 		leftcolor = color2;
 		int range = bottom.y - middle.y;
@@ -848,9 +871,12 @@ void PolyFill::RealTriangle3D(Drawable * drawable, OctantWiz::Point3D origin, Oc
 	}
 	else {
 		rgradient = MathWiz::GetReverseGradient3D(middle, bottom);
+		rzgradient = MathWiz::GetZGradient(middle, bottom);
+
 		if (middle.x == bottom.x) {
 			rgradient = 0;
 		}
+
 		rightpoint = middle.x;
 		rightcolor = color2;
 		int range = bottom.y - middle.y;
@@ -859,21 +885,29 @@ void PolyFill::RealTriangle3D(Drawable * drawable, OctantWiz::Point3D origin, Oc
 	}
 
 	innerRange = rightpoint - leftpoint;
+	innerZgradient = (rightzpoint - leftzpoint) / innerRange;
 	colorgradient = MathWiz::GradientOfColors(leftcolor, rightcolor, innerRange);
 
 	for (int y = middle.y; y < bottom.y; y++) {
 		for (int x = leftpoint; x <= rightpoint - 1; x++) {
-			drawable->setPixel(x, y, color.getHex());
+			if (currentZ < zBuffer.at(x, y)) {
+				drawable->setPixel(x, y, color.getHex());
+			}
 			color.AddColor(colorgradient);
+			currentZ += innerZgradient;
 		}
 		leftpoint += lgradient;
 		rightpoint += rgradient;
+		leftzpoint += lzgradient;
+		rightzpoint += rzgradient;
 
 		leftcolor.AddColor(leftcolorgradient);
 		rightcolor.AddColor(rightcolorgradient);
 
 		innerRange = rightpoint - leftpoint;
 		colorgradient = MathWiz::GradientOfColors(leftcolor, rightcolor, innerRange);
+		innerZgradient = (rightzpoint - leftzpoint) / innerRange;
+		currentZ = leftzpoint;
 		color = leftcolor;
 	}
 }

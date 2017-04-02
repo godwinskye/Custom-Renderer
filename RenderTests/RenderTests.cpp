@@ -540,7 +540,7 @@ void RenderTests::zBufferTest(Drawable * drawable) {
 		OctantWiz::Point3D endpoint1(point1.x, point1.y, z2);
 		OctantWiz::Point3D endpoint2(point2.x, point2.y, z3);
 
-		PolyFill::Triangle3D(drawable, origin, endpoint1, endpoint2, *zBuffer, color, color, color);
+		PolyFill::RealTriangle3D(drawable, origin, endpoint1, endpoint2, *zBuffer, color, color, color);
 	}
 
 	delete zBuffer;

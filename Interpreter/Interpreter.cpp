@@ -272,7 +272,7 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 	unsigned int res_color3 = getColor(color3);
 
 	if (FILLED) {
-		PolyFill::Triangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3);
+		PolyFill::RealTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3);
 	}
 	else {
 		PolyFill::WireTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3);
