@@ -44,12 +44,6 @@ namespace RenderTests {
 	void TransTriangles162Test(Drawable *drawable, int xstart, int ystart);
 	void RandomPolyTest(Drawable *drawable, int x, int y, unsigned int numberofpoly);
 
-	//Filling Polygons with blend (asn1 page5)
-	void BPolygonStarburstTest(Drawable *drawable, int x, int y, unsigned int length, unsigned int numberoflines);
-	void BTriangles162Test(Drawable *drawable, int xstart, int ystart);
-	void BTransTriangles162Test(Drawable *drawable, int xstart, int ystart);
-	void BRandomPolyTest(Drawable *drawable, int x, int y, unsigned int numberofpoly);
-
 	//Interpolation Tests
 	void TransWireframeTri162Test(Drawable *drawable, int xstart, int ystart);
 	void TransMeshTri162Test(Drawable *drawable, int xstart, int ystart);
