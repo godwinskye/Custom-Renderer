@@ -22,17 +22,16 @@ void Client::nextPage() {
 	OctantWiz::Point second(300, 300);
 	OctantWiz::Point third(300, 450);
 
-	OctantWiz::Point first11(449, 409);
-	OctantWiz::Point second11(449, 407);
+	OctantWiz::Point first11(315, 171);
+	OctantWiz::Point second11(310, 171);          //write sort function
 	OctantWiz::Point third11(325, 325);
+
+	unsigned int white = 0xffffffff;
 
 	switch (pageNumber % 9) {
 	case 1: 
 		draw_rect(0, 0, 650, 650, 0xff000000);
-		//PolyFill::Triangle(drawable, first11, second11, third11, 0xffffffff);
-		//RenderTests::Triangles162Test(drawable, 300, 300);
-		//RenderTests::PolygonStarburstTest(drawable, 325, 325, 150, 590);
-		//RenderTests::TransWireframeTri162Test(drawable, 10, 10);
+		RenderTests::TransWireframeTri162Test(drawable, 10, 10);
 		drawable->updateScreen();   // you must call this to make the display change.
 		break;
 	case 2:

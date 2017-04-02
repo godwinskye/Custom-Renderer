@@ -42,9 +42,12 @@ namespace MathWiz {
 
 	//PolyFill method
 	OctantWiz::Point GetLargestYAndRemoveIt(std::vector<OctantWiz::Point>& list);
+	OctantWiz::Point3D GetLargestYAndRemoveIt3D(std::vector<OctantWiz::Point3D>& list);
 
 	double GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint);
 	double GetReverseGradient(OctantWiz::Point origin, OctantWiz::Point endpoint);
+	double GetReverseGradient3D(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint);
+	double GetZGradient(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint);
 	double GetGradient3D(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint);
 	double GetGradientS(OctantWiz::SPoint point1, OctantWiz::SPoint point2);
 	OctantWiz::Point DetermineEndPoint(double currentangle, int length, int x, int y);

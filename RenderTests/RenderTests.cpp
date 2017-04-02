@@ -212,9 +212,9 @@ void RenderTests::TransTriangles162Test(Drawable *drawable, int xstart, int ysta
 
 	for (int i = 0; i < numbereachrow; i++) {
 		for (int j = 0; j < numbereachrow; j++) {
-			rowpoints[j] = OctantWiz::Point(first.x + 25 * j, tempY);
+			rowpoints[j] = OctantWiz::Point(first.x + 50 * j, tempY);
 		}
-		tempY = tempY + 25;
+		tempY = tempY + 50;
 		wholearray.push_back(rowpoints);
 	}
 
@@ -232,14 +232,14 @@ void RenderTests::TransTriangles162Test(Drawable *drawable, int xstart, int ysta
 			unsigned int color = MathWiz::RandomRGBHex();
 			unsigned int color2 = MathWiz::RandomRGBHex();
 			if (j > 0) {
-				LineRenderer::DDArender(drawable, wholearray[i][j - 1].x, wholearray[i][j - 1].y, wholearray[i][j].x, wholearray[i][j].y, color);
+				//LineRenderer::DDArender(drawable, wholearray[i][j - 1].x, wholearray[i][j - 1].y, wholearray[i][j].x, wholearray[i][j].y, color);
 			}
 			if (i > 0) {
-				LineRenderer::DDArender(drawable, wholearray[i - 1][j].x, wholearray[i - 1][j].y, wholearray[i][j].x, wholearray[i][j].y, color);
+				//LineRenderer::DDArender(drawable, wholearray[i - 1][j].x, wholearray[i - 1][j].y, wholearray[i][j].x, wholearray[i][j].y, color);
 			}
 			if (i > 0 && j > 0) {
-				PolyFill::Triangle(drawable, wholearray[i][j], wholearray[i - 1][j], wholearray[i - 1][j - 1], color);
-				PolyFill::Triangle(drawable, wholearray[i][j - 1], wholearray[i - 1][j - 1], wholearray[i][j], color2);
+				PolyFill::Triangle(drawable, wholearray[i][j], wholearray[i - 1][j], wholearray[i - 1][j - 1], 0xffffffff);
+				PolyFill::Triangle(drawable, wholearray[i][j - 1], wholearray[i - 1][j - 1], wholearray[i][j], 0xff00ff00);
 			}
 		}
 	}
@@ -473,6 +473,10 @@ void RenderTests::TransMeshTri162Test(Drawable * drawable, int xstart, int ystar
 		}
 	}
 
+	OctantWiz::Point point1(wholearray[8][8].x, wholearray[8][8].y);
+	OctantWiz::Point point2(wholearray[8][9].x, wholearray[8][9].y);
+	OctantWiz::Point point3(wholearray[9][9].x, wholearray[9][9].y);
+
 	for (int i = 0; i < numbereachrow; i++) {
 		for (int j = 0; j < numbereachrow; j++) {
 			unsigned int color = MathWiz::RandomRGBHex();
@@ -486,11 +490,11 @@ void RenderTests::TransMeshTri162Test(Drawable * drawable, int xstart, int ystar
 				LineRenderer::LiDDArender(drawable, wholearray[i - 1][j].x, wholearray[i - 1][j].y, wholearray[i][j].x, wholearray[i][j].y, color3, color4);
 			}
 			if (i > 0 && j > 0) {
-				PolyFill::RealLiTriangle(drawable, wholearray[i][j], wholearray[i - 1][j], wholearray[i - 1][j - 1],
+				PolyFill::LiTriangle(drawable, wholearray[i][j], wholearray[i - 1][j], wholearray[i - 1][j - 1],
 					drawable->getPixel(wholearray[i][j].x, wholearray[i][j].y), drawable->getPixel(wholearray[i - 1][j].x, wholearray[i - 1][j].y), 
 					drawable->getPixel(wholearray[i - 1][j - 1].x, wholearray[i - 1][j - 1].y));
 
-				PolyFill::RealLiTriangle(drawable, wholearray[i][j - 1], wholearray[i - 1][j - 1], wholearray[i][j], 
+				PolyFill::LiTriangle(drawable, wholearray[i][j - 1], wholearray[i - 1][j - 1], wholearray[i][j], 
 					drawable->getPixel(wholearray[i][j - 1].x, wholearray[i][j - 1].y), drawable->getPixel(wholearray[i - 1][j - 1].x, wholearray[i - 1][j - 1].y), 
 					drawable->getPixel(wholearray[i][j].x, wholearray[i][j].y));
 			}

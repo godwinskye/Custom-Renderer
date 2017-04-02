@@ -192,6 +192,19 @@ OctantWiz::Point MathWiz::GetLargestYAndRemoveIt(std::vector<OctantWiz::Point>& 
 	return largestpoint;
 }
 
+OctantWiz::Point3D MathWiz::GetLargestYAndRemoveIt3D(std::vector<OctantWiz::Point3D>& list) {
+	OctantWiz::Point3D largestpoint = list[0];
+	int index = 0;
+	for (int i = 0; i < list.size(); i++) {
+		if (largestpoint.y <= list[i].y) {
+			largestpoint = list[i];
+			index = i;
+		}
+	}
+	list.erase(list.begin() + index);
+	return largestpoint;
+}
+
 double MathWiz::GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint) {
 	return static_cast<double>((endpoint.y - origin.y)) / static_cast<double>((endpoint.x - origin.x));
 }
@@ -201,6 +214,20 @@ double MathWiz::GetReverseGradient(OctantWiz::Point origin, OctantWiz::Point end
 		return 0.f;
 	}
 	return static_cast<double>((endpoint.x - origin.x)) / static_cast<double>((endpoint.y - origin.y));
+}
+
+double MathWiz::GetReverseGradient3D(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint) {
+	if ((endpoint.y - origin.y) == 0) {
+		return 0.f;
+	}
+	return static_cast<double>((endpoint.x - origin.x)) / static_cast<double>((endpoint.y - origin.y));
+}
+
+double MathWiz::GetZGradient(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint) {
+	if ((endpoint.y - origin.y) == 0) {
+		return 0.f;
+	}
+	return static_cast<double>((endpoint.z - origin.z)) / static_cast<double>((endpoint.y - origin.y));
 }
 
 double MathWiz::GetGradient3D(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint) {

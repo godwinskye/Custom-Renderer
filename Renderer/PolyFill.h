@@ -5,7 +5,10 @@
 
 namespace PolyFill {
 
-	void Hooker(OctantWiz::Point, OctantWiz::Point, OctantWiz::Point);
+	void PrePolySort(std::vector<OctantWiz::Point>& list);
+	void PrePolySort3D(std::vector<OctantWiz::Point3D>& list);
+
+	void Hooker(OctantWiz::Point, OctantWiz::Point, OctantWiz::Point, double, double, double);
 
 	struct LinePair {
 		OctantWiz::Point origin;
