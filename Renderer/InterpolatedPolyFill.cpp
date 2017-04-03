@@ -435,6 +435,7 @@ void PolyFill::Triangle3D(Drawable * drawable, OctantWiz::Point3D origin, Octant
 		for (int x = leftpoint; x <= rightpoint - 1; x++) {
 			if (currentZ < zBuffer.at(x, y)) {
 				drawable->setPixel(x, y, color.getHex());
+				zBuffer.setAt(x, y, currentZ);
 			}
 			color.AddColor(colorgradient);
 			currentZ += innerZgradient;
@@ -492,6 +493,7 @@ void PolyFill::Triangle3D(Drawable * drawable, OctantWiz::Point3D origin, Octant
 		for (int x = leftpoint; x <= rightpoint - 1; x++) {
 			if (currentZ < zBuffer.at(x, y)) {
 				drawable->setPixel(x, y, color.getHex());
+				zBuffer.setAt(x, y, currentZ);
 			}
 			color.AddColor(colorgradient);
 			currentZ += innerZgradient;

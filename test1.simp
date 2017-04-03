@@ -61,10 +61,10 @@
 		file "cube"
 	}
 	{
-		translate 30 -110 10
-		rotate X 25
-		rotate Y 45
-		scale 30 30 30
-		file "cube"
+#		translate 30 -110 -10
+#		rotate X 25
+#		rotate Y 45
+#		scale 30 30 30
+#		file "cube"
 	}
 }

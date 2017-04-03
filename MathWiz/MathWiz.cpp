@@ -94,6 +94,7 @@ Matrix* MathWiz::makeXRotation(double degrees) {
 }
 
 Matrix* MathWiz::makeYRotation(double degrees) {
+	degrees = 360 - degrees;
 	double angle = degrees * M_PI / 180;
 	Matrix* result = new Matrix(4, 4, MType::ZERO);
 

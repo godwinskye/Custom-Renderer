@@ -36,7 +36,7 @@ private:
 	OctantWiz::Point3D far = OctantWiz::Point3D(0, 0, 0);
 
 	std::stack<Matrix*> CTMstack;
-	Matrix zBuffer = Matrix(651, 651, MType::BACK_PLANE);
+	Matrix zBuffer = Matrix(1000, 1000, MType::BACK_PLANE);
 	Matrix* CTM = new Matrix(4, 4, MType::IDENTITY);
 	bool FILLED = true;
 	Drawable* draw;
