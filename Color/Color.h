@@ -1,9 +1,12 @@
 #pragma once
+#include "OctantWiz/OctantWiz.h"
 
 class Color {
 public:
 	Color();
 	Color(unsigned int hex);
+	//X value = Red, Y value = Green, Z value = Blue
+	Color(OctantWiz::Point3D point);
 
 	void AddColor(Color othercolor);
 	void SubtractColor(Color othercolor);

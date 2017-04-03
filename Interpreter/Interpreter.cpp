@@ -332,10 +332,11 @@ OctantWiz::Point3D Interpreter::obtainColor(double zvalue) {
 }
 
 unsigned int Interpreter::getColor(OctantWiz::Point3D point) {
-	unsigned int red = point.x * 255;
-	unsigned int green = point.y * 255;
-	unsigned int blue = point.z * 255;
+	point.x = point.x * 255;
+	point.y = point.y * 255;
+	point.z = point.z * 255;
 
-	unsigned int colour = (0xff << 24) + ((red & 0xff) << 16) + ((green & 0xff) << 8) + (blue & 0xff);
-	return colour;
+	Color color(point);
+
+	return color.getHex();
 }

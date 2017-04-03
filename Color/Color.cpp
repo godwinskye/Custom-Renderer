@@ -12,6 +12,12 @@ Color::Color(unsigned int hex) {
 	blue = (hex & 0xff);
 }
 
+Color::Color(OctantWiz::Point3D point) {
+	red = point.x;
+	green = point.y;
+	blue = point.z;
+}
+
 void Color::AddColor(Color othercolor) {
 	red = red + othercolor.red;
 	green = green + othercolor.green;
