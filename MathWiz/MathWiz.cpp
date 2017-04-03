@@ -30,7 +30,7 @@ Matrix* MathWiz::initZBuffer() {
 }
 
 Matrix* MathWiz::matrixMultiplication(Matrix* matrix1, Matrix* matrix2) {
-	int temp = 0;
+	double temp = 0;
 	int row = matrix1->getRow();
 	int column = matrix2->getWidth();
 	Matrix* result = new Matrix(row, column, MType::ZERO);

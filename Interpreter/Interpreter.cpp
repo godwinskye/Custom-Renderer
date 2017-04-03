@@ -295,12 +295,14 @@ void Interpreter::RenderLine(OctantWiz::Point3D origin, OctantWiz::Point3D endpo
 	delete torigin;
 	delete tendpoint1;
 
-	res_origin.x = res_origin.x * scale;
+	/*res_origin.x = res_origin.x * scale;
 	res_origin.y = res_origin.y * scale;
 	res_origin.z = res_origin.z * scale;
 	res_endpt.x = res_endpt.x * scale;
 	res_endpt.y = res_endpt.y * scale;
-	res_endpt.z = res_endpt.z * scale;
+	res_endpt.z = res_endpt.z * scale;*/
+	MathWiz::translateToWindowSpace(res_origin);
+	MathWiz::translateToWindowSpace(res_endpt);
 
 	OctantWiz::Point3D color1 = obtainColor(res_origin.z);
 	OctantWiz::Point3D color2 = obtainColor(res_endpt.z);
@@ -319,9 +321,9 @@ OctantWiz::Point3D Interpreter::obtainColor(double zvalue) {
 		return far;
 	}
 	else {
-		double totalreddistance = abs(far.x - near.x);
-		double totalgredistance = abs(far.y - near.y);
-		double totalbludistance = abs(far.z - near.z);
+		double totalreddistance = (far.x - near.x);
+		double totalgredistance = (far.y - near.y);
+		double totalbludistance = (far.z - near.z);
 
 		double red = zvalue / zBufferMaxDistance * totalreddistance;
 		double green = zvalue / zBufferMaxDistance * totalgredistance;

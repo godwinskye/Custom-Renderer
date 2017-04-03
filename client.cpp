@@ -29,10 +29,14 @@ void Client::nextPage() {
 	unsigned int white = 0xffffffff;
 
 	switch (pageNumber % 9) {
-	case 1: 
-		draw_rect(0, 0, 650, 650, 0xff000000);
-		RenderTests::TransWireframeTri162Test(drawable, 10, 10);
+	case 1: {
+		draw_rect(0, 0, 650, 650, black);
+		std::string inputfile("test1");
+		Interpreter Parser(drawable, inputfile);
+		/*draw_rect(0, 0, 650, 650, 0xff000000);
+		RenderTests::TransWireframeTri162Test(drawable, 10, 10);*/
 		drawable->updateScreen();   // you must call this to make the display change.
+	}
 		break;
 	case 2:
 		draw_rect(0, 0, 650, 650, black);
