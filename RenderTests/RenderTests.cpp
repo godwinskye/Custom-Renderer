@@ -373,11 +373,11 @@ void RenderTests::TransMeshTri162Test(Drawable * drawable, int xstart, int ystar
 void RenderTests::zBufferTest(Drawable * drawable) {
 	Matrix* zBuffer = new Matrix(650, 650, MType::BACK_PLANE);
 
-	double base_angle = 240;
-	double sub_angle = 300;
-	double newbase, newsub;
 	unsigned int color;
 	std::vector<OctantWiz::Point3D> colors;
+
+	OctantWiz::Point origin, endpoint1, endpoint2;
+	OctantWiz::Point center(325, 325);
 
 	colors.push_back(OctantWiz::Point3D(1, 1, 1));
 	colors.push_back(OctantWiz::Point3D(0.85, 0.85, 0.85));
@@ -388,28 +388,35 @@ void RenderTests::zBufferTest(Drawable * drawable) {
 
 	for (int i = 0; i < 6; i++) {
 		color = MathWiz::getCorrespondingColor(colors[i]);
-		int rotation = rand() % 241 - 120;
-		newbase = (base_angle + rotation) * M_PI / 180;
-		if (rotation > 60) {
-			newsub = (sub_angle + rotation - 360) * M_PI / 180;
-		}
-		else {
-			newsub = (sub_angle + rotation) * M_PI / 180;
-		}
+		double rotation = rand() % 241 - 120;
+		rotation = rotation * M_PI / 180;
+		
+		origin.x = 325;
+		origin.y = 225;
 
-		OctantWiz::Point point1 = MathWiz::DetermineEndPoint(newbase, 275, 325, 325);
-		OctantWiz::Point point2 = MathWiz::DetermineEndPoint(newsub, 275, 325, 325);
+		endpoint1.x = 209;
+		endpoint1.y = 425;
 
-		int z1 = rand() % 199 + 1;
-		int z2 = rand() % 199 + 1;
-		int z3 = rand() % 199 + 1;
+		endpoint2.x = 440;
+		endpoint2.y = 425;
 
-		OctantWiz::Point3D origin(325, 325, z1);
-		OctantWiz::Point3D endpoint1(point1.x, point1.y, z2);
-		OctantWiz::Point3D endpoint2(point2.x, point2.y, z3);
+		zBufferRotate(origin, center, rotation);
+		zBufferRotate(endpoint1, center, rotation);
+		zBufferRotate(endpoint2, center, rotation);
 
-		PolyFill::Triangle3D(drawable, origin, endpoint1, endpoint2, *zBuffer, color, color, color);
+		int z = rand() % 199 + 1;
+
+		OctantWiz::Point3D Porigin(origin.x, origin.y, z);
+		OctantWiz::Point3D Pendpoint1(endpoint1.x, endpoint1.y, z);
+		OctantWiz::Point3D Pendpoint2(endpoint2.x, endpoint2.y, z);
+
+		PolyFill::Triangle3D(drawable, Porigin, Pendpoint1, Pendpoint2, *zBuffer, color, color, color);
 	}
 
 	delete zBuffer;
+}
+
+void RenderTests::zBufferRotate(OctantWiz::Point & origin, OctantWiz::Point center, double rotation) {
+	origin.x = center.x + (origin.x - center.x) * cos(rotation) - (origin.y - center.y) * sin(rotation);
+	origin.y = center.y + (origin.x - center.x) * sin(rotation) + (origin.y - center.y) * cos(rotation);
 }

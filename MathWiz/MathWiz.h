@@ -37,7 +37,6 @@ namespace MathWiz {
 	unsigned int getCorrespondingColor(OctantWiz::Point3D point);
 
 	//Color Interpolation
-	void InterpolateColorOnce(unsigned int& color, double redgradient, double greengradient, double bluegradient);
 	Color GradientOfColors(Color origin, Color destination, int range);
 
 	//PolyFill method

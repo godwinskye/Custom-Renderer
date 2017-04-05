@@ -19,8 +19,8 @@ void Client::nextPage() {
     std::cout << "PageNumber " << pageNumber << std::endl;
 
 	OctantWiz::Point first(200, 300);
-	OctantWiz::Point second(300, 300);
-	OctantWiz::Point third(300, 450);
+	OctantWiz::Point second(300, 450);
+	OctantWiz::Point third(200, 450);
 
 	OctantWiz::Point first11(315, 171);
 	OctantWiz::Point second11(310, 171);          //write sort function
@@ -31,7 +31,7 @@ void Client::nextPage() {
 	switch (pageNumber % 9) {
 	case 1: {
 		draw_rect(0, 0, 650, 650, black);
-		std::string inputfile("test3");
+		std::string inputfile("test1");
 		Interpreter Parser(drawable, inputfile);
 		/*draw_rect(0, 0, 650, 650, 0xff000000);
 		RenderTests::TransWireframeTri162Test(drawable, 10, 10);*/

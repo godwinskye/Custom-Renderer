@@ -48,6 +48,7 @@ namespace RenderTests {
 	void TransWireframeTri162Test(Drawable *drawable, int xstart, int ystart);
 	void TransMeshTri162Test(Drawable *drawable, int xstart, int ystart);
 
-	//TODO: zBuffer-3D Test
+	//Z-Buffer Test
 	void zBufferTest(Drawable* drawable);
+	void zBufferRotate(OctantWiz::Point& origin, OctantWiz::Point center, double rotation);
 }

@@ -28,7 +28,7 @@ double Matrix::at(int x, int y) {
 }
 
 void Matrix::setAt(int x, int y, double newvalue) {
-	marray[x + width * y] = newvalue;
+	marray[x * width + y] = newvalue;
 }
 
 void Matrix::setAll(double newvalue) {
@@ -51,7 +51,7 @@ void Matrix::setIdentity() {
 }
 
 int Matrix::index(int x, int y) const {
-	return x + width * y;
+	return x * width + y;              //x + width * y
 }
 
 int Matrix::getRow() {

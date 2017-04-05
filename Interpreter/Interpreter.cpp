@@ -251,6 +251,18 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 	delete endpoint11;
 	delete endpoint22;
 
+	Matrix* screenscale = MathWiz::makeScaleFactorMatrix(3.25, -3.25, 1);
+	Matrix* screentranslate = MathWiz::makeTranslationMatrix(325, 325, 0);
+	
+	torigin = MathWiz::matrixMultiplication(screenscale, torigin);
+	torigin = MathWiz::matrixMultiplication(screentranslate, torigin);
+
+	tendpoint1 = MathWiz::matrixMultiplication(screenscale, tendpoint1);
+	tendpoint1 = MathWiz::matrixMultiplication(screentranslate, tendpoint1);
+
+	tendpoint2 = MathWiz::matrixMultiplication(screenscale, tendpoint2);
+	tendpoint2 = MathWiz::matrixMultiplication(screentranslate, tendpoint2);
+
 	OctantWiz::Point3D res_origin = MathWiz::MatrixToPoint(torigin);
 	OctantWiz::Point3D res_endpt1 = MathWiz::MatrixToPoint(tendpoint1);
 	OctantWiz::Point3D res_endpt2 = MathWiz::MatrixToPoint(tendpoint2);
@@ -259,9 +271,9 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 	delete tendpoint1;
 	delete tendpoint2;
 
-	MathWiz::translateToWindowSpace(res_origin);
+	/*MathWiz::translateToWindowSpace(res_origin);
 	MathWiz::translateToWindowSpace(res_endpt1);
-	MathWiz::translateToWindowSpace(res_endpt2);
+	MathWiz::translateToWindowSpace(res_endpt2);*/
 
 	OctantWiz::Point3D color1 = obtainColor(res_origin.z);
 	OctantWiz::Point3D color2 = obtainColor(res_endpt1.z);

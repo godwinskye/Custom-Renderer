@@ -80,6 +80,7 @@ Matrix* MathWiz::makeRotationMatrix(Axis type, double degrees) {
 }
 
 Matrix* MathWiz::makeXRotation(double degrees) {
+	degrees = -1 * degrees;
 	double angle = degrees * M_PI / 180;
 	Matrix* result = new Matrix(4, 4, MType::ZERO);
 
@@ -94,7 +95,6 @@ Matrix* MathWiz::makeXRotation(double degrees) {
 }
 
 Matrix* MathWiz::makeYRotation(double degrees) {
-	degrees = 360 - degrees;
 	double angle = degrees * M_PI / 180;
 	Matrix* result = new Matrix(4, 4, MType::ZERO);
 
@@ -124,54 +124,16 @@ Matrix* MathWiz::makeZRotation(double degrees) {
 
 void MathWiz::translateToWindowSpace(OctantWiz::Point3D & point) {
 	point.x = (point.x + 100) * 3.25;
-	point.y = (point.y + 100) * 3.25;
+	point.y = (point.y - 100) * -3.25;
 }
 
 unsigned int MathWiz::getCorrespondingColor(OctantWiz::Point3D point) {
-	unsigned int red = point.x * 255;
-	unsigned int green = point.y * 255;
-	unsigned int blue = point.z * 255;
+	point.x = point.x * 255;
+	point.y = point.y * 255;
+	point.z = point.z * 255;
 
-	unsigned int colour = (0xff << 24) + ((red & 0xff) << 16) + ((green & 0xff) << 8) + (blue & 0xff);
-	return colour;
-}
-
-void MathWiz::InterpolateColorOnce(unsigned int& color, double redgradient, double greengradient, double bluegradient) {
-	double red = (color >> 16) & 0xff;
-	double green = (color >> 8) & 0xff;
-	double blue = color & 0xff;
-
-	if (red + redgradient >= 255) {
-		red = 255;
-	}
-	else if (red + redgradient <= 0) {
-		red = 0;
-	}
-	else {
-		red = red + redgradient;
-	}
-
-	if (green + greengradient >= 255) {
-		green = 255;
-	}
-	else if (green + greengradient <= 0) {
-		green = 0;
-	}
-	else {
-		green = green + greengradient;
-	}
-
-	if (blue + bluegradient >= 255) {
-		blue = 255;
-	}
-	else if (blue + bluegradient <= 0) {
-		blue = 0;
-	}
-	else {
-		blue = blue + bluegradient;
-	}
-
-	color = (0xff << 24) + ((static_cast<unsigned int>(round(red)) & 0xff) << 16) + ((static_cast<unsigned int>(round(green)) & 0xff) << 8) + (static_cast<unsigned int>(round(blue)) & 0xff);
+	Color colour(point);
+	return colour.getHex();
 }
 
 Color MathWiz::GradientOfColors(Color origin, Color destination, int range) {
