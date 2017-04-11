@@ -138,6 +138,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera\Camera.cpp" />
     <ClCompile Include="client.cpp" />
     <ClCompile Include="Color\Color.cpp" />
     <ClCompile Include="Debug\moc_renderarea361.cpp">
@@ -166,6 +167,8 @@
     <ClCompile Include="window361.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera\Camera.h" />
+    <ClInclude Include="Camera\ViewFrustum.h" />
     <ClInclude Include="client.h" />
     <ClInclude Include="Color\Color.h" />
     <ClInclude Include="drawable.h" />

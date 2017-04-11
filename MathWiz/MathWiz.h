@@ -24,6 +24,9 @@ namespace MathWiz {
 	Matrix* makeTranslationMatrix(double tx, double ty, double tz);
 	Matrix* makeScaleFactorMatrix(double sx, double sy, double sz);
 	Matrix* makeRotationMatrix(Axis type, double degrees);
+	Matrix* InverseCTM(Matrix* CTM);
+	OctantWiz::Point3D ProjectPointToZ(OctantWiz::Point3D point);
+	double DotProduct3D(double vector[3], double Tvector[3]);
 
 	//Rotation types
 	Matrix* makeXRotation(double degrees);
@@ -42,6 +45,9 @@ namespace MathWiz {
 	//PolyFill method
 	OctantWiz::Point GetLargestYAndRemoveIt(std::vector<OctantWiz::Point>& list);
 	OctantWiz::Point3D GetLargestYAndRemoveIt3D(std::vector<OctantWiz::Point3D>& list);
+
+	//Debug routine
+	void debugMatrix(Matrix* matrix);
 
 	double GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint);
 	double GetReverseGradient(OctantWiz::Point origin, OctantWiz::Point endpoint);

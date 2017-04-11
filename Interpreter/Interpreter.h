@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <stack>
+#include "Camera/Camera.h"
 #include "renderarea361.h"
 #include "MathWiz/MathWiz.h"
 
@@ -27,6 +28,9 @@ public:
 	OctantWiz::Point3D obtainColor(double zvalue);
 	unsigned int getColor(OctantWiz::Point3D point);
 
+	//Camera tools
+	void SetCamera(double xlow, double ylow, double xhigh, double yhigh, double hither, double yon);
+
 	std::ifstream mainfile;
 private:
 	double scale = 3.25;
@@ -38,6 +42,8 @@ private:
 	std::stack<Matrix*> CTMstack;
 	Matrix zBuffer = Matrix(1000, 1000, MType::BACK_PLANE);
 	Matrix* CTM = new Matrix(4, 4, MType::IDENTITY);
+	Camera CameraSpace;
+	bool CameraSwitch = false;
 	bool FILLED = true;
 	Drawable* draw;
 };

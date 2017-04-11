@@ -2,10 +2,10 @@
 #include <math.h>
 
 Matrix::Matrix(int row, int column, MType type) {
-	marray = new double[row * column];
+	size = row * column;
+	marray = new double[size];
 	width = column;
 	this->row = row;
-	size = row * column;
 	switch (type) {
 	case MType::BACK_PLANE:
 		setAll(BACK_CLIPPING_PLANE);
@@ -16,6 +16,17 @@ Matrix::Matrix(int row, int column, MType type) {
 	case MType::ZERO:
 		setAll(0);
 		break;
+	}
+}
+
+//deep copy
+Matrix::Matrix(Matrix * original) {
+	size = original->getRow() * original->getWidth();
+	marray = new double[size];
+	width = original->getWidth();
+	this->row = original->getRow();
+	for (int i = 0; i < size; i++) {
+		marray[i] = original->marray[i];
 	}
 }
 

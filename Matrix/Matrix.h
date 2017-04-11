@@ -15,6 +15,7 @@ enum class Axis {
 class Matrix {
 public:
 	Matrix(int row, int column, MType);
+	Matrix(Matrix* original);					//deep copy
 	~Matrix();
 
 	double at(int x, int y);

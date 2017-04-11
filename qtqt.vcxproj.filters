@@ -91,6 +91,9 @@
     <ClCompile Include="Color\Color.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="Camera\Camera.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h">
@@ -136,6 +139,12 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="Color\Color.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\Camera.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\ViewFrustum.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -31,7 +31,7 @@ void Client::nextPage() {
 	switch (pageNumber % 9) {
 	case 1: {
 		draw_rect(0, 0, 650, 650, black);
-		std::string inputfile("test1");
+		std::string inputfile("test3");
 		Interpreter Parser(drawable, inputfile);
 		/*draw_rect(0, 0, 650, 650, 0xff000000);
 		RenderTests::TransWireframeTri162Test(drawable, 10, 10);*/

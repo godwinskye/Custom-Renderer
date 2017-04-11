@@ -41,8 +41,10 @@ void Interpreter::interpretLine(std::string line) {
 		if (line[i] == ' ' || line[i] == '\n' || line[i] == '\t') {
 			continue;
 		}
+		//TODO: Fix shallow push
 		else if (line[i] == '{') {
-			CTMstack.push(CTM);
+			Matrix* clone = new Matrix(CTM);
+			CTMstack.push(clone);
 		}
 		else if (line[i] == '}') {
 			CTM = CTMstack.top();
@@ -184,6 +186,17 @@ void Interpreter::fitToken(std::string token, std::string line, int &position) {
 	else if (token == "filled") {
 		FILLED = true;
 	}
+	else if (token == "camera") {
+		double xlow = grabNextNum(line, position);
+		double ylow = grabNextNum(line, position);
+		double xhigh = grabNextNum(line, position);
+		double yhigh = grabNextNum(line, position);
+		double hither = grabNextNum(line, position);
+		double yon = grabNextNum(line, position);
+
+		SetCamera(xlow, ylow, xhigh, yhigh, hither, yon);
+		CameraSwitch = true;
+	}
 }
 
 std::string Interpreter::getFilename(std::string line, int & position) {
@@ -206,12 +219,14 @@ void Interpreter::ScaleCTM(double sx, double sy, double sz) {
 	Matrix* scaler = MathWiz::makeScaleFactorMatrix(sx, sy, sz);
 	CTM = MathWiz::matrixMultiplication(CTM, scaler);
 	delete scaler;
+	MathWiz::debugMatrix(CTM);
 }
 
 void Interpreter::TranslateCTM(double tx, double ty, double tz) {
 	Matrix* translation = MathWiz::makeTranslationMatrix(tx, ty, tz);
 	CTM = MathWiz::matrixMultiplication(CTM, translation);
 	delete translation;
+	MathWiz::debugMatrix(CTM);
 }
 
 void Interpreter::RotateCTM(Axis axis, double degrees) {
@@ -235,6 +250,7 @@ void Interpreter::RotateCTM(Axis axis, double degrees) {
 			break;
 		}
 	}
+	MathWiz::debugMatrix(CTM);
 }
 
 void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint1, OctantWiz::Point3D endpoint2) {
@@ -251,43 +267,97 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 	delete endpoint11;
 	delete endpoint22;
 
-	Matrix* screenscale = MathWiz::makeScaleFactorMatrix(3.25, -3.25, 1);
-	Matrix* screentranslate = MathWiz::makeTranslationMatrix(325, 325, 0);
-	
-	torigin = MathWiz::matrixMultiplication(screenscale, torigin);
-	torigin = MathWiz::matrixMultiplication(screentranslate, torigin);
+	if (CameraSwitch) {
+		torigin = MathWiz::matrixMultiplication(CameraSpace.Space, torigin);
+		tendpoint1 = MathWiz::matrixMultiplication(CameraSpace.Space, tendpoint1);
+		tendpoint2 = MathWiz::matrixMultiplication(CameraSpace.Space, tendpoint2);
 
-	tendpoint1 = MathWiz::matrixMultiplication(screenscale, tendpoint1);
-	tendpoint1 = MathWiz::matrixMultiplication(screentranslate, tendpoint1);
+		OctantWiz::Point3D res_origin = MathWiz::MatrixToPoint(torigin);
+		OctantWiz::Point3D res_endpt1 = MathWiz::MatrixToPoint(tendpoint1);
+		OctantWiz::Point3D res_endpt2 = MathWiz::MatrixToPoint(tendpoint2);
 
-	tendpoint2 = MathWiz::matrixMultiplication(screenscale, tendpoint2);
-	tendpoint2 = MathWiz::matrixMultiplication(screentranslate, tendpoint2);
+		res_origin = MathWiz::ProjectPointToZ(res_origin);
+		res_endpt1 = MathWiz::ProjectPointToZ(res_endpt1);
+		res_endpt2 = MathWiz::ProjectPointToZ(res_endpt2);
 
-	OctantWiz::Point3D res_origin = MathWiz::MatrixToPoint(torigin);
-	OctantWiz::Point3D res_endpt1 = MathWiz::MatrixToPoint(tendpoint1);
-	OctantWiz::Point3D res_endpt2 = MathWiz::MatrixToPoint(tendpoint2);
+		torigin = MathWiz::PointToMatrix(res_origin);
+		tendpoint1 = MathWiz::PointToMatrix(res_endpt1);
+		tendpoint2 = MathWiz::PointToMatrix(res_endpt2);
 
-	delete torigin;
-	delete tendpoint1;
-	delete tendpoint2;
+		double xscale = CameraSpace.Frustum.xhigh - CameraSpace.Frustum.xlow;
+		double yscale = CameraSpace.Frustum.yhigh - CameraSpace.Frustum.ylow;
 
-	/*MathWiz::translateToWindowSpace(res_origin);
-	MathWiz::translateToWindowSpace(res_endpt1);
-	MathWiz::translateToWindowSpace(res_endpt2);*/
+		Matrix* screenscale = MathWiz::makeScaleFactorMatrix(650 / xscale, -1 * 650 / yscale, 1);
+		Matrix* screentranslate = MathWiz::makeTranslationMatrix(325, 325, 0);
 
-	OctantWiz::Point3D color1 = obtainColor(res_origin.z);
-	OctantWiz::Point3D color2 = obtainColor(res_endpt1.z);
-	OctantWiz::Point3D color3 = obtainColor(res_endpt2.z);
+		torigin = MathWiz::matrixMultiplication(screenscale, torigin);
+		torigin = MathWiz::matrixMultiplication(screentranslate, torigin);
 
-	unsigned int res_color1 = getColor(color1);
-	unsigned int res_color2 = getColor(color2);
-	unsigned int res_color3 = getColor(color3);
+		tendpoint1 = MathWiz::matrixMultiplication(screenscale, tendpoint1);
+		tendpoint1 = MathWiz::matrixMultiplication(screentranslate, tendpoint1);
 
-	if (FILLED) {
-		PolyFill::Triangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3);
+		tendpoint2 = MathWiz::matrixMultiplication(screenscale, tendpoint2);
+		tendpoint2 = MathWiz::matrixMultiplication(screentranslate, tendpoint2);
+
+		res_origin = MathWiz::MatrixToPoint(torigin);
+		res_endpt1 = MathWiz::MatrixToPoint(tendpoint1);
+		res_endpt2 = MathWiz::MatrixToPoint(tendpoint2);
+
+		delete torigin;
+		delete tendpoint1;
+		delete tendpoint2;
+
+		OctantWiz::Point3D color1 = obtainColor(res_origin.z);
+		OctantWiz::Point3D color2 = obtainColor(res_endpt1.z);
+		OctantWiz::Point3D color3 = obtainColor(res_endpt2.z);
+
+		unsigned int res_color1 = getColor(color1);
+		unsigned int res_color2 = getColor(color2);
+		unsigned int res_color3 = getColor(color3);
+
+		if (FILLED) {
+			PolyFill::ScissorTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3, CameraSpace.Frustum);
+		}
+		else {
+			PolyFill::WireTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3);
+		}
 	}
 	else {
-		PolyFill::WireTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3);
+		Matrix* screenscale = MathWiz::makeScaleFactorMatrix(3.25, -3.25, 1);
+		Matrix* screentranslate = MathWiz::makeTranslationMatrix(325, 325, 0);
+
+		torigin = MathWiz::matrixMultiplication(screenscale, torigin);
+		torigin = MathWiz::matrixMultiplication(screentranslate, torigin);
+
+		tendpoint1 = MathWiz::matrixMultiplication(screenscale, tendpoint1);
+		tendpoint1 = MathWiz::matrixMultiplication(screentranslate, tendpoint1);
+
+		tendpoint2 = MathWiz::matrixMultiplication(screenscale, tendpoint2);
+		tendpoint2 = MathWiz::matrixMultiplication(screentranslate, tendpoint2);
+
+
+		OctantWiz::Point3D res_origin = MathWiz::MatrixToPoint(torigin);
+		OctantWiz::Point3D res_endpt1 = MathWiz::MatrixToPoint(tendpoint1);
+		OctantWiz::Point3D res_endpt2 = MathWiz::MatrixToPoint(tendpoint2);
+
+		delete torigin;
+		delete tendpoint1;
+		delete tendpoint2;
+
+		OctantWiz::Point3D color1 = obtainColor(res_origin.z);
+		OctantWiz::Point3D color2 = obtainColor(res_endpt1.z);
+		OctantWiz::Point3D color3 = obtainColor(res_endpt2.z);
+
+		unsigned int res_color1 = getColor(color1);
+		unsigned int res_color2 = getColor(color2);
+		unsigned int res_color3 = getColor(color3);
+
+		if (FILLED) {
+			PolyFill::Triangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3);
+		}
+		else {
+			PolyFill::WireTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3);
+		}
 	}
 }
 
@@ -353,4 +423,12 @@ unsigned int Interpreter::getColor(OctantWiz::Point3D point) {
 	Color color(point);
 
 	return color.getHex();
+}
+
+void Interpreter::SetCamera(double xlow, double ylow, double xhigh, double yhigh, double hither, double yon) {
+	// Obtain Camera Matrix (Camera Space) by inversing CTM
+	Matrix* inverseMatrix = MathWiz::InverseCTM(CTM);
+	ViewFrustum view(xlow, ylow, xhigh, yhigh, hither, yon);
+	CameraSpace.SetFrustum(view);
+	CameraSpace.SetSpace(inverseMatrix);
 }

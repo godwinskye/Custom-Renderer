@@ -16,9 +16,9 @@ Matrix* MathWiz::PointToMatrix(OctantWiz::Point3D point) {
 }
 
 OctantWiz::Point3D MathWiz::MatrixToPoint(Matrix* matrix) {
-	double x = matrix->at(0, 0);
-	double y = matrix->at(1, 0);
-	double z = matrix->at(2, 0);
+	double x = round(matrix->at(0, 0));
+	double y = round(matrix->at(1, 0));
+	double z = round(matrix->at(2, 0));
 
 	OctantWiz::Point3D result(x, y, z);
 	return result;
@@ -79,15 +79,52 @@ Matrix* MathWiz::makeRotationMatrix(Axis type, double degrees) {
 	}
 }
 
+Matrix * MathWiz::InverseCTM(Matrix * CTM) {
+	Matrix* result = new Matrix(4, 4, MType::ZERO);
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			result->setAt(i, j, CTM->at(j, i));
+		}
+	}
+	double Uvector[3] = { result->at(0, 0), result->at(0, 1), result->at(0, 2) };
+	double Vvector[3] = { result->at(1, 0), result->at(1, 1), result->at(1, 2) };
+	double Wvector[3] = { result->at(2, 0), result->at(2, 1), result->at(2, 2) };
+	double Tvector[3] = { CTM->at(0, 3), CTM->at(1, 3), CTM->at(2, 3) };
+
+	result->setAt(0, 3, -1 * DotProduct3D(Uvector, Tvector));
+	result->setAt(1, 3, -1 * DotProduct3D(Vvector, Tvector));
+	result->setAt(2, 3, -1 * DotProduct3D(Wvector, Tvector));
+	result->setAt(3, 3, 1);
+
+	return result;
+}
+
+OctantWiz::Point3D MathWiz::ProjectPointToZ(OctantWiz::Point3D point) {
+	OctantWiz::Point3D result;
+	result.x = point.x / point.z;
+	result.y = point.y / point.z;
+	result.z = point.z;
+
+	return result;
+}
+
+double MathWiz::DotProduct3D(double vector[3], double Tvector[3]) {
+	double result = 0.f;
+	for (int i = 0; i < 3; i++) {
+		result = result + (vector[i] * Tvector[i]);
+	}
+	return result;
+}
+
 Matrix* MathWiz::makeXRotation(double degrees) {
-	degrees = -1 * degrees;
 	double angle = degrees * M_PI / 180;
 	Matrix* result = new Matrix(4, 4, MType::ZERO);
 
 	result->setAt(0, 0, 1);
 	result->setAt(1, 1, cos(angle));
-	result->setAt(1, 2, -sin(angle));
-	result->setAt(2, 1, sin(angle));
+	result->setAt(1, 2, sin(angle));
+	result->setAt(2, 1, -sin(angle));
 	result->setAt(2, 2, cos(angle));
 	result->setAt(3, 3, 1);
 
@@ -99,9 +136,9 @@ Matrix* MathWiz::makeYRotation(double degrees) {
 	Matrix* result = new Matrix(4, 4, MType::ZERO);
 
 	result->setAt(0, 0, cos(angle));
-	result->setAt(0, 2, sin(angle));
+	result->setAt(0, 2, -sin(angle));
 	result->setAt(1, 1, 1);
-	result->setAt(2, 0, -sin(angle));
+	result->setAt(2, 0, sin(angle));
 	result->setAt(2, 2, cos(angle));
 	result->setAt(3, 3, 1);
 
@@ -113,8 +150,8 @@ Matrix* MathWiz::makeZRotation(double degrees) {
 	Matrix* result = new Matrix(4, 4, MType::ZERO);
 
 	result->setAt(0, 0, cos(angle));
-	result->setAt(0, 1, -sin(angle));
-	result->setAt(1, 0, sin(angle));
+	result->setAt(0, 1, sin(angle));
+	result->setAt(1, 0, -sin(angle));
 	result->setAt(1, 1, cos(angle));
 	result->setAt(2, 2, 1);
 	result->setAt(3, 3, 1);
@@ -166,6 +203,17 @@ OctantWiz::Point3D MathWiz::GetLargestYAndRemoveIt3D(std::vector<OctantWiz::Poin
 	}
 	list.erase(list.begin() + index);
 	return largestpoint;
+}
+
+void MathWiz::debugMatrix(Matrix * matrix) {
+	int list[16];
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			list[i * 4 + j] = matrix->at(i, j);
+		}
+	}
+	int something = 3 + 4;
+	int something2 = something + 5;
 }
 
 double MathWiz::GetGradient(OctantWiz::Point origin, OctantWiz::Point endpoint) {

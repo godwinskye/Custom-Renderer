@@ -1,8 +1,8 @@
 {
 	{
 	    translate -40 -20 00
-	    rotate X -20
-	    rotate Y -35
+	    rotate X 20
+	    rotate Y 35
 	 
 	    file "page4assembly"
 	
@@ -61,7 +61,7 @@
 		file "cube"
 	}
 	{
-		translate 30 -110 -10
+		translate 30 -110 10
 		rotate X 25
 		rotate Y 45
 		scale 30 30 30

@@ -2,6 +2,7 @@
 #include "../OctantWiz/OctantWiz.h"
 #include "../MathWiz/MathWiz.h"
 #include "renderarea361.h"
+#include "Camera/Camera.h"
 
 namespace PolyFill {
 
