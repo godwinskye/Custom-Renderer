@@ -166,5 +166,7 @@
     <None Include="threeCubelinesIntersecting.simp" />
     <None Include="triPrism.simp" />
     <None Include="pageA.simp" />
+    <None Include="pageB.simp" />
+    <None Include="pageB2.simp" />
   </ItemGroup>
 </Project>

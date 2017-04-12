@@ -24,6 +24,15 @@ OctantWiz::Point3D MathWiz::MatrixToPoint(Matrix* matrix) {
 	return result;
 }
 
+OctantWiz::Point3D MathWiz::NoRoundMatrixToPoint(Matrix * matrix) {
+	double x = matrix->at(0, 0);
+	double y = matrix->at(1, 0);
+	double z = matrix->at(2, 0);
+
+	OctantWiz::Point3D result(x, y, z);
+	return result;
+}
+
 Matrix* MathWiz::initZBuffer() {
 	Matrix* buffer = new Matrix(650, 650, MType::BACK_PLANE);
 	return buffer;

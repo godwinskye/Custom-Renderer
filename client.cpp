@@ -18,9 +18,11 @@ void Client::nextPage() {
     pageNumber++;
     std::cout << "PageNumber " << pageNumber << std::endl;
 
-	OctantWiz::Point first(200, 300);
-	OctantWiz::Point second(300, 450);
-	OctantWiz::Point third(200, 450);
+	/*OctantWiz::Point3D first(522.68027320625310, 334.32526842825200, 174.25771842415494);
+	OctantWiz::Point3D second(544.51451334859576, 315.48803782317572, 170.83751699089825);
+	OctantWiz::Point3D third(522.68027320625310, 315.67473157174800, 174.25771842415494);
+
+	Matrix zBuffer = Matrix(1000, 1000, MType::BACK_PLANE);*/
 
 	OctantWiz::Point first11(315, 171);
 	OctantWiz::Point second11(310, 171);          //write sort function
@@ -38,10 +40,12 @@ void Client::nextPage() {
 		drawable->updateScreen();   // you must call this to make the display change.
 	}
 		break;
-	case 2:
+	case 2: {
 		draw_rect(0, 0, 650, 650, black);
-		RenderTests::TransMeshTri162Test(drawable, 10, 10);
+		std::string inputfile("pageB");
+		Interpreter Parser(drawable, inputfile);
 		drawable->updateScreen();
+	}
 		break;
 	case 3:
 		draw_rect(0, 0, 650, 650, black);

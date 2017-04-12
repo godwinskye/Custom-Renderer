@@ -18,6 +18,7 @@ namespace MathWiz {
 
 	Matrix* PointToMatrix(OctantWiz::Point3D point);
 	OctantWiz::Point3D MatrixToPoint(Matrix* matrix);
+	OctantWiz::Point3D NoRoundMatrixToPoint(Matrix* matrix);
 
 	Matrix* initZBuffer();
 	Matrix* matrixMultiplication(Matrix* matrix1, Matrix* matrix2);

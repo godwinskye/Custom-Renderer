@@ -7,6 +7,12 @@ void PolyFill::WireTriangle3D(Drawable * drawable, OctantWiz::Point3D origin, Oc
 	LineRenderer::LiDDArender3D(drawable, endpoint1, endpoint2, zBuffer, color2, color3);
 }
 
+void PolyFill::WireTriangle3D(Drawable * drawable, OctantWiz::Point3D origin, OctantWiz::Point3D endpoint1, OctantWiz::Point3D endpoint2, Matrix & zBuffer, unsigned int color1, unsigned int color2, unsigned int color3, ViewFrustum view) {
+	LineRenderer::LiDDArender3D(drawable, origin, endpoint1, zBuffer, color1, color2, view);
+	LineRenderer::LiDDArender3D(drawable, origin, endpoint2, zBuffer, color1, color3, view);
+	LineRenderer::LiDDArender3D(drawable, endpoint1, endpoint2, zBuffer, color2, color3, view);
+}
+
 void PolyFill::LiTriangle(Drawable * drawable, OctantWiz::Point origin, OctantWiz::Point endpoint1, OctantWiz::Point endpoint2, unsigned int color1, unsigned int color2, unsigned int color3) {
 	std::vector<OctantWiz::Point> list;
 	OctantWiz::Point top, middle, bottom;
@@ -727,7 +733,7 @@ void PolyFill::ScissorTriangle3D(Drawable * drawable, OctantWiz::Point3D origin,
 
 	for (int y = top.y + 1; y < middle.y; y++) {
 		for (int x = leftpoint; x <= rightpoint - 1; x++) {
-			if (x < view.xlow || y < view.ylow || currentZ < view.hither || x > view.xhigh || y > view.yhigh || currentZ > view.yon) {
+			if (x < view.xlow || y > view.ylow || currentZ < view.hither || x > view.xhigh || y < view.yhigh || currentZ > view.yon) {
 				color.AddColor(colorgradient);
 				currentZ += innerZgradient;
 				continue;
@@ -790,7 +796,7 @@ void PolyFill::ScissorTriangle3D(Drawable * drawable, OctantWiz::Point3D origin,
 
 	for (int y = middle.y; y < bottom.y; y++) {
 		for (int x = leftpoint; x <= rightpoint - 1; x++) {
-			if (x < view.xlow || y < view.ylow || currentZ < view.hither || x > view.xhigh || y > view.yhigh || currentZ > view.yon) {
+			if (x < view.xlow || y > view.ylow || currentZ < view.hither || x > view.xhigh || y < view.yhigh || currentZ > view.yon) {
 				color.AddColor(colorgradient);
 				currentZ += innerZgradient;
 				continue;

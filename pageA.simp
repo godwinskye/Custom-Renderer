@@ -6,7 +6,7 @@
 		camera -1 -1 1 1 0.005 200
 	}
 	
-#	wire
+	wire
 	{
 	    translate 40 0 0
 	    file "cubeline"
