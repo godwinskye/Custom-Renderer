@@ -24,6 +24,12 @@ void Color::AddColor(Color othercolor) {
 	blue = blue + othercolor.blue;
 }
 
+void Color::AddColorMultiple(Color othercolor, int times) {
+	red = red + othercolor.red * times;
+	green = green + othercolor.green * times;
+	blue = blue + othercolor.blue * times;
+}
+
 void Color::SubtractColor(Color othercolor) {
 	red = red - othercolor.red;
 	green = green - othercolor.green;
@@ -44,4 +50,8 @@ unsigned int Color::getHex() {
 	unsigned int color = (0xff << 24) + ((tempred & 0xff) << 16) + ((tempgreen & 0xff) << 8) + (tempblue & 0xff);
 
 	return color;
+}
+
+OctantWiz::Point3D Color::getPoint3D() {
+	return OctantWiz::Point3D(red, green, blue);
 }

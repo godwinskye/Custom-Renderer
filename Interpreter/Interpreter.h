@@ -43,6 +43,11 @@ private:
 	OctantWiz::Point3D Ambient = OctantWiz::Point3D(0, 0, 0);
 	OctantWiz::Point3D Surface = OctantWiz::Point3D(1, 1, 1);
 
+	double DepthNear = DBL_MAX;
+	double DepthFar = DBL_MAX;
+	OctantWiz::Point3D DepthColor;
+	Color DepthColorGradient;
+
 	std::stack<Matrix*> CTMstack;
 	Matrix zBuffer = Matrix(1000, 1000, MType::BACK_PLANE);
 	Matrix* CTM = new Matrix(4, 4, MType::IDENTITY);

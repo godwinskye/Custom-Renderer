@@ -207,6 +207,10 @@ void Interpreter::fitToken(std::string token, std::string line, int &position) {
 		Ambient.x = red;
 		Ambient.y = green;
 		Ambient.z = blue;
+
+		Color nearcolor = MathWiz::getCorrespondingColor(MathWiz::LightingCalculation(Ambient, Surface));
+		Color farcolor = MathWiz::getCorrespondingColor(DepthColor);
+		DepthColorGradient = MathWiz::GradientOfColors(nearcolor, farcolor, DepthFar - DepthNear);
 	}
 	else if (token == "surface") {
 		double red = grabNextNum(line, position);
@@ -216,9 +220,29 @@ void Interpreter::fitToken(std::string token, std::string line, int &position) {
 		Surface.x = red;
 		Surface.y = green;
 		Surface.z = blue;
+
+		Color nearcolor = MathWiz::getCorrespondingColor(MathWiz::LightingCalculation(Ambient, Surface));
+		Color farcolor = MathWiz::getCorrespondingColor(DepthColor);
+		DepthColorGradient = MathWiz::GradientOfColors(nearcolor, farcolor, DepthFar - DepthNear);
 	}
 	else if (token == "depth") {
-		//depth
+		double newnear = grabNextNum(line, position);
+		double newfar = grabNextNum(line, position);
+		DepthNear = newnear;
+		DepthFar = newfar;
+
+		double red = grabNextNum(line, position);
+		double green = grabNextNum(line, position);
+		double blue = grabNextNum(line, position);
+
+		DepthColor.x = red;
+		DepthColor.y = green;
+		DepthColor.z = blue;
+
+		//DepthColorGradient setup
+		Color nearcolor = MathWiz::getCorrespondingColor(MathWiz::LightingCalculation(Ambient, Surface));
+		Color farcolor = MathWiz::getCorrespondingColor(DepthColor);
+		DepthColorGradient = MathWiz::GradientOfColors(nearcolor, farcolor, DepthFar - DepthNear);
 	}
 }
 
@@ -327,9 +351,45 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 		delete tendpoint1;
 		delete tendpoint2;
 
-		OctantWiz::Point3D color = MathWiz::LightingCalculation(Ambient, Surface);
+		OctantWiz::Point3D color1, color2, color3;
 
-		unsigned int res_color = getColor(color);
+		if (res_origin.z <= DepthNear) {
+			color1 = MathWiz::LightingCalculation(Ambient, Surface);
+		}
+		else if (res_origin.z >= DepthFar) {
+			color1 = DepthColor;
+		}
+		else {
+			Color temp = Color(MathWiz::LightingCalculation(Ambient, Surface));
+			temp.AddColorMultiple(DepthColorGradient, (res_origin.z - DepthNear));
+			color1 = temp.getPoint3D();
+		}
+
+		if (res_endpt1.z <= DepthNear) {
+			color2 = MathWiz::LightingCalculation(Ambient, Surface);
+		}
+		else if (res_endpt1.z >= DepthFar) {
+			color1 = DepthColor;
+		}
+		else {
+			Color temp = Color(MathWiz::LightingCalculation(Ambient, Surface));
+			temp.AddColorMultiple(DepthColorGradient, (res_endpt1.z - DepthNear));
+			color2 = temp.getPoint3D();
+		}
+
+		if (res_endpt2.z <= DepthNear) {
+			color3 = MathWiz::LightingCalculation(Ambient, Surface);
+		}
+		else if (res_endpt2.z >= DepthFar) {
+			color3 = DepthColor;
+		}
+		else {
+			Color temp = Color(MathWiz::LightingCalculation(Ambient, Surface));
+			temp.AddColorMultiple(DepthColorGradient, (res_endpt2.z - DepthNear));
+			color3 = temp.getPoint3D();
+		}
+
+		unsigned int res_color = getColor(color1);
 
 		if (FILLED) {
 			PolyFill::ScissorTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color, res_color, res_color, CameraSpace.Frustum);
