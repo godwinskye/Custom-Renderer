@@ -34,10 +34,14 @@ public:
 	std::ifstream mainfile;
 private:
 	double scale = 3.25;
-	int zBufferMaxDistance = 200;
+	double zBufferMaxDistance = 200.f;
+	double zBufferMin = 0.f;
 
 	OctantWiz::Point3D near = OctantWiz::Point3D(0, 1, 0);
 	OctantWiz::Point3D far = OctantWiz::Point3D(0, 0, 0);
+
+	OctantWiz::Point3D Ambient = OctantWiz::Point3D(0, 0, 0);
+	OctantWiz::Point3D Surface = OctantWiz::Point3D(1, 1, 1);
 
 	std::stack<Matrix*> CTMstack;
 	Matrix zBuffer = Matrix(1000, 1000, MType::BACK_PLANE);
@@ -46,4 +50,6 @@ private:
 	bool CameraSwitch = false;
 	bool FILLED = true;
 	Drawable* draw;
+
+	int polygon = 0;
 };

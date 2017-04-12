@@ -109,6 +109,16 @@ OctantWiz::Point3D MathWiz::ProjectPointToZ(OctantWiz::Point3D point) {
 	return result;
 }
 
+Matrix * MathWiz::ProjectVectorToZ(Matrix * vector) {
+	Matrix* result = new Matrix(4, 1, MType::ZERO);
+	result->setAt(0, 0, vector->at(0, 0) / vector->at(2, 0));
+	result->setAt(1, 0, vector->at(1, 0) / vector->at(2, 0));
+	result->setAt(2, 0, vector->at(2, 0));
+	result->setAt(3, 0, 1);
+	MathWiz::debugMatrix(result);
+	return result;
+}
+
 double MathWiz::DotProduct3D(double vector[3], double Tvector[3]) {
 	double result = 0.f;
 	for (int i = 0; i < 3; i++) {
@@ -173,6 +183,14 @@ unsigned int MathWiz::getCorrespondingColor(OctantWiz::Point3D point) {
 	return colour.getHex();
 }
 
+OctantWiz::Point3D MathWiz::LightingCalculation(OctantWiz::Point3D ambient, OctantWiz::Point3D surface) {
+	OctantWiz::Point3D result;
+	result.x = ambient.x * surface.x;
+	result.y = ambient.y * surface.y;
+	result.z = ambient.z * surface.z;
+	return result;
+}
+
 Color MathWiz::GradientOfColors(Color origin, Color destination, int range) {
 	destination.SubtractColor(origin);
 	destination.DivideScalar(range);
@@ -206,7 +224,7 @@ OctantWiz::Point3D MathWiz::GetLargestYAndRemoveIt3D(std::vector<OctantWiz::Poin
 }
 
 void MathWiz::debugMatrix(Matrix * matrix) {
-	int list[16];
+	double list[16];
 	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++) {
 			list[i * 4 + j] = matrix->at(i, j);

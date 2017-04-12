@@ -26,6 +26,7 @@ namespace MathWiz {
 	Matrix* makeRotationMatrix(Axis type, double degrees);
 	Matrix* InverseCTM(Matrix* CTM);
 	OctantWiz::Point3D ProjectPointToZ(OctantWiz::Point3D point);
+	Matrix* ProjectVectorToZ(Matrix* vector);
 	double DotProduct3D(double vector[3], double Tvector[3]);
 
 	//Rotation types
@@ -36,8 +37,9 @@ namespace MathWiz {
 	//Final translate
 	void translateToWindowSpace(OctantWiz::Point3D& point);
 	
-	//Color swapper
+	//Color methods
 	unsigned int getCorrespondingColor(OctantWiz::Point3D point);
+	OctantWiz::Point3D LightingCalculation(OctantWiz::Point3D ambient, OctantWiz::Point3D surface);
 
 	//Color Interpolation
 	Color GradientOfColors(Color origin, Color destination, int range);

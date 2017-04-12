@@ -196,6 +196,17 @@ void Interpreter::fitToken(std::string token, std::string line, int &position) {
 
 		SetCamera(xlow, ylow, xhigh, yhigh, hither, yon);
 		CameraSwitch = true;
+		zBufferMin = hither;
+		zBufferMaxDistance = yon;
+	}
+	else if (token == "ambient") {
+		double red = grabNextNum(line, position);
+		double green = grabNextNum(line, position);
+		double blue = grabNextNum(line, position);
+
+		Ambient.x = red;
+		Ambient.y = green;
+		Ambient.z = blue;
 	}
 }
 
@@ -219,14 +230,12 @@ void Interpreter::ScaleCTM(double sx, double sy, double sz) {
 	Matrix* scaler = MathWiz::makeScaleFactorMatrix(sx, sy, sz);
 	CTM = MathWiz::matrixMultiplication(CTM, scaler);
 	delete scaler;
-	MathWiz::debugMatrix(CTM);
 }
 
 void Interpreter::TranslateCTM(double tx, double ty, double tz) {
 	Matrix* translation = MathWiz::makeTranslationMatrix(tx, ty, tz);
 	CTM = MathWiz::matrixMultiplication(CTM, translation);
 	delete translation;
-	MathWiz::debugMatrix(CTM);
 }
 
 void Interpreter::RotateCTM(Axis axis, double degrees) {
@@ -250,7 +259,6 @@ void Interpreter::RotateCTM(Axis axis, double degrees) {
 			break;
 		}
 	}
-	MathWiz::debugMatrix(CTM);
 }
 
 void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D endpoint1, OctantWiz::Point3D endpoint2) {
@@ -268,6 +276,8 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 	delete endpoint22;
 
 	if (CameraSwitch) {
+		polygon++;                          //debug purposes
+
 		torigin = MathWiz::matrixMultiplication(CameraSpace.Space, torigin);
 		tendpoint1 = MathWiz::matrixMultiplication(CameraSpace.Space, tendpoint1);
 		tendpoint2 = MathWiz::matrixMultiplication(CameraSpace.Space, tendpoint2);
@@ -307,19 +317,20 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 		delete tendpoint1;
 		delete tendpoint2;
 
-		OctantWiz::Point3D color1 = obtainColor(res_origin.z);
-		OctantWiz::Point3D color2 = obtainColor(res_endpt1.z);
-		OctantWiz::Point3D color3 = obtainColor(res_endpt2.z);
+		OctantWiz::Point3D color = MathWiz::LightingCalculation(Ambient, Surface);
 
-		unsigned int res_color1 = getColor(color1);
-		unsigned int res_color2 = getColor(color2);
-		unsigned int res_color3 = getColor(color3);
+		unsigned int res_color = getColor(color);
+
+		if (polygon == 13) {
+			int something = 1;
+			int something2 = 2;
+		}
 
 		if (FILLED) {
-			PolyFill::ScissorTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3, CameraSpace.Frustum);
+			PolyFill::ScissorTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color, res_color, res_color, CameraSpace.Frustum);
 		}
 		else {
-			PolyFill::WireTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3);
+			PolyFill::WireTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color, res_color, res_color);
 		}
 	}
 	else {
@@ -407,9 +418,9 @@ OctantWiz::Point3D Interpreter::obtainColor(double zvalue) {
 		double totalgredistance = (far.y - near.y);
 		double totalbludistance = (far.z - near.z);
 
-		double red = zvalue / zBufferMaxDistance * totalreddistance;
-		double green = zvalue / zBufferMaxDistance * totalgredistance;
-		double blue = zvalue / zBufferMaxDistance * totalbludistance;
+		double red = zvalue / (zBufferMaxDistance - zBufferMin) * totalreddistance;
+		double green = zvalue / (zBufferMaxDistance - zBufferMin) * totalgredistance;
+		double blue = zvalue / (zBufferMaxDistance - zBufferMin) * totalbludistance;
 
 		return OctantWiz::Point3D(red, green, blue);
 	}
@@ -428,7 +439,15 @@ unsigned int Interpreter::getColor(OctantWiz::Point3D point) {
 void Interpreter::SetCamera(double xlow, double ylow, double xhigh, double yhigh, double hither, double yon) {
 	// Obtain Camera Matrix (Camera Space) by inversing CTM
 	Matrix* inverseMatrix = MathWiz::InverseCTM(CTM);
+	CameraSpace.SetSpace(inverseMatrix);
+
+	//View Frustum handling
+	double xscale = 650 / (xhigh - xlow);
+	double yscale = -1 * 650 / (yhigh - ylow);
+	xlow = xlow * xscale + 325;
+	ylow = ylow * yscale + 325;
+	xhigh = xhigh * xscale + 325;
+	yhigh = yhigh * yscale + 325;
 	ViewFrustum view(xlow, ylow, xhigh, yhigh, hither, yon);
 	CameraSpace.SetFrustum(view);
-	CameraSpace.SetSpace(inverseMatrix);
 }
