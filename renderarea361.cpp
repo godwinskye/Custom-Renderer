@@ -11,7 +11,7 @@
 RenderArea361::RenderArea361(QWidget *parent) : QWidget(parent), Drawable()
 {
     image = QImage(750, 750, QImage::Format_RGB888);
-    image.fill(0x00ff0000);
+    image.fill(0x00f0f0f0);
     this->setSizePolicy(QSizePolicy());
     this->update();
 }

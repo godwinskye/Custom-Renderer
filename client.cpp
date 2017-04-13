@@ -18,25 +18,12 @@ void Client::nextPage() {
     pageNumber++;
     std::cout << "PageNumber " << pageNumber << std::endl;
 
-	/*OctantWiz::Point3D first(522.68027320625310, 334.32526842825200, 174.25771842415494);
-	OctantWiz::Point3D second(544.51451334859576, 315.48803782317572, 170.83751699089825);
-	OctantWiz::Point3D third(522.68027320625310, 315.67473157174800, 174.25771842415494);
-
-	Matrix zBuffer = Matrix(1000, 1000, MType::BACK_PLANE);*/
-
-	OctantWiz::Point first11(315, 171);
-	OctantWiz::Point second11(310, 171);          //write sort function
-	OctantWiz::Point third11(325, 325);
-
-	unsigned int white = 0xffffffff;
-
-	switch (pageNumber % 9) {
+	switch (pageNumber % 8) {
 	case 1: {
+		draw_rect(0, 0, 750, 750, 0xfff0f0f0);
 		draw_rect(0, 0, 650, 650, black);
-		std::string inputfile("pageE");
+		std::string inputfile("pageA");
 		Interpreter Parser(drawable, inputfile);
-		/*draw_rect(0, 0, 650, 650, 0xff000000);
-		RenderTests::TransWireframeTri162Test(drawable, 10, 10);*/
 		drawable->updateScreen();   // you must call this to make the display change.
 	}
 		break;
@@ -49,42 +36,35 @@ void Client::nextPage() {
 		break;
 	case 3: {
 		draw_rect(0, 0, 650, 650, black);
-		std::string inputfile("pageC");
+		std::string inputfile("pageD2");
 		Interpreter Parser(drawable, inputfile);
 		drawable->updateScreen();
 	}
 		break;
 	case 4: {
 		draw_rect(0, 0, 650, 650, black);
-		std::string inputfile("largecube");
+		std::string inputfile("pageD3");
 		Interpreter Parser(drawable, inputfile);
 		drawable->updateScreen();
 	}
 		break;
 	case 5: {
 		draw_rect(0, 0, 650, 650, black);
-		std::string inputfile("page5");
+		std::string inputfile("pageF");
 		Interpreter Parser(drawable, inputfile);
 		drawable->updateScreen();
 	}
 		break;
 	case 6: {
 		draw_rect(0, 0, 650, 650, black);
-		std::string inputfile("test1");
+		std::string inputfile("pageH");
 		Interpreter Parser(drawable, inputfile);
 		drawable->updateScreen();
 	}
 		break;
 	case 7: {
 		draw_rect(0, 0, 650, 650, black);
-		std::string inputfile("test2");
-		Interpreter Parser(drawable, inputfile);
-		drawable->updateScreen();
-	}
-		break;
-	case 8: {
-		draw_rect(0, 0, 650, 650, black);
-		std::string inputfile("test3");
+		std::string inputfile("pageH");
 		Interpreter Parser(drawable, inputfile);
 		drawable->updateScreen();
 	}
