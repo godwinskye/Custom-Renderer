@@ -1,4 +1,5 @@
 #pragma once
+#include <float.h>
 
 enum class MType {
 	BACK_PLANE,
@@ -33,5 +34,5 @@ private:
 	int width;
 	int size;
 	int row;
-	static const int BACK_CLIPPING_PLANE = 200;
+	double BACK_CLIPPING_PLANE = DBL_MAX;
 };

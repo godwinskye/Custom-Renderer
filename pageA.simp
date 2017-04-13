@@ -1,12 +1,13 @@
 {
-	ambient 1, 1, 1
+	ambient 1, .9, .9
 	{
 		translate 0 5 -10
 		rotate Y 20
 		camera -1 -1 1 1 0.005 200
+		depth 0 200 (0 0 0)
 	}
 	
-	wire
+#	wire
 	{
 	    translate 40 0 0
 	    file "cubeline"

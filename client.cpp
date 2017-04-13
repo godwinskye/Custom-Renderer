@@ -33,7 +33,7 @@ void Client::nextPage() {
 	switch (pageNumber % 9) {
 	case 1: {
 		draw_rect(0, 0, 650, 650, black);
-		std::string inputfile("pageA");
+		std::string inputfile("pageE");
 		Interpreter Parser(drawable, inputfile);
 		/*draw_rect(0, 0, 650, 650, 0xff000000);
 		RenderTests::TransWireframeTri162Test(drawable, 10, 10);*/
@@ -47,10 +47,12 @@ void Client::nextPage() {
 		drawable->updateScreen();
 	}
 		break;
-	case 3:
+	case 3: {
 		draw_rect(0, 0, 650, 650, black);
-		RenderTests::zBufferTest(drawable);
+		std::string inputfile("pageC");
+		Interpreter Parser(drawable, inputfile);
 		drawable->updateScreen();
+	}
 		break;
 	case 4: {
 		draw_rect(0, 0, 650, 650, black);

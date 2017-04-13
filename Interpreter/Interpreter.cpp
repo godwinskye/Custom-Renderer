@@ -230,6 +230,7 @@ void Interpreter::fitToken(std::string token, std::string line, int &position) {
 		double newfar = grabNextNum(line, position);
 		DepthNear = newnear;
 		DepthFar = newfar;
+		DepthSwitch = true;
 
 		double red = grabNextNum(line, position);
 		double green = grabNextNum(line, position);
@@ -361,7 +362,7 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 		}
 		else {
 			Color temp = Color(MathWiz::LightingCalculation(Ambient, Surface));
-			temp.AddColorMultiple(DepthColorGradient, (res_origin.z - DepthNear));
+			temp.AddColorMultiple(DepthColorGradient, res_origin.z - DepthNear);
 			color1 = temp.getPoint3D();
 		}
 
@@ -373,7 +374,7 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 		}
 		else {
 			Color temp = Color(MathWiz::LightingCalculation(Ambient, Surface));
-			temp.AddColorMultiple(DepthColorGradient, (res_endpt1.z - DepthNear));
+			temp.AddColorMultiple(DepthColorGradient, res_endpt1.z - DepthNear);
 			color2 = temp.getPoint3D();
 		}
 
@@ -385,17 +386,32 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 		}
 		else {
 			Color temp = Color(MathWiz::LightingCalculation(Ambient, Surface));
-			temp.AddColorMultiple(DepthColorGradient, (res_endpt2.z - DepthNear));
+			temp.AddColorMultiple(DepthColorGradient, res_endpt2.z - DepthNear);
 			color3 = temp.getPoint3D();
 		}
 
-		unsigned int res_color = getColor(color1);
+		unsigned int res_color1 = getColor(color1);
+		unsigned int res_color2 = getColor(color2);
+		unsigned int res_color3 = getColor(color3);
 
-		if (FILLED) {
-			PolyFill::ScissorTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color, res_color, res_color, CameraSpace.Frustum);
+		if (DepthSwitch) {
+			res_origin.z = 1 / res_origin.z;
+			res_endpt1.z = 1 / res_endpt1.z;
+			res_endpt2.z = 1 / res_endpt2.z;
+			if (FILLED) {
+				PolyFill::DepthScissorTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3, CameraSpace.Frustum);
+			}
+			else {
+				PolyFill::DepthWireTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3, CameraSpace.Frustum);
+			}
 		}
 		else {
-			PolyFill::WireTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color, res_color, res_color, CameraSpace.Frustum);
+			if (FILLED) {
+				PolyFill::ScissorTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3, CameraSpace.Frustum);
+			}
+			else {
+				PolyFill::WireTriangle3D(draw, res_origin, res_endpt1, res_endpt2, zBuffer, res_color1, res_color2, res_color3, CameraSpace.Frustum);
+			}
 		}
 	}
 	else {

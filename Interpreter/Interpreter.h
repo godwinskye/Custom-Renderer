@@ -53,6 +53,7 @@ private:
 	Matrix* CTM = new Matrix(4, 4, MType::IDENTITY);
 	Camera CameraSpace;
 	bool CameraSwitch = false;
+	bool DepthSwitch = false;
 	bool FILLED = true;
 	Drawable* draw;
 

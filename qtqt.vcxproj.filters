@@ -168,5 +168,15 @@
     <None Include="pageA.simp" />
     <None Include="pageB.simp" />
     <None Include="pageB2.simp" />
+    <None Include="pageC.simp" />
+    <None Include="pageD.simp" />
+    <None Include="stripeGrid.simp" />
+    <None Include="pageD2.simp" />
+    <None Include="pageD3.simp" />
+    <None Include="pageE.simp" />
+    <None Include="pageF.simp" />
+    <None Include="pageG.simp" />
+    <None Include="pageH.simp" />
+    <None Include="pageI.simp" />
   </ItemGroup>
 </Project>
