@@ -208,9 +208,7 @@ void Interpreter::fitToken(std::string token, std::string line, int &position) {
 		Ambient.y = green;
 		Ambient.z = blue;
 
-		Color nearcolor = MathWiz::getCorrespondingColor(MathWiz::LightingCalculation(Ambient, Surface));
-		Color farcolor = MathWiz::getCorrespondingColor(DepthColor);
-		DepthColorGradient = MathWiz::GradientOfColors(nearcolor, farcolor, DepthFar - DepthNear);
+		RecalculateLightingCalculation();
 	}
 	else if (token == "surface") {
 		double red = grabNextNum(line, position);
@@ -221,15 +219,11 @@ void Interpreter::fitToken(std::string token, std::string line, int &position) {
 		Surface.y = green;
 		Surface.z = blue;
 
-		Color nearcolor = MathWiz::getCorrespondingColor(MathWiz::LightingCalculation(Ambient, Surface));
-		Color farcolor = MathWiz::getCorrespondingColor(DepthColor);
-		DepthColorGradient = MathWiz::GradientOfColors(nearcolor, farcolor, DepthFar - DepthNear);
+		RecalculateLightingCalculation();
 	}
 	else if (token == "depth") {
-		double newnear = grabNextNum(line, position);
-		double newfar = grabNextNum(line, position);
-		DepthNear = newnear;
-		DepthFar = newfar;
+		DepthNear = grabNextNum(line, position);
+		DepthFar = grabNextNum(line, position);
 		DepthSwitch = true;
 
 		double red = grabNextNum(line, position);
@@ -239,11 +233,6 @@ void Interpreter::fitToken(std::string token, std::string line, int &position) {
 		DepthColor.x = red;
 		DepthColor.y = green;
 		DepthColor.z = blue;
-
-		//DepthColorGradient setup
-		Color nearcolor = MathWiz::getCorrespondingColor(MathWiz::LightingCalculation(Ambient, Surface));
-		Color farcolor = MathWiz::getCorrespondingColor(DepthColor);
-		DepthColorGradient = MathWiz::GradientOfColors(nearcolor, farcolor, DepthFar - DepthNear);
 	}
 }
 
@@ -355,38 +344,41 @@ void Interpreter::RenderPolygon(OctantWiz::Point3D origin, OctantWiz::Point3D en
 		OctantWiz::Point3D color1, color2, color3;
 
 		if (res_origin.z <= DepthNear) {
-			color1 = MathWiz::LightingCalculation(Ambient, Surface);
+			color1 = LightingCalc;
 		}
 		else if (res_origin.z >= DepthFar) {
 			color1 = DepthColor;
 		}
 		else {
-			Color temp = Color(MathWiz::LightingCalculation(Ambient, Surface));
-			temp.AddColorMultiple(DepthColorGradient, res_origin.z - DepthNear);
+			Color temp = Color(LightingCalc);
+			Color gradient = MathWiz::GradientOfColors(Color(LightingCalc), Color(DepthColor), DepthFar - DepthNear);
+			temp.AddColorMultiple(gradient, res_origin.z - DepthNear);
 			color1 = temp.getPoint3D();
 		}
 
 		if (res_endpt1.z <= DepthNear) {
-			color2 = MathWiz::LightingCalculation(Ambient, Surface);
+			color2 = LightingCalc;
 		}
 		else if (res_endpt1.z >= DepthFar) {
-			color1 = DepthColor;
+			color2 = DepthColor;
 		}
 		else {
-			Color temp = Color(MathWiz::LightingCalculation(Ambient, Surface));
-			temp.AddColorMultiple(DepthColorGradient, res_endpt1.z - DepthNear);
+			Color temp = Color(LightingCalc);
+			Color gradient = MathWiz::GradientOfColors(Color(LightingCalc), Color(DepthColor), DepthFar - DepthNear);
+			temp.AddColorMultiple(gradient, res_endpt1.z - DepthNear);
 			color2 = temp.getPoint3D();
 		}
 
 		if (res_endpt2.z <= DepthNear) {
-			color3 = MathWiz::LightingCalculation(Ambient, Surface);
+			color3 = LightingCalc;
 		}
 		else if (res_endpt2.z >= DepthFar) {
 			color3 = DepthColor;
 		}
 		else {
-			Color temp = Color(MathWiz::LightingCalculation(Ambient, Surface));
-			temp.AddColorMultiple(DepthColorGradient, res_endpt2.z - DepthNear);
+			Color temp = Color(LightingCalc);
+			Color gradient = MathWiz::GradientOfColors(Color(LightingCalc), Color(DepthColor), DepthFar - DepthNear);
+			temp.AddColorMultiple(gradient, res_endpt2.z - DepthNear);
 			color3 = temp.getPoint3D();
 		}
 
@@ -515,6 +507,10 @@ unsigned int Interpreter::getColor(OctantWiz::Point3D point) {
 	Color color(point);
 
 	return color.getHex();
+}
+
+void Interpreter::RecalculateLightingCalculation() {
+	LightingCalc = MathWiz::LightingCalculation(Ambient, Surface);
 }
 
 void Interpreter::SetCamera(double xlow, double ylow, double xhigh, double yhigh, double hither, double yon) {

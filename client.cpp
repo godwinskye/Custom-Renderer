@@ -36,7 +36,7 @@ void Client::nextPage() {
 		break;
 	case 3: {
 		draw_rect(0, 0, 650, 650, black);
-		std::string inputfile("pageD2");
+		std::string inputfile("pageD");
 		Interpreter Parser(drawable, inputfile);
 		drawable->updateScreen();
 	}

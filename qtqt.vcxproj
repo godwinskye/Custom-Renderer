@@ -148,6 +148,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="Interpreter\Interpreter.cpp" />
+    <ClCompile Include="Interpreter\ObjParser.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix\Matrix.cpp" />
     <ClCompile Include="Renderer\InterpolatedLines.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="Color\Color.h" />
     <ClInclude Include="drawable.h" />
     <ClInclude Include="Interpreter\Interpreter.h" />
+    <ClInclude Include="Interpreter\ObjParser.h" />
     <ClInclude Include="Matrix\Matrix.h" />
     <ClInclude Include="Renderer\InterpolatedLines.h" />
     <ClInclude Include="Renderer\InterpolatedPolyFill.h" />

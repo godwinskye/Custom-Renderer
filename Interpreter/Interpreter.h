@@ -27,6 +27,7 @@ public:
 
 	OctantWiz::Point3D obtainColor(double zvalue);
 	unsigned int getColor(OctantWiz::Point3D point);
+	void RecalculateLightingCalculation();
 
 	//Camera tools
 	void SetCamera(double xlow, double ylow, double xhigh, double yhigh, double hither, double yon);
@@ -42,11 +43,11 @@ private:
 
 	OctantWiz::Point3D Ambient = OctantWiz::Point3D(0, 0, 0);
 	OctantWiz::Point3D Surface = OctantWiz::Point3D(1, 1, 1);
+	OctantWiz::Point3D LightingCalc = OctantWiz::Point3D(0, 0, 0);
 
 	double DepthNear = DBL_MAX;
 	double DepthFar = DBL_MAX;
 	OctantWiz::Point3D DepthColor;
-	Color DepthColorGradient;
 
 	std::stack<Matrix*> CTMstack;
 	Matrix zBuffer = Matrix(1000, 1000, MType::BACK_PLANE);

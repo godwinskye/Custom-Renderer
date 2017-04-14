@@ -94,6 +94,9 @@
     <ClCompile Include="Camera\Camera.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="Interpreter\ObjParser.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="client.h">
@@ -145,6 +148,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera\ViewFrustum.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interpreter\ObjParser.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
